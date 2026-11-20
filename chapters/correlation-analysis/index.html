@@ -1,0 +1,123 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="使用 Pearson、Spearman 与 Kendall 相关系数描述变量间联系。"><title>第 13 章 相关分析 · 统计学知识地图</title><link rel="stylesheet" href="../../assets/css/article.css"></head><body><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学知识地图<small>STATISTICS · LEARNING PATH</small></span></a><div class="sidebar-current"><span>当前章节</span><strong>13 · 相关分析</strong><small>关系与模型 / 进阶</small></div><nav class="course-nav" aria-label="课程知识模块"><details ><summary>数据与描述 <span>5</span></summary><ul><li><a  href="../what-is-statistics/index.html">01 · 什么是统计学</a></li><li><a  href="../data-types-and-sources/index.html">02 · 数据的类型与来源</a></li><li><a  href="../descriptive-statistics-center-and-spread/index.html">03 · 描述统计（一）</a></li><li><a  href="../distribution-shape/index.html">04 · 描述统计（二）</a></li><li><a  href="../data-visualization/index.html">05 · 数据可视化基础</a></li></ul></details><details ><summary>概率与抽样 <span>3</span></summary><ul><li><a  href="../probability-basics/index.html">06 · 概率基础</a></li><li><a  href="../probability-distributions/index.html">07 · 常见概率分布</a></li><li><a  href="../sampling-distributions/index.html">08 · 抽样与抽样分布</a></li></ul></details><details ><summary>估计与检验 <span>4</span></summary><ul><li><a  href="../estimation-and-confidence-intervals/index.html">09 · 点估计与区间估计</a></li><li><a  href="../hypothesis-testing/index.html">10 · 假设检验入门</a></li><li><a  href="../statistical-tests/index.html">11 · 常见假设检验</a></li><li><a  href="../power-and-sample-size/index.html">12 · 统计功效与样本量</a></li></ul></details><details open><summary>关系与模型 <span>5</span></summary><ul><li><a aria-current="page" class="active" href="../correlation-analysis/index.html">13 · 相关分析</a></li><li><a  href="../simple-linear-regression/index.html">14 · 简单线性回归</a></li><li><a  href="../multiple-linear-regression/index.html">19 · 多元线性回归</a></li><li><a  href="../logistic-regression/index.html">20 · 逻辑回归</a></li><li><a  href="../anova/index.html">21 · 方差分析（ANOVA）</a></li></ul></details><details ><summary>科学推理与因果 <span>5</span></summary><ul><li><a  href="../p-values-and-reproducibility/index.html">15 · p值与显著性危机</a></li><li><a  href="../multiple-comparisons-and-fallacies/index.html">16 · 多重比较与谬误</a></li><li><a  href="../causal-inference-basics/index.html">17 · 因果推断基础</a></li><li><a  href="../statistical-ethics-and-practice/index.html">18 · 统计伦理与最佳实践</a></li><li><a  href="../modern-causal-inference/index.html">27 · 现代因果推断</a></li></ul></details><details ><summary>贝叶斯与计算 <span>2</span></summary><ul><li><a  href="../bayesian-statistics/index.html">22 · 贝叶斯统计入门</a></li><li><a  href="../statistics-toolchain/index.html">23 · 统计学工具链</a></li></ul></details><details ><summary>数据实践与应用 <span>4</span></summary><ul><li><a  href="../real-data-analysis/index.html">24 · 真实数据分析实战</a></li><li><a  href="../ab-testing/index.html">25 · A/B测试实战</a></li><li><a  href="../statistics-for-machine-learning/index.html">26 · 机器学习中的统计学</a></li><li><a  href="../end-to-end-project/index.html">28 · 综合项目：从问题到结论</a></li></ul></details></nav><a class="back-home" href="../../index.html">← 返回课程首页</a></aside><main id="main-content" class="main-content"><header class="article-header"><p class="eyebrow">第 13 章 <span>·</span> 关系与模型 <span>·</span> 进阶 <span>·</span> 约 35 分钟</p><h1>相关分析</h1><p class="dek">使用 Pearson、Spearman 与 Kendall 相关系数描述变量间联系。</p><div class="learning-outcomes"><strong>完成本章后，你将能够</strong><ul><li>Pearson相关</li><li>Spearman相关</li><li>相关矩阵</li></ul></div></header><nav class="local-toc" aria-label="本章目录"><strong>本章路线</strong><a href="#section-1">13.1 Pearson相关系数：线性相关的度量</a><a href="#section-2">13.2 Spearman秩相关：单调关系</a><a href="#section-3">13.3 Kendall τ：另一种秩相关</a><a href="#section-4">13.4 相关矩阵与热力图</a><a href="#section-5">13.5 相关不等于因果（经典案例）</a></nav><article class="article-body">
+
+        <p class="lead">气温升高时，冰淇淋销量通常也会上升。但这能证明气温导致销量上升吗？相关分析描述变量如何共同变化，却不能单独排除季节、客流等第三个因素。</p>
+
+        <p>想象一下：如果你能分析出用户的年龄和购买金额之间的关系，你就能更好地针对不同年龄段的用户做推荐；如果你发现气温和冰淇淋销量高度相关，你就能根据天气预报来安排进货量。相关分析的妙处在于：它不需要复杂的数学模型，就能给你直观而深刻的洞见。</p>
+
+        <figure class="concept-figure"><img src="assets/overview.svg" alt="第 13 章 相关分析 核心概念图" width="840" height="300"><figcaption>相同的相关系数可能掩盖不同的数据结构；散点图是解释相关系数的必要搭档。</figcaption></figure><h2 id="section-1">13.1 Pearson相关系数：线性相关的度量</h2>
+
+        <p>Pearson相关系数（通常记为 r）是最常用的相关系数。它的取值范围是 [-1, 1]：</p>
+
+        <ul>
+            <li><strong>r = 1：</strong>完全正相关——一个变量增加，另一个也成比例增加。</li>
+            <li><strong>r = -1：</strong>完全负相关——一个变量增加，另一个成比例减少。</li>
+            <li><strong>r = 0：</strong>没有线性相关——但要注意！r = 0 并不意味着没有关系，只是没有<strong>线性</strong>关系。</li>
+        </ul>
+
+        <p>判断相关性强弱的经验法则：|r| ≥ 0.7 为强相关，0.3 ≤ |r| < 0.7 为中等相关，|r| < 0.3 为弱相关。</p>
+
+        <div class="highlight">
+            <strong>重要提醒：</strong>Pearson相关系数只能捕捉<strong>线性关系</strong>。如果两个变量之间存在非线性关系（比如 U 型关系），Pearson r 可能会接近 0，但两个变量实际上密切相关。所以在计算 Pearson 相关系数之前，<strong>永远要先画散点图</strong>！每次看到有人只看相关系数矩阵而不画图，我都替他捏把汗。
+        </div>
+
+        <h2 id="section-2">13.2 Spearman秩相关：单调关系</h2>
+
+        <p>Spearman秩相关系数（Spearman's rank correlation）是 Pearson 的非参数版本。它不关心原始数值，而是把数据转换成<strong>秩次（rank）</strong>——也就是排序的位置。然后计算秩次之间的 Pearson 相关系数。</p>
+
+        <p>Spearman 的好处是：</p>
+
+        <ul>
+            <li>不要求数据服从正态分布。</li>
+            <li>可以捕捉单调关系（不一定是线性，只要一直增加或一直减少）。</li>
+            <li>对异常值不敏感。</li>
+        </ul>
+
+        <h2 id="section-3">13.3 Kendall τ：另一种秩相关</h2>
+
+        <p>Kendall's τ（tau）是另一种基于秩次的相关系数。它的计算基于"一致对"和"不一致对"的概念：随机抽取两个数据点，如果它们的两个变量的大小顺序一致（一个变量大另一个也大），就称为一致对；否则是不一致对。</p>
+
+        <p>Kendall τ 的优点是它的<strong>统计性质更好</strong>——它的分布更接近正态分布，在小样本下比 Spearman 更可靠。缺点是计算复杂度高一些（在非常大的数据集上可能较慢）。</p>
+
+        <table>
+            <tr><th>相关系数</th><th>类型</th><th>适合的数据</th><th>对异常值敏感</th><th>需要正态性</th></tr>
+            <tr><td>Pearson r</td><td>参数</td><td>连续、线性关系</td><td>很敏感</td><td>是</td></tr>
+            <tr><td>Spearman ρ</td><td>非参数</td><td>连续/有序、单调关系</td><td>不敏感</td><td>否</td></tr>
+            <tr><td>Kendall τ</td><td>非参数</td><td>连续/有序、单调关系</td><td>不敏感</td><td>否</td></tr>
+        </table>
+
+        <h2 id="section-4">13.4 相关矩阵与热力图</h2>
+
+        <p>在实际数据分析中，我们常常需要同时看多个变量之间的相关关系，这时候<strong>相关矩阵（correlation matrix）</strong>和<strong>热力图（heatmap）</strong>就派上了用场。</p>
+
+        <p>下面是用 Python 计算相关系数并绘制热力图的完整代码：</p>
+
+        <pre><code>import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy import stats
+
+# 生成模拟数据
+np.random.seed(42)
+n = 200
+data = pd.DataFrame({
+    'age': np.random.normal(35, 12, n),
+    'income': np.random.normal(15000, 5000, n),
+    'education_years': np.random.normal(14, 3, n),
+    'satisfaction': np.random.normal(7, 1.5, n),
+})
+
+# 人为加入一些相关关系
+data['income'] = data['income'] + data['education_years'] * 800  # 教育和收入正相关
+data['satisfaction'] = data['satisfaction'] - data['age'] * 0.03  # 年龄和满意度负相关
+
+# == 1. 计算 Pearson 相关系数 ==
+pearson_r, pearson_p = stats.pearsonr(data['education_years'], data['income'])
+print(f"教育年限与收入的 Pearson r = {pearson_r:.3f}, p = {pearson_p:.4f}")
+
+# == 2. 计算 Spearman 秩相关系数 ==
+spearman_r, spearman_p = stats.spearmanr(data['education_years'], data['income'])
+print(f"教育年限与收入的 Spearman ρ = {spearman_r:.3f}, p = {spearman_p:.4f}")
+
+# == 3. 计算 Kendall τ ==
+kendall_tau, kendall_p = stats.kendalltau(data['education_years'], data['income'])
+print(f"教育年限与收入的 Kendall τ = {kendall_tau:.3f}, p = {kendall_p:.4f}")
+
+# == 4. 相关矩阵与热力图 ==
+corr_matrix = data.corr(method='pearson')  # 可选 'spearman', 'kendall'
+print("\n相关矩阵:")
+print(corr_matrix.round(3))
+
+# 用 seaborn 绘制热力图（如果环境支持图形显示）
+# plt.figure(figsize=(8, 6))
+# sns.heatmap(corr_matrix, annot=True, cmap='RdBu_r',
+#             vmin=-1, vmax=1, center=0,
+#             square=True, linewidths=0.5)
+# plt.title('变量相关矩阵热力图')
+# plt.tight_layout()
+# plt.show()</code></pre>
+
+        <h2 id="section-5">13.5 相关不等于因果（经典案例）</h2>
+
+        <div class="warning">
+            <strong>经典搞笑案例：</strong>有人发现，美国 Maine 州的离婚率与人均人造黄油消费量之间的 Pearson 相关系数高达 r = 0.99！这难道说明吃人造黄油会导致离婚吗？当然不是。这种明显的虚假相关（spurious correlation）往往是因为两个变量都跟时间趋势有关——随着社会发展，离婚率和人造黄油消费可能都发生了变化，但两者之间根本没有因果关系。<br><br>
+            另一个著名的例子：冰激凌销量与溺水人数的相关系数很高。是因为吃冰激凌让人容易溺水吗？不是。其实是因为天气热的时候，吃冰激凌的人多，去游泳的人也越多，而游泳的人多了，溺水的人数自然上升。这里的混淆变量是"气温"。
+        </div>
+
+        <p>为什么相关不等于因果？主要有以下几个原因：</p>
+
+        <ul>
+            <li><strong>遗漏变量/混淆变量：</strong>可能存在第三个变量同时影响两个观测变量（如上面的气温例子）。</li>
+            <li><strong>反向因果：</strong>可能是 B 导致了 A，而不是 A 导致了 B。比如收入高的人更健康——但到底是收入高导致了健康，还是健康的人更容易赚到高收入？</li>
+            <li><strong>纯粹的巧合：</strong>在大数据中，总能找到一些听起来很荒谬但统计上显著的相关关系。</li>
+        </ul>
+
+        <div class="tip">
+            <strong>实用建议：</strong>当你看到一个有趣的相关关系时，不要急于下因果结论。先问自己三个问题：1）是否存在一个合理的因果机制？（理论上说得通吗？）2）是否存在可能的混淆变量？3）时间顺序是否合理？（因在前，果在后）。这三个问题至少能帮你过滤掉一半以上的虚假相关。
+        </div>
+
+        <p>相关分析是探索性数据分析的利剑，但它不是终点。如果你想进一步量化一个变量如何影响另一个变量，并且控制其他变量的影响，就需要进入下一章的话题——回归分析。</p>
+
+        <p>下一章，我们将从最简单的回归模型开始——简单线性回归。我们来看看如何找到那条"最佳"的直线。</p>
+
+        <section class="core-equation"><p class="section-kicker">CORE RELATION</p><h2>本章核心关系</h2><div class="math-equation" role="group" aria-label="Pearson 样本相关系数的协方差表达式"><div class="math-scroll" tabindex="0" role="region" aria-label="Pearson 样本相关系数的协方差表达式，可横向滚动"><math display="block" aria-label="Pearson 样本相关系数的协方差表达式"><mrow><mi>r</mi><mo>=</mo><mfrac><mrow><mi>Cov</mi><mo>(</mo><mi>X</mi><mo>,</mo><mi>Y</mi><mo>)</mo></mrow><mrow><msub><mi>s</mi><mi>X</mi></msub><msub><mi>s</mi><mi>Y</mi></msub></mrow></mfrac></mrow></math></div></div><p>样本相关系数取值在 −1 到 1 之间，描述线性关联的方向与强度，不代表因果效应。</p></section><section class="interactive-lab" id="experiment" data-demo="correlation"><div class="lab-heading"><span class="lab-kicker">INTERACTIVE EXPLORATION</span><h2>相关系数的方向与强度</h2><p>调整 r，区分正相关、负相关和接近零的线性关联；不要据此推断因果。</p></div><div class="lab-control"><label class="control-label" for="demo-13">相关系数 r <output data-demo-value>0.65</output></label><input id="demo-13" type="range" min="-1" max="1" step="0.05" value="0.65" data-demo-input><div class="range-ends"><span>-1</span><span>1</span></div><p class="demo-result" data-demo-output aria-live="polite"></p></div><p class="lab-caveat">教学模拟：用于理解概念与方向，不替代真实数据分析、正式功效计算或研究设计审查。</p></section><section class="chapter-recap" id="recap"><p class="section-kicker">TAKEAWAYS</p><h2>本章要记住的三件事</h2><ol><li>Pearson r 衡量线性关联，接近 0 不代表不存在非线性关系。</li><li>Spearman 与 Kendall 基于秩次，适合单调关系和有序数据。</li><li>相关系数对异常值敏感；计算前先画散点图并检查数据结构。</li></ol></section><section class="references" id="references"><p class="section-kicker">FURTHER READING</p><h2>延伸阅读与核对来源</h2><ul><li><a href="https://openstax.org/details/books/introductory-statistics-2e" target="_blank" rel="noopener noreferrer">OpenStax · Introductory Statistics 2e</a><span>OpenStax</span></li><li><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">NIST/SEMATECH e-Handbook of Statistical Methods</a><span>NIST</span></li></ul><p class="source-note">参考来源用于核对概念与方法。涉及具体数据、历史细节或行业案例时，应回到原始研究或官方文档逐项核验。</p></section><nav class="chapter-pagination" aria-label="章节切换"><a href="../power-and-sample-size/index.html"><small>上一章 · 12</small><strong>← 统计功效与样本量</strong></a><a class="pagination-home" href="../../index.html">全部章节</a><a class="next" href="../simple-linear-regression/index.html"><small>下一章 · 14</small><strong>简单线性回归 →</strong></a></nav></article></main></div><script src="../../assets/js/article.js" defer></script></body></html>

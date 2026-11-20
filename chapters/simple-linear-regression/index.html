@@ -1,0 +1,159 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="理解最小二乘法、回归系数、R² 与残差诊断。"><title>第 14 章 简单线性回归 · 统计学知识地图</title><link rel="stylesheet" href="../../assets/css/article.css"></head><body><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学知识地图<small>STATISTICS · LEARNING PATH</small></span></a><div class="sidebar-current"><span>当前章节</span><strong>14 · 简单线性回归</strong><small>关系与模型 / 进阶</small></div><nav class="course-nav" aria-label="课程知识模块"><details ><summary>数据与描述 <span>5</span></summary><ul><li><a  href="../what-is-statistics/index.html">01 · 什么是统计学</a></li><li><a  href="../data-types-and-sources/index.html">02 · 数据的类型与来源</a></li><li><a  href="../descriptive-statistics-center-and-spread/index.html">03 · 描述统计（一）</a></li><li><a  href="../distribution-shape/index.html">04 · 描述统计（二）</a></li><li><a  href="../data-visualization/index.html">05 · 数据可视化基础</a></li></ul></details><details ><summary>概率与抽样 <span>3</span></summary><ul><li><a  href="../probability-basics/index.html">06 · 概率基础</a></li><li><a  href="../probability-distributions/index.html">07 · 常见概率分布</a></li><li><a  href="../sampling-distributions/index.html">08 · 抽样与抽样分布</a></li></ul></details><details ><summary>估计与检验 <span>4</span></summary><ul><li><a  href="../estimation-and-confidence-intervals/index.html">09 · 点估计与区间估计</a></li><li><a  href="../hypothesis-testing/index.html">10 · 假设检验入门</a></li><li><a  href="../statistical-tests/index.html">11 · 常见假设检验</a></li><li><a  href="../power-and-sample-size/index.html">12 · 统计功效与样本量</a></li></ul></details><details open><summary>关系与模型 <span>5</span></summary><ul><li><a  href="../correlation-analysis/index.html">13 · 相关分析</a></li><li><a aria-current="page" class="active" href="../simple-linear-regression/index.html">14 · 简单线性回归</a></li><li><a  href="../multiple-linear-regression/index.html">19 · 多元线性回归</a></li><li><a  href="../logistic-regression/index.html">20 · 逻辑回归</a></li><li><a  href="../anova/index.html">21 · 方差分析（ANOVA）</a></li></ul></details><details ><summary>科学推理与因果 <span>5</span></summary><ul><li><a  href="../p-values-and-reproducibility/index.html">15 · p值与显著性危机</a></li><li><a  href="../multiple-comparisons-and-fallacies/index.html">16 · 多重比较与谬误</a></li><li><a  href="../causal-inference-basics/index.html">17 · 因果推断基础</a></li><li><a  href="../statistical-ethics-and-practice/index.html">18 · 统计伦理与最佳实践</a></li><li><a  href="../modern-causal-inference/index.html">27 · 现代因果推断</a></li></ul></details><details ><summary>贝叶斯与计算 <span>2</span></summary><ul><li><a  href="../bayesian-statistics/index.html">22 · 贝叶斯统计入门</a></li><li><a  href="../statistics-toolchain/index.html">23 · 统计学工具链</a></li></ul></details><details ><summary>数据实践与应用 <span>4</span></summary><ul><li><a  href="../real-data-analysis/index.html">24 · 真实数据分析实战</a></li><li><a  href="../ab-testing/index.html">25 · A/B测试实战</a></li><li><a  href="../statistics-for-machine-learning/index.html">26 · 机器学习中的统计学</a></li><li><a  href="../end-to-end-project/index.html">28 · 综合项目：从问题到结论</a></li></ul></details></nav><a class="back-home" href="../../index.html">← 返回课程首页</a></aside><main id="main-content" class="main-content"><header class="article-header"><p class="eyebrow">第 14 章 <span>·</span> 关系与模型 <span>·</span> 进阶 <span>·</span> 约 40 分钟</p><h1>简单线性回归</h1><p class="dek">理解最小二乘法、回归系数、R² 与残差诊断。</p><div class="learning-outcomes"><strong>完成本章后，你将能够</strong><ul><li>最小二乘法</li><li>R²</li><li>残差分析</li></ul></div></header><nav class="local-toc" aria-label="本章目录"><strong>本章路线</strong><a href="#section-1">14.1 回归的几何直觉：找一条最佳直线</a><a href="#section-2">14.2 最小二乘法（OLS）的原理</a><a href="#section-3">14.3 R² 的解释与局限</a><a href="#section-4">14.4 残差分析：检查模型假设</a><a href="#section-5">14.5 回归诊断</a><a href="#section-6">14.6 R² 很高但模型完全错误</a></nav><article class="article-body">
+
+        <p class="lead">散点图显示广告投入和销售额似乎一起上升。回归分析进一步尝试用一条直线概括平均关系，并回答：在模型假设成立时，X 增加一个单位，Y 的条件均值预计改变多少。</p>
+
+        <p>简单线性回归（Simple Linear Regression）是整个回归家族中最基础、最优雅的成员。它只有两个变量：一个自变量 X 和一个因变量 Y，并且假设它们之间的关系是一条直线。别小看这个简单的模型——理解了它的原理，你就理解了最小二乘法、R²、残差分析这些在更复杂的模型（多元回归、逻辑回归、甚至深度学习）中同样适用的核心概念。</p>
+
+        <figure class="concept-figure"><img src="assets/overview.svg" alt="第 14 章 简单线性回归 核心概念图" width="840" height="300"><figcaption>回归线概括条件均值趋势；每个观测值与拟合值之间的差是残差。</figcaption></figure><h2 id="section-1">14.1 回归的几何直觉：找一条最佳直线</h2>
+
+        <p>想象你有一堆散点，每个点代表一个人的年收入（X）和年消费金额（Y）。你想用一条直线来概括 X 和 Y 的关系。但问题是：这些点不会完美地排列在一条直线上——每个人都有自己的消费习惯。那么，什么样的直线才是"最佳"的呢？</p>
+
+        <p>这就是回归的核心问题：<strong>找一条直线，让它"尽可能接近"所有的数据点</strong>。</p>
+
+        <p>回归直线的一般形式：</p>
+
+        <p style="text-align:center; font-size:1.1rem;"><strong>Y = β₀ + β₁X + ε</strong></p>
+
+        <p>其中 β₀ 是截距（当 X = 0 时 Y 的期望值），β₁ 是斜率（X 每增加一个单位，Y 平均变化多少），ε 是误差项（直线无法解释的部分）。</p>
+
+        <div class="tip">
+            <strong>几何直觉：</strong>每个数据点到直线的垂直距离就是它的误差（残差）。把所有这些距离的平方加起来，就得到了"总误差"——残差平方和（Sum of Squared Residuals, SSE）。最小二乘法就是在找一条能使 SSE 最小的直线。为什么用"平方"而不是绝对值？因为平方可以放大大误差的影响——这迫使直线不能放过任何一个"离群"的点。同时，平方让误差函数可微分，方便用微积分求最小值。
+        </div>
+
+        <h2 id="section-2">14.2 最小二乘法（OLS）的原理</h2>
+
+        <p>普通最小二乘法（Ordinary Least Squares, OLS）是最常用的回归参数估计方法。它的数学推导很简单——对 SSE 关于 β₀ 和 β₁ 求偏导，令其为零，然后解方程组。</p>
+
+        <p>结果就是：</p>
+
+        <p style="text-align:center; font-size:1.05rem;"><strong>β₁ = Σ((Xᵢ - x̄)(Yᵢ - ȳ)) / Σ(Xᵢ - x̄)²</strong></p>
+        <p style="text-align:center; font-size:1.05rem;"><strong>β₀ = ȳ - β₁x̄</strong></p>
+
+        <p>注意到没有？β₁ 的分子和 Pearson 相关系数的分子是一样的！实际上，β₁ = r × (sᵧ / sₓ) ，其中 r 是 Pearson 相关系数，sᵧ 和 sₓ 分别是 Y 和 X 的标准差。这很好地展示了相关和回归的紧密联系。</p>
+
+        <h2 id="section-3">14.3 R² 的解释与局限</h2>
+
+        <p>R²（决定系数）是回归中最常用的拟合优度指标。它的定义是：</p>
+
+        <p style="text-align:center; font-size:1.1rem;"><strong>R² = 1 - SSE / SST = SSR / SST</strong></p>
+
+        <p>其中 SST 是 Y 的总变异（总平方和），SSE 是未被模型解释的变异（残差平方和）。所以 R² 就是"模型能解释的变异比例"。在简单线性回归中，R² = r² —— 正好是相关系数的平方。</p>
+
+        <div class="warning">
+            <strong>R² 的局限性：</strong>一个经典的踩坑故事——有人在分析某个经济指标时，得到了 R² = 0.95 的"漂亮"结果，兴高采烈地汇报给老板。但实际上，他做回归的是两个独立的时间序列变量——比如中国GDP和美国某地的降雨量。这两个变量各自随时间增长，因此高度相关，但实际上没有任何因果关系！<br><br>
+            R² 高只说明模型的拟合度好，但<strong>不说明模型正确</strong>。尤其对于时间序列数据，两个不相关的趋势变量之间的回归经常产生极高的 R²。这个陷阱叫做"虚假回归"（spurious regression）。判断模型是否正确，关键看残差分析、领域知识、以及因果关系理论。
+        </div>
+
+        <h2 id="section-4">14.4 残差分析：检查模型假设</h2>
+
+        <p>OLS 回归的有效性依赖于几个关键假设（缩写为 <strong>LINE</strong>）：</p>
+
+        <ul>
+            <li><strong>L - Linearity（线性）：</strong>X 和 Y 的关系是线性的。</li>
+            <li><strong>I - Independence（独立性）：</strong>各观测值相互独立。</li>
+            <li><strong>N - Normality（正态性）：</strong>残差服从正态分布（对于推断来说）。</li>
+            <li><strong>E - Equal Variance（同方差性）：</strong>残差的方差不随 X 变化。</li>
+        </ul>
+
+        <p>残差分析就是通过检查残差（实际值 - 预测值）来判断这些假设是否成立。如果残差图中出现明显的模式（如漏斗形、弧形），就说明某些假设被违反了。</p>
+
+        <h2 id="section-5">14.5 回归诊断</h2>
+
+        <p>以下是回归诊断中需要关注的几个问题：</p>
+
+        <table>
+            <tr><th>问题</th><th>表现</th><th>后果</th><th>解决方法</th></tr>
+            <tr><td>异方差</td><td>残差散点图呈"漏斗形"</td><td>标准误估计不准</td><td>使用稳健标准误（HCSE）</td></tr>
+            <tr><td>离群点</td><td>|残差| > 3σ</td><td>扭曲回归系数</td><td>检查数据、使用稳健回归</td></tr>
+            <tr><td>杠杆点</td><td>X 值极端</td><td>对回归线影响过大</td><td>计算杠杆值、Cook's distance</td></tr>
+            <tr><td>非正态残差</td><td>Q-Q图偏离对角线</td><td>p值不可靠</td><td>大样本下可忽略（CLT）</td></tr>
+        </table>
+
+        <p>下面是用 statsmodels 进行完整回归诊断的 Python 代码：</p>
+
+        <pre><code>import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+from scipy import stats
+
+# 生成模拟数据：用多年的经验预测工资
+np.random.seed(42)
+n = 100
+experience = np.linspace(0, 20, n)
+salary = 30000 + 4000 * experience + np.random.normal(0, 8000, n)
+
+# 添加一个离群点（被严重高薪的人）
+salary[-1] = 150000
+
+# 构建 DataFrame
+data = pd.DataFrame({'exp': experience, 'salary': salary})
+
+# 添加截距项
+X = sm.add_constant(data['exp'])
+y = data['salary']
+
+# 拟合 OLS 模型
+model = sm.OLS(y, X).fit()
+print(model.summary())
+
+# === 残差诊断 ===
+residuals = model.resid
+fitted = model.fittedvalues
+
+# 1. 残差 vs 拟合值图（检查线性和同方差性）
+# plt.scatter(fitted, residuals)
+# plt.axhline(y=0, color='r', linestyle='--')
+# plt.xlabel('拟合值')
+# plt.ylabel('残差')
+# plt.title('残差 vs 拟合值图')
+# plt.show()
+
+# 2. Q-Q图（检查正态性）
+# sm.qqplot(residuals, line='s')
+# plt.title('Q-Q 图')
+# plt.show()
+
+# 3. 计算 Cook's distance（识别强影响点）
+influence = model.get_influence()
+cooks_d = influence.cooks_distance[0]
+n = len(data)
+threshold = 4 / n
+influential_points = np.where(cooks_d > threshold)[0]
+print(f"\nCook's distance 阈值: {threshold:.4f}")
+print(f"强影响点索引: {influential_points}")
+
+# 4. 学生化残差（识别离群点）
+studentized_residuals = influence.resid_studentized_internal
+outliers = np.where(np.abs(studentized_residuals) > 3)[0]
+print(f"离群点（|学生化残差| > 3）索引: {outliers}")
+
+# 5. 异方差检验（Breusch-Pagan）
+from statsmodels.stats.diagnostic import het_breuschpagan
+bp_test = het_breuschpagan(residuals, X)
+print(f"\nBreusch-Pagan 异方差检验:")
+print(f"LM统计量: {bp_test[0]:.3f}, p值: {bp_test[1]:.4f}")
+if bp_test[1] < 0.05:
+    print("存在异方差问题，建议使用稳健标准误")
+    # 使用稳健标准误重新拟合
+    model_robust = sm.OLS(y, X).fit(cov_type='HC3')
+    print(model_robust.summary())
+else:
+    print("未发现明显的异方差")</code></pre>
+
+        <div class="tip">
+            <strong>解读 OLS 输出：</strong>在模型摘要中，重点关注几个指标——<strong>coef</strong> 列给出回归系数，<strong>P>|t|</strong> 列是每个系数的显著性检验，<strong>R-squared</strong> 是拟合优度，<strong>Durbin-Watson</strong> 在 2 附近说明残差自相关不严重，<strong>Omnibus / Jarque-Bera</strong> 的概率值如果大于 0.05 说明残差正态性可以接受。
+        </div>
+
+        <h2 id="section-6">14.6 R² 很高但模型完全错误</h2>
+
+        <div class="warning">
+            <strong>经典故事：</strong>金融领域曾经有一个著名的"超级模型"，这个模型声称能够完美预测股票市场的波动，R² 超过 90%。很多投资者趋之若鹜。但最终被发现，这个模型的一个关键"预测变量"实际上是未来数据——他们错误地使用了未来信息来预测过去，R² 自然高得离谱。这就是典型的<strong>前视偏差（look-ahead bias）</strong>。<br><br>
+            另一个更微妙的例子：有人用某城市的人口数量预测该城市图书馆的数量，得到了 R² = 0.97 的完美结果。确实，人口越多的城市图书馆越多——但这真的是一个"模型"吗？如果你告诉市政府"为了增加图书馆，我们要先增加人口"，这就完全因果倒置了。R² 再高也不能代替逻辑推理。
+        </div>
+
+        <p>每次你得到一个很高的 R² 时，都应该问自己几个问题：这个关系在逻辑上说得通吗？是否存在遗漏变量？数据是否存在时间趋势？R² 高可能是因为偶然，也可能是因为数据质量问题——而不仅仅是因为你的模型好。</p>
+
+        <p>简单线性回归是通向更复杂模型的起点。掌握了它的原理和诊断方法，你就为学习多元线性回归、逻辑回归乃至更高级的统计模型打下了坚实的基础。下一章，我们来讨论当今统计学中一个非常有争议的话题——p 值与统计显著性的危机。</p>
+
+        <section class="core-equation"><p class="section-kicker">CORE RELATION</p><h2>本章核心关系</h2><div class="math-equation" role="group" aria-label="简单线性回归的拟合值"><div class="math-scroll" tabindex="0" role="region" aria-label="简单线性回归的拟合值，可横向滚动"><math display="block" aria-label="简单线性回归的拟合值"><mrow><mover><mi>Y</mi><mo>^</mo></mover><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><mi>X</mi></mrow></math></div></div><p>β₀ 为截距，β₁ 为斜率；统计推断还需说明误差结构、独立性、线性关系与方差条件。</p></section><section class="interactive-lab" id="experiment" data-demo="slope"><div class="lab-heading"><span class="lab-kicker">INTERACTIVE EXPLORATION</span><h2>改变斜率，预测值如何变化？</h2><p>固定截距 β₀=10，在 X=5 时调整斜率，观察拟合值的变化。</p></div><div class="lab-control"><label class="control-label" for="demo-14">斜率 β₁ <output data-demo-value>1.2</output></label><input id="demo-14" type="range" min="-3" max="3" step="0.1" value="1.2" data-demo-input><div class="range-ends"><span>-3</span><span>3</span></div><p class="demo-result" data-demo-output aria-live="polite"></p></div><p class="lab-caveat">教学模拟：用于理解概念与方向，不替代真实数据分析、正式功效计算或研究设计审查。</p></section><section class="chapter-recap" id="recap"><p class="section-kicker">TAKEAWAYS</p><h2>本章要记住的三件事</h2><ol><li>回归斜率描述模型中的条件均值变化，不自动等于因果效应。</li><li>最小二乘法最小化残差平方和，残差图用于发现模型失配。</li><li>高 R² 不保证模型正确，也不能替代诊断和研究设计。</li></ol></section><section class="references" id="references"><p class="section-kicker">FURTHER READING</p><h2>延伸阅读与核对来源</h2><ul><li><a href="https://openstax.org/details/books/introductory-statistics-2e" target="_blank" rel="noopener noreferrer">OpenStax · Introductory Statistics 2e</a><span>OpenStax</span></li><li><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">NIST/SEMATECH e-Handbook of Statistical Methods</a><span>NIST</span></li></ul><p class="source-note">参考来源用于核对概念与方法。涉及具体数据、历史细节或行业案例时，应回到原始研究或官方文档逐项核验。</p></section><nav class="chapter-pagination" aria-label="章节切换"><a href="../correlation-analysis/index.html"><small>上一章 · 13</small><strong>← 相关分析</strong></a><a class="pagination-home" href="../../index.html">全部章节</a><a class="next" href="../p-values-and-reproducibility/index.html"><small>下一章 · 15</small><strong>p值与显著性危机 →</strong></a></nav></article></main></div><script src="../../assets/js/article.js" defer></script></body></html>

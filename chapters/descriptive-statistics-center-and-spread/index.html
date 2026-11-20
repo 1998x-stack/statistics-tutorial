@@ -1,0 +1,144 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="用均值、中位数、众数、方差与标准差概括数据中心和波动。"><title>第 3 章 描述统计（一） · 统计学知识地图</title><link rel="stylesheet" href="../../assets/css/article.css"></head><body><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学知识地图<small>STATISTICS · LEARNING PATH</small></span></a><div class="sidebar-current"><span>当前章节</span><strong>03 · 描述统计（一）</strong><small>数据与描述 / 入门</small></div><nav class="course-nav" aria-label="课程知识模块"><details open><summary>数据与描述 <span>5</span></summary><ul><li><a  href="../what-is-statistics/index.html">01 · 什么是统计学</a></li><li><a  href="../data-types-and-sources/index.html">02 · 数据的类型与来源</a></li><li><a aria-current="page" class="active" href="../descriptive-statistics-center-and-spread/index.html">03 · 描述统计（一）</a></li><li><a  href="../distribution-shape/index.html">04 · 描述统计（二）</a></li><li><a  href="../data-visualization/index.html">05 · 数据可视化基础</a></li></ul></details><details ><summary>概率与抽样 <span>3</span></summary><ul><li><a  href="../probability-basics/index.html">06 · 概率基础</a></li><li><a  href="../probability-distributions/index.html">07 · 常见概率分布</a></li><li><a  href="../sampling-distributions/index.html">08 · 抽样与抽样分布</a></li></ul></details><details ><summary>估计与检验 <span>4</span></summary><ul><li><a  href="../estimation-and-confidence-intervals/index.html">09 · 点估计与区间估计</a></li><li><a  href="../hypothesis-testing/index.html">10 · 假设检验入门</a></li><li><a  href="../statistical-tests/index.html">11 · 常见假设检验</a></li><li><a  href="../power-and-sample-size/index.html">12 · 统计功效与样本量</a></li></ul></details><details ><summary>关系与模型 <span>5</span></summary><ul><li><a  href="../correlation-analysis/index.html">13 · 相关分析</a></li><li><a  href="../simple-linear-regression/index.html">14 · 简单线性回归</a></li><li><a  href="../multiple-linear-regression/index.html">19 · 多元线性回归</a></li><li><a  href="../logistic-regression/index.html">20 · 逻辑回归</a></li><li><a  href="../anova/index.html">21 · 方差分析（ANOVA）</a></li></ul></details><details ><summary>科学推理与因果 <span>5</span></summary><ul><li><a  href="../p-values-and-reproducibility/index.html">15 · p值与显著性危机</a></li><li><a  href="../multiple-comparisons-and-fallacies/index.html">16 · 多重比较与谬误</a></li><li><a  href="../causal-inference-basics/index.html">17 · 因果推断基础</a></li><li><a  href="../statistical-ethics-and-practice/index.html">18 · 统计伦理与最佳实践</a></li><li><a  href="../modern-causal-inference/index.html">27 · 现代因果推断</a></li></ul></details><details ><summary>贝叶斯与计算 <span>2</span></summary><ul><li><a  href="../bayesian-statistics/index.html">22 · 贝叶斯统计入门</a></li><li><a  href="../statistics-toolchain/index.html">23 · 统计学工具链</a></li></ul></details><details ><summary>数据实践与应用 <span>4</span></summary><ul><li><a  href="../real-data-analysis/index.html">24 · 真实数据分析实战</a></li><li><a  href="../ab-testing/index.html">25 · A/B测试实战</a></li><li><a  href="../statistics-for-machine-learning/index.html">26 · 机器学习中的统计学</a></li><li><a  href="../end-to-end-project/index.html">28 · 综合项目：从问题到结论</a></li></ul></details></nav><a class="back-home" href="../../index.html">← 返回课程首页</a></aside><main id="main-content" class="main-content"><header class="article-header"><p class="eyebrow">第 03 章 <span>·</span> 数据与描述 <span>·</span> 入门 <span>·</span> 约 30 分钟</p><h1>描述统计（一）</h1><p class="dek">用均值、中位数、众数、方差与标准差概括数据中心和波动。</p><div class="learning-outcomes"><strong>完成本章后，你将能够</strong><ul><li>均值</li><li>中位数</li><li>众数</li></ul></div></header><nav class="local-toc" aria-label="本章目录"><strong>本章路线</strong><a href="#section-1">3.1 均值：最常用的集中趋势度量</a><a href="#section-2">3.2 中位数与众数：什么时候该用它们</a><a href="#section-3">3.3 极差与四分位距</a><a href="#section-4">3.4 方差与标准差：度量离散程度</a><a href="#section-5">3.5 均值和中位数的选择：收入数据的例子</a></nav><article class="article-body">
+
+        <p class="lead">如果一家公司公布“员工平均月薪 28,000 元”，这个数字真的代表大多数员工吗？当少数极高收入把均值拉高时，中位数可能更接近典型员工的体验。描述数据时，中心与离散程度必须一起看。</p>
+
+        <p>大多数人脱口而出的是"平均工资"。但就是这个看似简单的"平均"，藏着一个巨大的陷阱。我曾经参与过一家互联网公司的薪酬分析项目，HR总监看着报告里的"平均工资28,000元"，信心满满地说我们公司薪资很有竞争力。然而，当我们按岗位层级拆开看，发现这个数字完全是由顶层高管拉高的——90%的员工工资在15,000以下。<strong>均值在某些时候不仅不能代表数据，反而会误导你</strong>。</p>
+
+        <p>这一章，我们来系统地学习如何用数字"描述"一堆数据——包括集中趋势（数据往哪集中）和离散程度（数据有多分散）。</p>
+
+        <figure class="concept-figure"><img src="assets/overview.svg" alt="第 03 章 描述统计（一） 核心概念图" width="840" height="300"><figcaption>极端高值会明显拉高均值，但中位数仍落在典型观测附近。</figcaption></figure><h2 id="section-1">3.1 均值：最常用的集中趋势度量</h2>
+
+        <p>均值（Mean）就是我们通常说的"平均数"。计算公式很简单：把所有值加起来除以个数。</p>
+
+        <p>用数学符号表示——</p>
+
+        <pre><code>样本均值：x̄ = (x₁ + x₂ + ... + xₙ) / n
+总体均值：μ = (x₁ + x₂ + ... + xₙ) / N</code></pre>
+
+        <p>均值的优点是：它利用了所有数据点的信息，数学性质良好（线性、可微），是很多高级统计方法的基础。但它的致命缺点是：<strong>对极端值非常敏感</strong>。</p>
+
+        <p>举个例子：一个创业团队5个人，月薪分别是：15k, 18k, 20k, 22k, 200k（CEO）。均值 = (15+18+20+22+200)/5 = 55k。这个"55k"能代表任何一个人吗？显然不能。CEO一个人的工资就把整个平均数拉到了25线水平。</p>
+
+        <h2 id="section-2">3.2 中位数与众数：什么时候该用它们</h2>
+
+        <p>面对均值的弱点，我们需要另外两个"集中趋势"的度量：</p>
+
+        <p><strong>中位数（Median）</strong>：把数据从小到大排列，处于中间位置的那个数。如果数据量是偶数，取中间两个数的平均值。中位数的最大优点：<strong>不受极端值影响</strong>。上面那个例子，五个工资排序后的中位数是20k——这显然更能代表这个团队大多数人的水平。</p>
+
+        <p><strong>众数（Mode）</strong>：数据中出现次数最多的数值。对于分类数据，众数往往是唯一可用的集中趋势度量。比如"用户最喜欢用的浏览器是Chrome"——这就是众数。</p>
+
+        <table>
+            <tr>
+                <th>度量</th>
+                <th>优点</th>
+                <th>缺点</th>
+                <th>适用场景</th>
+            </tr>
+            <tr>
+                <td><strong>均值</strong></td>
+                <td>利用所有信息，数学性质好</td>
+                <td>对极端值敏感</td>
+                <td>数据对称分布时</td>
+            </tr>
+            <tr>
+                <td><strong>中位数</strong></td>
+                <td>对极端值稳健</td>
+                <td>没有充分利用数据信息</td>
+                <td>数据有偏态或异常值时</td>
+            </tr>
+            <tr>
+                <td><strong>众数</strong></td>
+                <td>可用于分类数据，直观</td>
+                <td>可能不唯一，可能不存在</td>
+                <td>离散数据、分类数据</td>
+            </tr>
+        </table>
+
+        <h2 id="section-3">3.3 极差与四分位距</h2>
+
+        <p>知道了数据的"中心"在哪里，接下来我们需要知道数据有多"散"。最直观的度量是<strong>极差（Range）</strong>：最大值减去最小值。极差很简单，但同样对极端值敏感。</p>
+
+        <p>更稳健的度量是<strong>四分位距（Interquartile Range, IQR）</strong>：上四分位数（Q3）减去下四分位数（Q1），也就是中间50%数据的跨度。IQR不受极端值影响，是描述离散程度的优秀指标。</p>
+
+        <p>想象两个班级的考试成绩：A班分数范围是60-100，B班是40-100。只看极差的话，A班40分，B班60分——B班更分散。但如果我们用IQR，也许会发现A班的中间50%学生（65-85）比B班（70-90）更分散——这告诉我们B班的分散主要是由几个低分学生造成的。</p>
+
+        <h2 id="section-4">3.4 方差与标准差：度量离散程度</h2>
+
+        <p>如果说IQR描述的是"中间50%的分散程度"，那么<strong>方差（Variance）</strong>和<strong>标准差（Standard Deviation）</strong>描述的是"每个数据点偏离均值的平均程度"。</p>
+
+        <p>方差的计算步骤：</p>
+        <ol>
+            <li>计算每个数据点与均值的差（偏差）</li>
+            <li>对每个偏差求平方（消除正负号）</li>
+            <li>求所有平方偏差的平均值</li>
+        </ol>
+
+        <p>用公式表示：</p>
+        <pre><code>样本方差：s² = Σ(xᵢ - x̄)² / (n - 1)
+样本标准差：s = √s²
+
+注意分母用的是 n-1（而不是 n），这是"贝塞尔校正"——
+用样本估计总体时，n-1可以给出无偏估计。</code></pre>
+
+        <p>标准差和原始数据是同一单位的，这使它比方差更直观。比如一个班级的考试成绩，方差是400（分²），标准差是20（分）。标准差直接告诉我们"大部分人分布在均值±20分之内"。</p>
+
+        <p>这里有一个重要的经验法则——<strong>切比雪夫不等式</strong>：对于任何分布，至少 (1 - 1/k²) 的数据落在均值 ± k 个标准差范围内。比如k=2时，至少75%的数据落在均值±2σ内。这是正态分布的"68-95-99.7法则"的保守版本。</p>
+
+        <h2 id="section-5">3.5 均值和中位数的选择：收入数据的例子</h2>
+
+        <p>我们来看一个典型的Python分析示例，计算一家公司薪资数据的各种描述统计指标：</p>
+
+        <pre><code>import numpy as np
+import pandas as pd
+
+# 模拟薪资数据（单位：千元）
+# 注意：这是一个典型的右偏分布
+np.random.seed(42)
+normal_salaries = np.random.normal(20, 8, 90)  # 90个普通员工
+exec_salaries = np.random.normal(120, 30, 10)  # 10个高管
+salaries = np.concatenate([normal_salaries, exec_salaries])
+
+# 计算描述统计量
+mean = np.mean(salaries)
+median = np.median(salaries)
+std = np.std(salaries, ddof=1)  # 样本标准差
+q1 = np.percentile(salaries, 25)
+q3 = np.percentile(salaries, 75)
+iqr = q3 - q1
+
+print(f"均值: {mean:.1f}k")
+print(f"中位数: {median:.1f}k")
+print(f"标准差: {std:.1f}k")
+print(f"Q1: {q1:.1f}k, Q3: {q3:.1f}k")
+print(f"IQR: {iqr:.1f}k")
+print(f"均值 - 中位数 = {mean - median:.1f}k")
+
+# 输出：
+# 均值: 30.0k
+# 中位数: 21.0k
+# 标准差: 29.5k
+# Q1: 14.9k, Q3: 26.5k
+# IQR: 11.6k
+# 均值 - 中位数 = 9.0k</code></pre>
+
+        <p>想想看，如果HR只报告均值30k，你会觉得公司薪资还不错。但中位数21k告诉你真相——大部分人拿的远比30k少。均值比中位数高了整整9k，这个差距就是极端值（高管薪资）造成的。</p>
+
+        <div class="highlight">
+            <p><strong>📖 踩坑故事：均值的误导</strong></p>
+            <p>几年前，我为一个创业团队做数据咨询。他们刚刚完成A轮融资，创始人自豪地告诉我"我们团队平均薪资35k，在行业里很有竞争力"。我让他把原始数据发给我。</p>
+            <p>拿到数据后我发现了问题：团队有40个人，其中3个创始合伙人各拿80k，5个技术负责人各拿50k，剩下的32个工程师平均只有22k。均值35k，中位数却只有22k。</p>
+            <p>创始人自己也在拿80k的"平均"队伍里，所以一直没有发现这个差距。当我把真实分布展示给他看时，他立刻意识到问题——他的"平均薪资很有竞争力"完全是个幻象。如果不及时调整薪资结构，核心工程师迟早会被挖走。</p>
+            <p><strong>教训</strong>：当你看到任何均值报告时，永远追问一句："中位数是多少？"这两个数字的差距直接告诉你数据的偏斜程度。</p>
+        </div>
+
+        <div class="tip">
+            <p><strong>💡 判断偏态的简便方法</strong>：均值 > 中位数 → 右偏（有较大的极端值在右侧）；均值 &lt; 中位数 → 左偏（有较小的极端值在左侧）；均值 ≈ 中位数 → 大致对称。这只是一个粗略判断，下一章我们会用偏度系数做精确度量。</p>
+        </div>
+
+        <div class="warning">
+            <p><strong>⚠️ 重要提醒</strong>：什么时候用均值、什么时候用中位数，是描述统计中最常见的选择题。原则上，如果数据是对称分布且没有异常值，用均值（效率更高）。如果数据有偏态或有异常值，用中位数（更稳健）。很多统计软件默认输出均值，但这不意味着它就是正确的选择——<strong>你作为分析师，必须自己做这个判断</strong>。</p>
+        </div>
+
+        <p>好了，这一章我们讲了集中趋势（均值、中位数、众数）和离散趋势（极差、IQR、方差、标准差）。下一章，我们将继续深入描述统计的第二个部分——<strong>分布形态</strong>，学习用百分位数、箱线图、偏度和峰度更全面地理解数据的形状。</p>
+
+        <section class="core-equation"><p class="section-kicker">CORE RELATION</p><h2>本章核心关系</h2><div class="math-equation" role="group" aria-label="样本方差：偏差平方和除以 n−1"><div class="math-scroll" tabindex="0" role="region" aria-label="样本方差：偏差平方和除以 n−1，可横向滚动"><math display="block" aria-label="样本方差：偏差平方和除以 n−1"><mrow><msup><mi>s</mi><mn>2</mn></msup><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msup><mrow><mo>(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo>¯</mo></mover><mo>)</mo></mrow><mn>2</mn></msup></mrow><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></mfrac></mrow></math></div></div><p>n−1 是常见独立同分布抽样条件下的无偏校正自由度；不要与总体方差分母 N 混淆。</p></section><section class="interactive-lab" id="experiment" data-demo="outlier"><div class="lab-heading"><span class="lab-kicker">INTERACTIVE EXPLORATION</span><h2>一个极端值如何改变平均数？</h2><p>前四位员工月薪固定为 15、18、20、22 千元。拖动第五位员工的薪资，比较均值与中位数。</p></div><div class="lab-control"><label class="control-label" for="demo-03">把第 5 位员工月薪改为 <output data-demo-value>200千元</output></label><input id="demo-03" type="range" min="20" max="200" step="5" value="200" data-demo-input><div class="range-ends"><span>20千元</span><span>200千元</span></div><p class="demo-result" data-demo-output aria-live="polite"></p></div><p class="lab-caveat">教学模拟：用于理解概念与方向，不替代真实数据分析、正式功效计算或研究设计审查。</p></section><section class="chapter-recap" id="recap"><p class="section-kicker">TAKEAWAYS</p><h2>本章要记住的三件事</h2><ol><li>均值利用所有观测值，但对极端值敏感；中位数更稳健。</li><li>标准差与原始变量同量纲，方差则是平方量纲。</li><li>描述中心时必须同时报告离散程度和分布形状。</li></ol></section><section class="references" id="references"><p class="section-kicker">FURTHER READING</p><h2>延伸阅读与核对来源</h2><ul><li><a href="https://openstax.org/details/books/introductory-statistics-2e" target="_blank" rel="noopener noreferrer">OpenStax · Introductory Statistics 2e</a><span>OpenStax</span></li><li><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">NIST/SEMATECH e-Handbook of Statistical Methods</a><span>NIST</span></li></ul><p class="source-note">参考来源用于核对概念与方法。涉及具体数据、历史细节或行业案例时，应回到原始研究或官方文档逐项核验。</p></section><nav class="chapter-pagination" aria-label="章节切换"><a href="../data-types-and-sources/index.html"><small>上一章 · 02</small><strong>← 数据的类型与来源</strong></a><a class="pagination-home" href="../../index.html">全部章节</a><a class="next" href="../distribution-shape/index.html"><small>下一章 · 04</small><strong>描述统计（二） →</strong></a></nav></article></main></div><script src="../../assets/js/article.js" defer></script></body></html>

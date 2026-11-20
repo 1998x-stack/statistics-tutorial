@@ -1,0 +1,109 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="理解零假设、备择假设、检验统计量、p 值与显著性水平。"><title>第 10 章 假设检验入门 · 统计学知识地图</title><link rel="stylesheet" href="../../assets/css/article.css"></head><body><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学知识地图<small>STATISTICS · LEARNING PATH</small></span></a><div class="sidebar-current"><span>当前章节</span><strong>10 · 假设检验入门</strong><small>估计与检验 / 进阶</small></div><nav class="course-nav" aria-label="课程知识模块"><details ><summary>数据与描述 <span>5</span></summary><ul><li><a  href="../what-is-statistics/index.html">01 · 什么是统计学</a></li><li><a  href="../data-types-and-sources/index.html">02 · 数据的类型与来源</a></li><li><a  href="../descriptive-statistics-center-and-spread/index.html">03 · 描述统计（一）</a></li><li><a  href="../distribution-shape/index.html">04 · 描述统计（二）</a></li><li><a  href="../data-visualization/index.html">05 · 数据可视化基础</a></li></ul></details><details ><summary>概率与抽样 <span>3</span></summary><ul><li><a  href="../probability-basics/index.html">06 · 概率基础</a></li><li><a  href="../probability-distributions/index.html">07 · 常见概率分布</a></li><li><a  href="../sampling-distributions/index.html">08 · 抽样与抽样分布</a></li></ul></details><details open><summary>估计与检验 <span>4</span></summary><ul><li><a  href="../estimation-and-confidence-intervals/index.html">09 · 点估计与区间估计</a></li><li><a aria-current="page" class="active" href="../hypothesis-testing/index.html">10 · 假设检验入门</a></li><li><a  href="../statistical-tests/index.html">11 · 常见假设检验</a></li><li><a  href="../power-and-sample-size/index.html">12 · 统计功效与样本量</a></li></ul></details><details ><summary>关系与模型 <span>5</span></summary><ul><li><a  href="../correlation-analysis/index.html">13 · 相关分析</a></li><li><a  href="../simple-linear-regression/index.html">14 · 简单线性回归</a></li><li><a  href="../multiple-linear-regression/index.html">19 · 多元线性回归</a></li><li><a  href="../logistic-regression/index.html">20 · 逻辑回归</a></li><li><a  href="../anova/index.html">21 · 方差分析（ANOVA）</a></li></ul></details><details ><summary>科学推理与因果 <span>5</span></summary><ul><li><a  href="../p-values-and-reproducibility/index.html">15 · p值与显著性危机</a></li><li><a  href="../multiple-comparisons-and-fallacies/index.html">16 · 多重比较与谬误</a></li><li><a  href="../causal-inference-basics/index.html">17 · 因果推断基础</a></li><li><a  href="../statistical-ethics-and-practice/index.html">18 · 统计伦理与最佳实践</a></li><li><a  href="../modern-causal-inference/index.html">27 · 现代因果推断</a></li></ul></details><details ><summary>贝叶斯与计算 <span>2</span></summary><ul><li><a  href="../bayesian-statistics/index.html">22 · 贝叶斯统计入门</a></li><li><a  href="../statistics-toolchain/index.html">23 · 统计学工具链</a></li></ul></details><details ><summary>数据实践与应用 <span>4</span></summary><ul><li><a  href="../real-data-analysis/index.html">24 · 真实数据分析实战</a></li><li><a  href="../ab-testing/index.html">25 · A/B测试实战</a></li><li><a  href="../statistics-for-machine-learning/index.html">26 · 机器学习中的统计学</a></li><li><a  href="../end-to-end-project/index.html">28 · 综合项目：从问题到结论</a></li></ul></details></nav><a class="back-home" href="../../index.html">← 返回课程首页</a></aside><main id="main-content" class="main-content"><header class="article-header"><p class="eyebrow">第 10 章 <span>·</span> 估计与检验 <span>·</span> 进阶 <span>·</span> 约 35 分钟</p><h1>假设检验入门</h1><p class="dek">理解零假设、备择假设、检验统计量、p 值与显著性水平。</p><div class="learning-outcomes"><strong>完成本章后，你将能够</strong><ul><li>零假设</li><li>备择假设</li><li>p值</li></ul></div></header><nav class="local-toc" aria-label="本章目录"><strong>本章路线</strong><a href="#section-1">10.1 费歇尔的奶茶实验</a><a href="#section-2">10.2 零假设（H₀）与备择假设（H₁）</a><a href="#section-3">10.3 p值的含义（它不是概率！）</a><a href="#section-4">10.4 α = 0.05 的由来与争议</a><a href="#section-5">10.5 假设检验的步骤总结</a></nav><article class="article-body">
+
+        <p class="lead">新版本页面的转化率从 10% 上升到 10.6%，这是真实改善，还是随机波动？假设检验是在明确零假设和模型后，评估观测数据与零假设的相容程度。</p>
+
+        <p>但我想先讲一个故事。20世纪20年代，英国剑桥一个午后，一群学者在喝下午茶。一位女士声称：她能分辨出茶是先加奶还是先加茶。在场的大多数人不以为然——这怎么可能？但一位略显消瘦的绅士不这么想。他说："我们来做个实验证明一下吧。"</p>
+
+        <p>这位绅士就是罗纳德·费歇尔（Ronald Fisher），统计学的泰斗级人物。而这场"品茶实验"后来被称为"Lady Tasting Tea"，被认为是现代假设检验的思想起源。</p>
+
+        <figure class="concept-figure"><img src="assets/overview.svg" alt="第 10 章 假设检验入门 核心概念图" width="840" height="300"><figcaption>p 值由零假设分布下观测统计量及更极端结果的尾部面积定义。</figcaption></figure><h2 id="section-1">10.1 费歇尔的奶茶实验</h2>
+
+        <p>费歇尔是怎么设计的呢？他准备了8杯茶，其中4杯是先加奶后加茶，另外4杯是先加茶后加奶。然后让这位女士品尝并判断每一杯的冲泡顺序。关键问题是：如果这位女士只是瞎猜，她答对的概率是多少？</p>
+
+        <p>费歇尔用了一个很聪明的办法——他算出了"纯靠运气猜对所有结果"的概率。假设她完全在猜，那么从8杯中选出4杯"先奶后茶"的杯子的组合方式有 C(8,4) = 70 种。全部猜对的概率只有 1/70 ≈ 0.014。这个概率很小，所以如果她真的全部猜对了，我们就有理由相信她不是靠运气——而是真的有这个能力。</p>
+
+        <p>这个思考框架后来演变成了我们今天所说的<strong>零假设显著性检验（Null Hypothesis Significance Testing, NHST）</strong>。</p>
+
+        <div class="highlight">
+            <strong>有趣的事实：</strong>根据史料记载，那位女士真的全部答对了！而且她叫 Muriel Bristol，是一位植物学家。不过后来有人质疑这个故事的细节——但不管怎样，它完美地展示了假设检验的核心逻辑：先假设对方没有超能力（零假设），然后看数据在零假设成立时出现的概率有多小。
+        </div>
+
+        <h2 id="section-2">10.2 零假设（H₀）与备择假设（H₁）</h2>
+
+        <p>每一个假设检验都包含两个对立的假设：</p>
+
+        <ul>
+            <li><strong>零假设（H₀, null hypothesis）：</strong>通常是"没有效果"、"没有差异"、"没有关系"。它是我们试图推翻的假设。</li>
+            <li><strong>备择假设（H₁, alternative hypothesis）：</strong>通常是"有效果"、"有差异"、"有关系"。它是我们试图证明的假设。</li>
+        </ul>
+
+        <p>为什么叫"零假设"？因为费歇尔认为科学中的默认立场应该是"什么都不发生"，如果有证据表明发生了什么事，那才能推翻这种默认立场。这个逻辑很像法律上的"无罪推定"——被告在未被证明有罪之前都是清白的。零假设就是"无辜"的假设，而我们手上的数据就是"证据"。</p>
+
+        <div class="tip">
+            <strong>记忆技巧：</strong>零假设中的"零"代表"零效果"、"零差异"。每当你要做假设检验时，先问自己："我想证明什么效果？"然后它的反面就是 H₀，它的正面就是 H₁。比如想证明新药更有效，H₀就是"新药效果 ≤ 旧药"，H₁就是"新药效果 > 旧药"。
+        </div>
+
+        <h2 id="section-3">10.3 p值的含义（它不是概率！）</h2>
+
+        <p>p值（p-value）恐怕是统计学中被误解最深的概念。它的正式定义是：<strong>在零假设为真的前提下，观察到当前数据（或更极端数据）的概率</strong>。</p>
+
+        <p>请注意：p值<strong>不是</strong>"零假设为真的概率"，也不是"我们犯错的概率"。它只是一个条件概率——假设H₀是真的，那我们的数据"有多离谱"。p值越小，说明数据在H₀为真的框架下越"不可能"出现，于是我们就倾向于拒绝H₀。</p>
+
+        <p>回到奶茶实验：她全猜对的概率是 1/70 ≈ 0.014。这个0.014就是p值。p值很小，所以我们可以说："如果她是瞎猜的，那么我们看到全猜对这种情况的概率只有1.4%。这个概率太小了，我选择不相信她是瞎猜的。"</p>
+
+        <div class="warning">
+            <strong>千万注意：</strong>p值不是"效果的概率"！一个常见的谬误是："p = 0.03 意味着新药有效的概率是97%"。完全错误！p值说的是在"没有效果"的前提下，数据出现的概率。你真正想要的是"在数据出现的前提下，有效果的概率"——这是两个相反的条件概率。想知道后者，你需要贝叶斯统计（第22章会讲）。
+        </div>
+
+        <h2 id="section-4">10.4 α = 0.05 的由来与争议</h2>
+
+        <p>为什么大家都用 α = 0.05？为什么不是 0.01 或 0.10？这个传统很大程度上要归功于费歇尔本人。他在1925年的著作《研究工作者的统计方法》中写道："一个在20次中发生不超过1次的事件，可以被认为达到了统计显著水平。"他选择了5%作为经验法则，随着时间推移，这个数字被固化成了"标准"。</p>
+
+        <p>但实际上，α的选择应该是<strong>问题相关的</strong>。如果你的决策会影响到成千上万人的健康（比如一种新药的上市审批），你可能应该用 α = 0.01 甚至更严格。如果只是早期探索性的数据分析，α = 0.10 也可以接受。</p>
+
+        <p>近年来，统计学界对"p < 0.05 = 显著"这种机械化做法提出了强烈批评。2018年，美国统计协会发布了关于p值的声明，警告不要滥用p值。但这并不意味着p值没用——关键在于<strong>正确理解和使用</strong>。</p>
+
+        <p>下面来看一个用 Python 做 t 检验的完整例子：</p>
+
+        <pre><code>import numpy as np
+from scipy import stats
+
+# 设定随机种子
+np.random.seed(42)
+
+# 模拟两组数据：对照组的成绩
+control = np.random.normal(loc=70, scale=10, size=50)
+# 实验组的成绩（有一个微小的提升）
+treatment = np.random.normal(loc=73, scale=10, size=50)
+
+# 独立样本 t 检验
+t_stat, p_value = stats.ttest_ind(control, treatment)
+
+print(f"对照组均值: {np.mean(control):.2f}")
+print(f"实验组均值: {np.mean(treatment):.2f}")
+print(f"两组均值差: {np.mean(treatment) - np.mean(control):.2f}")
+print(f"t 统计量: {t_stat:.4f}")
+print(f"p 值: {p_value:.4f}")
+
+alpha = 0.05
+if p_value < alpha:
+    print(f"p = {p_value:.4f} < 0.05，拒绝零假设，两组存在显著差异")
+else:
+    print(f"p = {p_value:.4f} >= 0.05，无法拒绝零假设")
+
+# 置信区间也能帮助我们判断
+ci = (np.mean(treatment) - np.mean(control)) + \
+     stats.t.ppf(0.975, df=98) * np.sqrt(np.var(control, ddof=1)/50 + np.var(treatment, ddof=1)/50) * np.array([-1, 1])
+print(f"均值差的95%置信区间: [{ci[0]:.2f}, {ci[1]:.2f}]")</code></pre>
+
+        <h2 id="section-5">10.5 假设检验的步骤总结</h2>
+
+        <p>每次做假设检验时，可以按以下五个步骤来：</p>
+
+        <ol>
+            <li><strong>设定假设：</strong>明确 H₀ 和 H₁。</li>
+            <li><strong>选择显著性水平 α：</strong>通常选 0.05。</li>
+            <li><strong>选择检验方法并计算检验统计量：</strong>根据数据类型和假设选择合适的检验（t检验、z检验等）。</li>
+            <li><strong>计算 p 值：</strong>或者与临界值比较。</li>
+            <li><strong>做出决策：</strong>如果 p < α，拒绝 H₀；否则无法拒绝 H₀。</li>
+        </ol>
+
+        <div class="warning">
+            <strong>经典踩坑故事：</strong>在真实的A/B测试中，我遇到过一位产品经理，看到 p = 0.051 时说："嗯，这样本量还不够，再跑一周。"结果一周后 p = 0.048 出来了，他说："看吧，新功能确实提升了转化率！"这就是典型的<strong>p-hacking</strong>——不断收集数据直到p值"达标"。实际上，如果结果在 p = 0.051 和 p = 0.049 之间摇摆，最可能的情况是真效应很弱甚至是零。机械地坚持 0.05 这个阈值是很危险的。
+        </div>
+
+        <p>学习假设检验最关键的领悟是：它不是一个自动化的决策机器，而是一种<strong>量化不确定性的思维方式</strong>。p值不应该成为你唯一关注的对象——效应量、置信区间、统计功效同样重要。</p>
+
+        <p>下一章，我们将讨论各种常见的假设检验方法——z检验、t检验、卡方检验、F检验，以及如何在不同场景中选择正确的检验方法。</p>
+
+        <section class="core-equation"><p class="section-kicker">CORE RELATION</p><h2>本章核心关系</h2><div class="math-equation" role="group" aria-label="已知总体标准差时的单样本均值 z 统计量"><div class="math-scroll" tabindex="0" role="region" aria-label="已知总体标准差时的单样本均值 z 统计量，可横向滚动"><math display="block" aria-label="已知总体标准差时的单样本均值 z 统计量"><mrow><mi>z</mi><mo>=</mo><mfrac><mrow><mover><mi>x</mi><mo>¯</mo></mover><mo>−</mo><msub><mi>μ</mi><mn>0</mn></msub></mrow><mrow><mi>σ</mi><mo>/</mo><msqrt><mi>n</mi></msqrt></mrow></mfrac></mrow></math></div></div><p>总体标准差未知时通常使用 t 统计量；检验方向、抽样设计和模型假设必须明确。</p></section><section class="interactive-lab" id="experiment" data-demo="pvalue"><div class="lab-heading"><span class="lab-kicker">INTERACTIVE EXPLORATION</span><h2>p 值与显著性水平不是一回事</h2><p>调整 p 值，比较 α=0.05 的决策规则；统计显著性仍需结合效应大小与研究设计解释。</p></div><div class="lab-control"><label class="control-label" for="demo-10">观察到的 p 值 <output data-demo-value>0.03</output></label><input id="demo-10" type="range" min="0.001" max="0.2" step="0.001" value="0.03" data-demo-input><div class="range-ends"><span>0.001</span><span>0.2</span></div><p class="demo-result" data-demo-output aria-live="polite"></p></div><p class="lab-caveat">教学模拟：用于理解概念与方向，不替代真实数据分析、正式功效计算或研究设计审查。</p></section><section class="chapter-recap" id="recap"><p class="section-kicker">TAKEAWAYS</p><h2>本章要记住的三件事</h2><ol><li>p 值是在零假设及模型条件成立时，观察到当前或更极端数据的概率。</li><li>p 值不是零假设为真的概率，也不是结果由偶然造成的概率。</li><li>不拒绝零假设不等于证明零假设为真。</li></ol></section><section class="references" id="references"><p class="section-kicker">FURTHER READING</p><h2>延伸阅读与核对来源</h2><ul><li><a href="https://openstax.org/details/books/introductory-statistics-2e" target="_blank" rel="noopener noreferrer">OpenStax · Introductory Statistics 2e</a><span>OpenStax</span></li><li><a href="https://www.amstat.org/asa/files/pdfs/P-ValueStatement.pdf" target="_blank" rel="noopener noreferrer">ASA Statement on Statistical Significance and P-Values</a><span>American Statistical Association</span></li></ul><p class="source-note">参考来源用于核对概念与方法。涉及具体数据、历史细节或行业案例时，应回到原始研究或官方文档逐项核验。</p></section><nav class="chapter-pagination" aria-label="章节切换"><a href="../estimation-and-confidence-intervals/index.html"><small>上一章 · 09</small><strong>← 点估计与区间估计</strong></a><a class="pagination-home" href="../../index.html">全部章节</a><a class="next" href="../statistical-tests/index.html"><small>下一章 · 11</small><strong>常见假设检验 →</strong></a></nav></article></main></div><script src="../../assets/js/article.js" defer></script></body></html>
