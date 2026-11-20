@@ -12,3 +12,11 @@
 - Follow-up: Run Node test and browser E2E for both file:// and HTTP, and include test in future existing quality checks only with explicit workflow authorization.
 - Commit: pending
 - PR: pending
+
+### 2026-11-20 — Olah-style statistics tutorial restructuring
+- Branch: feat/olah-style-statistics-tutorial
+- Scope: migrate and standardize all 28 chapter pages, define eight knowledge domains and chapter metadata, preserve legacy root URLs, and introduce a reusable statistics-tutorial Skill.
+- Content: each chapter now has a semantic article shell, learning objectives, a dedicated SVG concept diagram, an interactive lab mount, a takeaway, a method-boundary note and references. Existing explanations and examples were preserved as the first-pass content baseline; a chapter-by-chapter audit records high-risk claims requiring deeper source-level review.
+- Engineering: shared responsive CSS/JS, local catalog snapshot, search/filter UI, MathML snippets, offline relative assets, static validation, Python tests and Playwright browser checks were added.
+- Validation: CI has been configured but has not yet been run at the time of this entry. No merge or Pages deployment is claimed.
+- Known limitation: interactive labs are explanatory mini-experiments, not replacements for full statistical software or a formal sample-size analysis.

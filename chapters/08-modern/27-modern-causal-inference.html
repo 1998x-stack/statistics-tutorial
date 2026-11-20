@@ -1,0 +1,147 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="现代因果方法利用观察数据回答干预问题，但每种方法都依赖识别假设。"><title>第27章 现代因果推断 · 统计学教程</title><link rel="stylesheet" href="../../assets/css/course.css"></head><body class="chapter-page" data-root="../.." data-page="chapter"><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="site-brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学教程</span></a><nav id="courseNav" class="course-nav" aria-label="课程章节目录"><p class="nav-loading">正在载入课程目录…</p></nav></aside><main id="main-content" class="main-content"><article class="chapter-article" data-chapter="27"><div class="breadcrumbs"><a href="../../index.html">课程总览</a><span>/</span><span>现代数据科学与综合应用</span><span>/</span><span>第 27 章</span></div><div class="chapter-meta"><span class="chapter-number">CHAPTER 27</span><span class="chapter-category">现代数据科学与综合应用</span><span class="chapter-level">综合</span><span class="chapter-duration">约 25 分钟</span></div>
+        <h1>第27章：现代因果推断</h1>
+
+        <p class="lead">大家好，我是你们的讲师。如果今天有人问我："统计学在21世纪最重要的前沿是什么？"我的答案很明确——<strong>因果推断</strong>。2021年诺贝尔经济学奖授予了David Card、Joshua Angrist和Guido Imbens，以表彰他们在因果推断方法论上的贡献。这不是偶然的。在一个数据驱动的时代，企业、政府和研究机构不再满足于"相关性"，他们想知道确切的因果关系：这个广告真的提高了销量吗？这个政策真的改善了就业吗？这个药物真的有效吗？</p><section class="learning-path" aria-label="本章学习目标"><p class="section-eyebrow">本章学习目标</p><ul><li>倾向得分匹配</li><li>DID</li><li>断点回归</li></ul></section><figure class="concept-figure"><img src="../../assets/figures/27-modern-causal-inference.svg" alt="DID 比较两组的前后变化。双重差分扣除共同时间变化，用处理组相对对照组的变化差估计处理效应。" loading="eager"><figcaption><strong>图 27.</strong> DID 比较两组的前后变化：双重差分扣除共同时间变化，用处理组相对对照组的变化差估计处理效应。</figcaption></figure><section class="lab" data-lab="27" aria-labelledby="lab-heading-27"><h2 id="lab-heading-27">交互实验：双重差分估计如何形成</h2><p>调整处理组与对照组的前后变化，计算双重差分估计量。</p><div class="lab-mount"><p class="lab-fallback">交互控件加载后，可调整参数并观察统计量的变化。</p></div></section>
+
+        <p>在第十七章，我们已经学习了因果推断的基础——为什么相关不等于因果、混杂变量、随机对照试验（RCT）的金标准。但在现实中，RCT往往太贵、太慢、甚至不道德（你能随机分配一些人吸烟吗？）。本章我们将介绍四种现代因果推断方法，它们能在观察性数据中识别因果关系，被誉为"因果推断的四驾马车"。</p>
+
+        <h2>27.1 因果推断的黄金时代（2021年诺奖）</h2>
+
+        <p>在进入具体方法之前，我想先说说为什么因果推断在今天如此重要。核心原因有三个：</p>
+
+        <ul>
+            <li><strong>数据爆炸</strong>：企业拥有海量的观察性数据，但"数据多"不等于"信息多"。没有因果视角，数据可能产生误导性结论。</li>
+            <li><strong>决策需求</strong>：企业需要回答的不是"X和Y有关系吗"，而是"如果我增加X的投入，Y会增长多少"——这是反事实（Counterfactual）问题，需要因果推断。</li>
+            <li><strong>方法论成熟</strong>：以Donald Rubin的潜在结果框架（Potential Outcomes Framework）和Judea Pearl的结构因果模型（Structural Causal Model）为代表的理论体系已经成熟，计算机也足够快，可以大规模应用这些方法。</li>
+        </ul>
+
+        <div class="tip">
+            <strong>💡 讲师提示：</strong> 因果推断不仅仅是学术问题。在硅谷，因果推断已经成为数据科学家的核心技能。Uber的"因果推断即服务"平台、Netflix的因果实验体系、Amazon的因果营销归因——这些都是因果推断在企业实践中的成功案例。
+        </div>
+
+        <h2>27.2 倾向得分匹配（PSM）：模拟随机实验</h2>
+
+        <p><strong>倾向得分</strong>（Propensity Score）的定义很简洁：在给定协变量X的条件下，个体接受处理的概率，即<code>e(X) = P(T=1 | X)</code>。Rosenbaum和Rubin（1983年）证明了核心定理：如果处理分配在给定协变量X下是条件可忽略的（Conditional Ignorability），那么在给定倾向得分e(X)下，处理分配也是条件可忽略的。</p>
+
+        <p>换句话说：我们不需要匹配所有的协变量——只需匹配倾向得分这一个分数，就能平衡处理组和对照组。这是降维的艺术！</p>
+
+        <p>实际操作步骤：</p>
+        <ol>
+            <li><strong>估计倾向得分</strong>：用逻辑回归（或更复杂的模型），以是否接受处理为因变量，协变量为自变量，预测每个个体的倾向得分。</li>
+            <li><strong>匹配</strong>：对每个处理组个体，在对照组中寻找倾向得分最接近的个体。常见方法包括最近邻匹配（Nearest Neighbor）、卡尺匹配（Caliper Matching）等。</li>
+            <li><strong>检查平衡性</strong>：匹配后，检查处理组和对照组的协变量分布是否相似（标准化的均值差异通常在0.1以内）。</li>
+            <li><strong>估计因果效应</strong>：比较匹配后样本的处理组和对照组的平均结果差异。</li>
+        </ol>
+
+        <pre><code>import numpy as np
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import NearestNeighbors
+
+# 模拟数据：是否参加培训（treatment）对工资的影响
+np.random.seed(42)
+n = 2000
+age = np.random.normal(35, 10, n)
+education = np.random.normal(14, 3, n)
+# 处理分配偏向于年轻、高学历者（选择性偏差！）
+propensity = 1 / (1 + np.exp(-(-2 + 0.05 * age + 0.2 * education)))
+treatment = np.random.binomial(1, propensity)
+# 真实因果效应：参加培训使工资增加5000
+wage = 30000 + 5000 * treatment + 1500 * age + 2000 * education + np.random.normal(0, 5000, n)
+
+df = pd.DataFrame({'age': age, 'edu': education, 'treat': treatment, 'wage': wage})
+
+# 第一步：估计倾向得分
+logit = LogisticRegression()
+logit.fit(df[['age', 'edu']], df['treat'])
+df['pscore'] = logit.predict_proba(df[['age', 'edu']])[:, 1]
+
+# 第二步：倾向得分匹配（最近邻，1:1）
+treated = df[df['treat'] == 1].reset_index(drop=True)
+control = df[df['treat'] == 0].reset_index(drop=True)
+
+nn = NearestNeighbors(n_neighbors=1)
+nn.fit(control[['pscore']])
+distances, indices = nn.kneighbors(treated[['pscore']])
+matched_control = control.iloc[indices.flatten()].reset_index(drop=True)
+
+# 第三步：计算ATT（处理组的平均处理效应）
+att_naive = treated['wage'].mean() - control['wage'].mean()
+att_psm = treated['wage'].mean() - matched_control['wage'].mean()
+
+print(f"朴素估计（有偏）：{att_naive:.0f}")
+print(f"PSM估计（校正后）：{att_psm:.0f}")
+print(f"真实因果效应：5000")
+# 朴素估计通常高估，因为处理组本身就更容易获得高工资</code></pre>
+
+        <div class="warning">
+            <strong>⚠️ 踩坑故事：</strong> 我曾经参与过一个教育项目，用PSM评估补课对成绩的影响。第一次PSM结果令人惊讶——补课居然降低了成绩。后来仔细分析发现：倾向得分在两组之间几乎没有重叠（缺乏"共同支撑域"）。那些补课的学生和没补课的学生在特征上几乎是两个完全不同的人群——成绩差的学生被要求补课，成绩好的学生不需要。PSM试图在这两个群体之间匹配，但"桥"不够宽，导致匹配质量极差。最终估计比不匹配更糟糕。经此一役，我学会了：<strong>做PSM前一定要检查倾向得分的重叠区域</strong>。如果重叠不足，PSM不是解决方案，而是新的问题来源。
+        </div>
+
+        <h2>27.3 双重差分（DID）：利用时间维度</h2>
+
+        <p>双重差分（Difference-in-Differences，DID）的基本思想很简单：比较处理组和对照组在政策实施前后的变化差异。它不需要控制所有混杂变量——只需假设处理组和对照组在没有处理的情况下，结果变量的变化趋势是平行的，即<strong>平行趋势假设</strong>（Parallel Trends Assumption）。</p>
+
+        <p>数学上：<code>DID = (Y_post_treat - Y_pre_treat) - (Y_post_ctrl - Y_pre_ctrl)</code></p>
+
+        <p>DID之所以强大，在于它扣除了"时间趋势"和"组间固定差异"这两类最常见的混杂因素。假设我们想评估一个最低工资政策对就业的影响：就业率会随着经济周期自然波动（时间趋势），而处理组和对照组本身就有不同的就业率（组间差异）。DID通过双减法，排除了这两类噪声。</p>
+
+        <pre><code># DID 的简单实现
+# 假设：某城市在2023年实施了新政策，我们想评估效果
+# 处理组：A市（有政策），对照组：B市（无政策）
+
+data = {
+    'city':   ['A', 'A', 'B', 'B'],
+    'year':   [2022, 2023, 2022, 2023],
+    'policy': [0, 1, 0, 0],      # A市2023年实施
+    'outcome':[100, 115, 95, 100]
+}
+# DID = (115-100) - (100-95) = 15 - 5 = 10
+# 政策使A市的结局变量增加了10个单位
+# 这比简单的"政策实施前后比较"(115-100=15)要小，
+# 因为扣除了B市同期的自然增长趋势(5)</code></pre>
+
+        <div class="highlight">
+            <strong>📌 关键提醒：</strong> DID的致命弱点是平行趋势假设不可验证——你无法证明"如果没有处理，两组趋势会平行"。实践中的常用变通方法是：用处理前的多期数据绘制趋势图，验证处理前趋势是否平行。此外，安慰剂检验（Placebo Test）也很常见：假想政策提前一年实施，看是否还能检测到"效应"。
+        </div>
+
+        <h2>27.4 断点回归（RDD）：利用阈值</h2>
+
+        <p>断点回归（Regression Discontinuity Design，RDD）利用了一个绝妙的自然实验场景：当某个"分配变量"（Running Variable）超过某个阈值时，处理状态发生跳跃。由于阈值附近的个体几乎"一模一样"（只是正好在阈值两侧），它们之间的结果差异可以归因于处理。</p>
+
+        <p>经典的例子：高考分数线。假设一本线是580分，579分的同学和581分的同学在能力上几乎没有差异，但581分可以上大学，579分不能。通过比较分数线附近学生的长期收入差异，就能估计上大学对收入的因果效应。这就是RDD的魔力。</p>
+
+        <p>RDD的核心假设是：个体无法精确操控分配变量在阈值附近的位置。如果学生和家长不能精确控制高考分数（比如恰好差1分），那么阈值附近的比较就是近似随机的。</p>
+
+        <table>
+            <tr><th>方法</th><th>适用场景</th><th>核心假设</th><th>数据要求</th></tr>
+            <tr><td>倾向得分匹配（PSM）</td><td>有可观测的混杂变量，处理组和对照组有足够重叠</td><td>条件可忽略性（无未观测混杂）</td><td>丰富的协变量数据</td></tr>
+            <tr><td>双重差分（DID）</td><td>有处理前后两期的面板或重复截面数据</td><td>平行趋势假设</td><td>至少两期数据</td></tr>
+            <tr><td>断点回归（RDD）</td><td>存在明确阈值决定处理分配</td><td>连续性假设（个体不能精确操控阈值位置）</td><td>阈值附近充足样本</td></tr>
+            <tr><td>工具变量（IV）</td><td>存在未观测混杂，但找到合适的工具变量</td><td>相关性和外生性（工具只通过处理影响结果）</td><td>有效的工具变量</td></tr>
+        </table>
+
+        <h2>27.5 因果推断在企业中的应用</h2>
+
+        <p>今天，因果推断不再只是学术象牙塔里的概念。让我们看看科技巨头如何将这些方法落到实处：</p>
+
+        <ul>
+            <li><strong>Uber</strong>：建立了"因果推断即服务"平台（Causal Inference as a Service），支持产品团队自助进行因果分析。用来评估司机激励机制、定价策略对供给的影响。</li>
+            <li><strong>Netflix</strong>：传统的A/B测试在新用户上没问题，但对于内容推荐等全局影响难以随机化。Netflix使用DID和合成控制法来评估原创内容投资对用户留存的影响。</li>
+            <li><strong>Amazon</strong>：广告归因是因果推断的经典战场——看到广告后购买了，是广告起了作用还是本来就会买？Amazon使用工具变量和基于浏览行为的匹配方法来准确归因。</li>
+            <li><strong>Google</strong>：使用增量实验（Incremental Lift）和地理实验（Geo Experiment）来评估广告投放的因果效果，这些方法本质上都是RCT和DID的变体。</li>
+        </ul>
+
+        <div class="tip">
+            <strong>💡 讲师提示：</strong> 如果你想在企业中应用因果推断，我的建议是：<strong>从RCT做起</strong>。尽量设计可靠的A/B测试。当RCT不可行时，首先问自己"数据中是否存在自然的随机化机制"（如RDD的阈值、IV的外部冲击、DID的政策变化）。因果推断不是万能的——对假设的敏感性分析（Sensitivity Analysis）永远值得做。正如统计学家George Box所说："所有模型都是错的，但有些是有用的。"
+        </div>
+
+        <p>好的，今天的内容到这里。我们学习了因果推断的"四驾马车"——PSM、DID、RDD和IV。每一种方法都有其独特的优势和严格的假设条件。理解这些假设什么时候成立、什么时候不成立，是你从一个工具使用者蜕变为一个方法论思考者的关键。下一章，也是本课程的最后一章，我们将进行一个综合项目——从提出问题到呈现结论的完整旅程。我们下章见！</p>
+
+        <section class="chapter-summary"><h2>本章小结</h2><p>识别假设必须可辩护，并通过平衡、趋势和敏感性诊断检查。</p></section><aside class="note caveat"><strong>统计严谨性提醒</strong><p>PSM、DID、RDD 和 IV 都依赖各自的识别假设；匹配倾向得分不会自动消除未观测混杂。</p></aside><section class="references"><h2>延伸阅读与参考资料</h2><ol><li><a href="https://mixtape.scunning.com/" target="_blank" rel="noopener noreferrer">Causal Inference: The Mixtape</a></li><li><a href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/" target="_blank" rel="noopener noreferrer">Hernán & Robins, Causal Inference: What If</a></li></ol></section><div class="footer-nav">
+            <a href="26-statistics-for-machine-learning.html">← 上一章</a>
+            <a href="../../index.html">📖 返回目录</a>
+            <a href="28-capstone-from-question-to-conclusion.html">下一章 →</a>
+        </div>
+    </div>
+</article><footer class="site-footer">统计学 · 从数据中理解不确定性</footer></main></div><script src="../../assets/js/course-data.js" defer></script><script src="../../assets/js/course.js" defer></script></body></html>

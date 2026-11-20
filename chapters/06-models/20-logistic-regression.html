@@ -1,0 +1,125 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="逻辑回归建模对数几率；概率预测、排序能力和分类决策是不同问题。"><title>第20章 逻辑回归 · 统计学教程</title><link rel="stylesheet" href="../../assets/css/course.css"></head><body class="chapter-page" data-root="../.." data-page="chapter"><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="site-brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学教程</span></a><nav id="courseNav" class="course-nav" aria-label="课程章节目录"><p class="nav-loading">正在载入课程目录…</p></nav></aside><main id="main-content" class="main-content"><article class="chapter-article" data-chapter="20"><div class="breadcrumbs"><a href="../../index.html">课程总览</a><span>/</span><span>回归与统计模型</span><span>/</span><span>第 20 章</span></div><div class="chapter-meta"><span class="chapter-number">CHAPTER 20</span><span class="chapter-category">回归与统计模型</span><span class="chapter-level">进阶</span><span class="chapter-duration">约 25 分钟</span></div>
+
+<h1>第20章 逻辑回归</h1>
+<p class="lead">大家好，我是你们的讲师。如果你已经学完了第19章的多元线性回归，可能会下意识认为：只要是预测问题，都可以用线性回归解决。但请你思考一个问题：如果因变量不是连续数值，而是一个<strong>二分类变量</strong>——比如"用户是否点击"、"病患是否患病"、"交易是否欺诈"——线性回归还能用吗？答案是不能，至少不能用普通的最小二乘法。这一章我们就来学习专门为分类问题设计的<strong>逻辑回归</strong>（Logistic Regression），它虽然名字里有"回归"，但实际上是统计学习和机器学习中最基础、最常用的分类模型之一。</p><section class="learning-path" aria-label="本章学习目标"><p class="section-eyebrow">本章学习目标</p><ul><li>odds与logit</li><li>二分类</li><li>ROC曲线</li></ul></section><figure class="concept-figure"><img src="../../assets/figures/20-logistic-regression.svg" alt="Logit 把概率映射到整个实数轴。逻辑回归先对概率取 log-odds，再用线性预测值建模。" loading="eager"><figcaption><strong>图 20.</strong> Logit 把概率映射到整个实数轴：逻辑回归先对概率取 log-odds，再用线性预测值建模。</figcaption></figure><section class="lab" data-lab="20" aria-labelledby="lab-heading-20"><h2 id="lab-heading-20">交互实验：Logit 如何映射到概率</h2><p>改变线性预测值 η，观察 sigmoid 如何把任意实数映射到 0 与 1 之间。</p><div class="lab-mount"><p class="lab-fallback">交互控件加载后，可调整参数并观察统计量的变化。</p></div></section>
+
+<h2>20.1 为什么不能对分类问题用线性回归</h2>
+<p>假设因变量 y 取值只有 0 和 1。如果我们强行做线性回归 y = β₀ + β₁x，会出现两个严重问题：</p>
+<ul>
+<li><strong>预测值超出范围：</strong>线性回归可以预测出负值或者大于 1 的值，这些值无法被解释为概率。</li>
+<li><strong>误差项违反假设：</strong>线性回归要求误差正态分布且方差齐性，但二分类数据的误差是伯努利分布，方差随均值变化，根本不符合这些条件。</li>
+</ul>
+<p>换句话说，线性回归对分类问题就像用螺丝刀钉钉子——不是完全不行，但结果会很糟糕。</p>
+
+<h2>20.2 Odds 与 Logit：从概率到对数几率</h2>
+<p>逻辑回归的核心思想是将概率 p 映射到整个实数轴上。这个映射分为两步：</p>
+<ol>
+<li><strong>Odds（几率）：</strong> odds = p / (1-p)。当 p=0.5 时 odds=1；p=0.9 时 odds=9；p=0.1 时 odds=0.11。取值从 0 到 ∞。</li>
+<li><strong>Logit（对数几率）：</strong> logit(p) = ln(odds) = ln(p/(1-p))。取对数后，取值从 -∞ 到 +∞。</li>
+</ol>
+<p>逻辑回归模型就是假设 logit(p) 是自变量的线性组合：</p>
+<pre><code>logit(p) = β₀ + β₁x₁ + ... + βₚxₚ</code></pre>
+<p>反过来，p = 1 / (1 + e^{-(β₀ + β₁x₁ + ... + βₚxₚ)})，这就是著名的<strong>sigmoid 函数</strong>，它将线性组合压缩到了 0 到 1 之间。</p>
+
+<div class="tip">
+<strong>直观理解：</strong>Sigmoid 函数的 S 形曲线意味着——在极端情况下（线性组合非常大或非常小），概率的变化逐渐趋缓；而在中间区域（概率接近 0.5 时），自变量的微小变化会对概率产生较大影响。这非常符合很多现实场景的直觉。
+</div>
+
+<h2>20.3 逻辑回归的系数解释</h2>
+<p>逻辑回归的系数不像线性回归那样直接解释为"边际效应"。更自然的解释方式是：</p>
+<ul>
+<li><strong>系数 βⱼ</strong> 表示 xⱼ 增加一个单位时，<strong>log-odds（对数几率）的变化量</strong>。</li>
+<li><strong>exp(βⱼ)</strong> 表示 xⱼ 增加一个单位时，<strong>odds 的倍数变化</strong>（称为 Odds Ratio，OR）。</li>
+</ul>
+
+<table>
+<thead><tr><th>变量</th><th>系数 (β)</th><th>Odds Ratio (exp(β))</th><th>解释</th></tr></thead>
+<tbody>
+<tr><td>年龄（岁）</td><td>-0.03</td><td>0.97</td><td>每增加一岁，点击的 odds 减少约 3%</td></tr>
+<tr><td>历史购买次数</td><td>0.21</td><td>1.23</td><td>每多一次历史购买，点击的 odds 增加 23%</td></tr>
+<tr><td>是否会员</td><td>0.85</td><td>2.34</td><td>会员的点击 odds 是非会员的 2.34 倍</td></tr>
+</tbody>
+</table>
+
+<h2>20.4 混淆矩阵、ROC 曲线与 AUC</h2>
+<p>逻辑回归输出的是概率，我们需要选择一个阈值将概率转化为类别预测。评估分类效果的核心工具包括：</p>
+<ul>
+<li><strong>混淆矩阵（Confusion Matrix）：</strong> 四格表，展示 TP（真阳性）、FP（假阳性）、FN（假阴性）、TN（真阴性）。</li>
+<li><strong>ROC 曲线：</strong> 以 FPR（假阳性率）为横轴、TPR（真阳性率/召回率）为纵轴的折线图。对角线代表随机猜测，曲线越向左上角弯曲越好。</li>
+<li><strong>AUC（Area Under the Curve）：</strong> ROC 曲线下的面积，取值 0.5~1。0.5 是随机，0.8+ 是好的模型，1 是完美。</li>
+</ul>
+
+<h2>20.5 阈值选择的艺术：不是 0.5 就一定好</h2>
+<p>你一定以为阈值设为 0.5 是自然的选择。但现实世界往往更复杂：</p>
+<ul>
+<li>在<strong>疾病筛查</strong>中，我们宁可有假阳性也不愿漏掉真患者，所以阈值会设得比较<strong>低</strong>（比如 0.1），提高召回率（Recall）。</li>
+<li>在<strong>垃圾邮件检测</strong>中，我们宁可放走少数垃圾邮件也不愿误删正常邮件，所以阈值会设得比较<strong>高</strong>（比如 0.9），提高精确率（Precision）。</li>
+</ul>
+<p>阈值的选择本质上是<strong>成本收益分析</strong>，需要在 Recall 和 Precision 之间做权衡。</p>
+
+<div class="warning">
+<strong>我的踩坑故事：</strong>刚入行那年，我接了一个信用卡欺诈检测的项目。数据中欺诈交易只占 0.1%，极度不平衡。我兢兢业业调参、做特征工程，最终模型的准确率（Accuracy）达到了 99.85%——我自己都惊呆了！然后我的导师看了一眼，幽幽地说："你把所有交易都预测为'正常'，准确率就是 99.9%，你的模型比随机略好一点。"那一刻我意识到：在极度不平衡的数据中，<strong>准确率是最大的骗局</strong>。后来我用 AUC、Precision-Recall 曲线和 F1-score 来评估，才发现模型的真正表现远没有看起来那么光鲜。
+</div>
+
+<pre><code>import numpy as np
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, roc_curve, auc, classification_report
+import matplotlib.pyplot as plt
+
+# 模拟数据：预测用户是否点击广告
+np.random.seed(42)
+n = 1000
+data = pd.DataFrame({
+    '年龄': np.random.randint(18, 65, n),
+    '历史点击': np.random.poisson(3, n),
+    '收入对数': np.random.normal(5, 1, n),
+})
+# 真实关系
+log_odds = -2 + 0.05 * data['年龄'] + 0.3 * data['历史点击'] + 0.4 * data['收入对数']
+prob = 1 / (1 + np.exp(-log_odds))
+data['点击'] = np.random.binomial(1, prob)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    data[['年龄', '历史点击', '收入对数']], data['点击'],
+    test_size=0.3, random_state=42
+)
+
+model = LogisticRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+y_prob = model.predict_proba(X_test)[:, 1]
+
+# 混淆矩阵
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+
+# ROC & AUC
+fpr, tpr, _ = roc_curve(y_test, y_prob)
+roc_auc = auc(fpr, tpr)
+print(f"AUC: {roc_auc:.3f}")
+
+# 绘制 ROC 曲线
+plt.plot(fpr, tpr, label=f'ROC (AUC = {roc_auc:.3f})')
+plt.plot([0, 1], [0, 1], 'k--')
+plt.xlim([0, 1]); plt.ylim([0, 1])
+plt.xlabel('假阳性率 (FPR)')
+plt.ylabel('真阳性率 (TPR)')
+plt.title('ROC 曲线')
+plt.legend(loc='lower right')
+plt.show()</code></pre>
+
+<div class="highlight">
+<strong>多分类扩展：</strong>逻辑回归也可以处理多分类问题，方法有 One-vs-Rest（OvR）和 Softmax 回归（也称为多项逻辑回归）。Softmax 将 sigmoid 推广到了多个类别，输出的是一个概率向量，所有类别的概率之和为 1。scikit-learn 的 LogisticRegression 通过 multi_class 参数支持这两种方式。
+</div>
+
+<p>这一章我们学习了逻辑回归——为什么分类问题不能用线性回归、odds 和 logit 转换的原理、系数解释、混淆矩阵与 ROC 曲线、以及阈值选择的艺术。下一章我们将进入另一个经典统计工具：<strong>方差分析（ANOVA）</strong>，它专门用来比较多个组的均值是否存在显著差异。</p>
+
+<section class="chapter-summary"><h2>本章小结</h2><p>区分概率估计、模型排序能力和最终分类决策。</p></section><aside class="note caveat"><strong>统计严谨性提醒</strong><p>AUC 没有跨场景通用的“好模型”阈值；阈值选择要结合类别比例、误判成本、校准和业务目标。</p></aside><section class="references"><h2>延伸阅读与参考资料</h2><ol><li><a href="https://www.statsmodels.org/stable/discretemod.html" target="_blank" rel="noopener noreferrer">Statsmodels: Discrete Choice Models</a></li><li><a href="https://scikit-learn.org/stable/modules/model_evaluation.html#roc-metrics" target="_blank" rel="noopener noreferrer">scikit-learn: ROC AUC</a></li></ol></section><div class="footer-nav">
+<a href="19-multiple-linear-regression.html">← 上一章</a>
+<a href="../../index.html">📖 返回目录</a>
+<a href="21-analysis-of-variance.html">下一章 →</a>
+</div>
+</div>
+</article><footer class="site-footer">统计学 · 从数据中理解不确定性</footer></main></div><script src="../../assets/js/course-data.js" defer></script><script src="../../assets/js/course.js" defer></script></body></html>

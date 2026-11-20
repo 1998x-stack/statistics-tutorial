@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="用样本信息描述总体，并量化从数据到结论的不确定性。"><title>第01章 什么是统计学 · 统计学教程</title><link rel="stylesheet" href="../../assets/css/course.css"></head>
+<body class="chapter-page" data-root="../.." data-page="chapter"><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="site-brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学教程</span></a><nav id="courseNav" class="course-nav" aria-label="课程章节目录"><p class="nav-loading">正在载入课程目录…</p></nav></aside><main id="main-content" class="main-content"><article class="chapter-article" data-chapter="01"><div class="breadcrumbs"><a href="../../index.html">课程总览</a><span>/</span><span>统计基础与数据认知</span><span>/</span><span>第 01 章</span></div><div class="chapter-meta"><span class="chapter-number">CHAPTER 01</span><span class="chapter-category">统计基础与数据认知</span><span class="chapter-level">基础</span><span class="chapter-duration">约 15 分钟</span></div>
+        <h1>第一章：什么是统计学</h1>
+
+<p class="lead">统计学并不是一套脱离数学的经验技巧，而是用数据描述不确定性、检验假设并支持决策的方法。学习统计学不应从机械背公式开始，而应先理解研究问题、数据和结论之间的关系。</p><section class="learning-path" aria-label="本章学习目标"><p class="section-eyebrow">本章学习目标</p><ul><li>统计学的定义</li><li>描述vs推断</li><li>总体与样本</li></ul></section><figure class="concept-figure"><img src="../../assets/figures/01-what-is-statistics.svg" alt="统计学如何从样本走向总体。总体包含所有研究对象；样本提供有限观测，推断需要明确不确定性。" loading="eager"><figcaption><strong>图 1.</strong> 统计学如何从样本走向总体：总体包含所有研究对象；样本提供有限观测，推断需要明确不确定性。</figcaption></figure><section class="lab" data-lab="01" aria-labelledby="lab-heading-01"><h2 id="lab-heading-01">交互实验：样本量如何影响估计稳定性</h2><p>假设总体标准差约为 6。增加样本量会降低样本均值的标准误，但不会消除抽样偏差。</p><div class="lab-mount"><p class="lab-fallback">交互控件加载后，可调整参数并观察统计量的变化。</p></div></section>
+
+<p>想象一下：你面前有一堆数字——可能是用户的点击数据、医院的病人记录、或者股市的交易行情。你盯着它们看，想知道背后藏着什么规律。这就是统计学的起点：<strong>从数据中提取信息，用信息做决策</strong>。</p>
+
+<h2>1.1 统计学的起源：从赌博到科学</h2>
+
+<p>统计学的故事，要从17世纪的法国赌场说起。一位名叫德·梅尔的赌徒发现一个困扰他的问题：两个骰子掷24次，至少出现一次"双六"的概率有多大？直觉告诉他应该是2/3，但实际结果总是不对。</p>
+
+<p>1654年，他写信请教数学家帕斯卡。帕斯卡和费马因此展开了一场著名的通信，解决了这个"点数分配问题"。这场讨论被后人视为<strong>概率论的诞生</strong>，而概率论正是统计学的数学地基。</p>
+
+<p>但统计学的真正起飞，是在19世纪末20世纪初：</p>
+
+<ul>
+  <li><strong>1894年</strong>：Karl Pearson 提出卡方检验，并创办了世界上第一个统计系（UCL）</li>
+  <li><strong>1908年</strong>：William Gosset 以"Student"为笔名发表t分布论文——他在吉尼斯啤酒厂工作，研究小样本发酵数据</li>
+  <li><strong>1925年</strong>：R.A. Fisher 出版《研究工作者的统计方法》，奠定了现代推断统计的框架（p值、方差分析、最大似然都是他的手笔）</li>
+  <li><strong>1933年</strong>：Neyman 和 Pearson（Karl的儿子）建立了假设检验的完整理论体系</li>
+</ul>
+
+<div class="tip">
+  <p><strong>有趣的事实</strong>：Gosset 用笔名"Student"是因为吉尼斯禁止员工发表论文——他们怕泄露商业机密。结果这篇《The Probable Error of a Mean》成了统计学历史上引用最多的论文之一。t检验里的"t"就是来自"Student"。</p>
+</div>
+
+<h2>1.2 描述统计 vs 推断统计：统计学的两条腿</h2>
+
+<p>统计学本质上分成两个世界，理解这个二分法非常关键：</p>
+
+<table>
+  <tr>
+    <th>维度</th>
+    <th>描述统计</th>
+    <th>推断统计</th>
+  </tr>
+  <tr>
+    <td>做什么</td>
+    <td>总结和描述已有的数据</td>
+    <td>从样本推断总体</td>
+  </tr>
+  <tr>
+    <td>工具</td>
+    <td>均值、中位数、标准差、直方图</td>
+    <td>置信区间、假设检验、回归</td>
+  </tr>
+  <tr>
+    <td>典型问题</td>
+    <td>"上个月用户平均消费是多少？"</td>
+    <td>"新算法比旧算法快吗？"</td>
+  </tr>
+  <tr>
+    <td>确定性</td>
+    <td>描述的是事实</td>
+    <td>给出的是概率结论</td>
+  </tr>
+  <tr>
+    <td>类比</td>
+    <td>给一张照片配文字说明</td>
+    <td>从几张照片推测整个相册</td>
+  </tr>
+</table>
+
+<p>举个例子。如果你有一份1000名用户的消费数据，算出平均消费500元——这是描述统计。但如果你随机抽了100名用户，发现平均消费480元，然后说"全体用户的平均消费大概是460-500元之间"——这就是推断统计。</p>
+
+<p>我在实际工作中经常看到新人把两者搞混。比如拿着100个样本算出平均数是37.2，就在报告里写"总体均值是37.2"。严格来说，你应该写"样本均值37.2，总体均值的95%置信区间为[34.1, 40.3]"。</p>
+
+<div class="highlight">
+  <p><strong>关键洞察</strong>：描述统计回答"What happened?"，推断统计回答"What can we conclude?"。前者是后者的基础——如果连数据长什么样都不知道，就别急着下结论。</p>
+</div>
+
+<h2>1.3 总体与样本：统计学最基础的概念</h2>
+
+<p>统计学里最核心的一对概念，就是<strong>总体（Population）</strong>和<strong>样本（Sample）</strong>。</p>
+
+<p><strong>总体</strong>是你要研究的全部对象。比如"全中国的成年男性身高"，中国所有成年男性就是总体。问题来了——你不可能把每个人都量一遍。这就是为什么需要<strong>样本</strong>：从总体中抽取出来的一部分个体。</p>
+
+<p>这里有一个非常微妙但重要的点：<strong>总体参数 vs 样本统计量</strong>。</p>
+
+<ul>
+  <li>总体均值用希腊字母 <strong>μ（mu）</strong> 表示——这是真值，但你几乎永远不知道</li>
+  <li>样本均值用 <strong>x̄（x-bar）</strong> 表示——这是估计值，你可以算出来</li>
+  <li>总体标准差用 <strong>σ（sigma）</strong> 表示，样本标准差用 <strong>s</strong> 表示</li>
+</ul>
+
+<p>这个符号差异不是装腔作势——它时时刻刻提醒你：<strong>你看到的只是估计，不是真相</strong>。</p>
+
+<div class="warning">
+  <p><strong>⚠️ 常见错误</strong>：我见过不少数据分析师把样本统计量当总体参数来汇报。一个电商团队拿着200个用户的数据算出转化率5%，就信心满满地说"我们全平台的转化率是5%"。实际上，样本量200的情况下，真实转化率可能在2%到8%之间的任何位置。这种"把估计当真相"的习惯，是统计灾难的第一推手。</p>
+</div>
+
+<h2>1.4 变量与数据类型</h2>
+
+<p>做统计分析之前，必须先搞清楚你的变量是什么类型。不同的数据类型决定了你能用什么方法——拿分类变量去算均值，就像用温度计测身高一样荒谬。</p>
+
+<table>
+  <tr>
+    <th>变量类型</th>
+    <th>子类型</th>
+    <th>示例</th>
+    <th>能做的运算</th>
+  </tr>
+  <tr>
+    <td rowspan="2"><strong>定性（分类）</strong></td>
+    <td>名义（Nominal）</td>
+    <td>性别、城市、品牌</td>
+    <td>计数、众数</td>
+  </tr>
+  <tr>
+    <td>有序（Ordinal）</td>
+    <td>满意度评分、学历等级</td>
+    <td>计数、众数、中位数</td>
+  </tr>
+  <tr>
+    <td rowspan="2"><strong>定量（数值）</strong></td>
+    <td>离散（Discrete）</td>
+    <td>用户数、订单数</td>
+    <td>所有统计运算</td>
+  </tr>
+  <tr>
+    <td>连续（Continuous）</td>
+    <td>身高、温度、收入</td>
+    <td>所有统计运算</td>
+  </tr>
+</table>
+
+<p>关于有序变量，有一个我踩过的坑。某个项目里，客户用1-5分给产品打分。分析师直接算了平均分3.8并做了t检验。问题是——<strong>有序变量不保证等距</strong>。用户心里"3分到4分"的差距，可能远小于"4分到5分"的差距。严格来说，这种情况应该用非参数方法（后面章节会讲）。</p>
+
+<p>另外，数据还可以按时间维度分类：</p>
+<ul>
+  <li><strong>横截面数据（Cross-sectional）</strong>：同一时间点的多个个体。比如2025年的全国各省GDP</li>
+  <li><strong>时间序列数据（Time-series）</strong>：同一个体在不同时间点的数据。比如某公司过去12个月的月收入</li>
+  <li><strong>面板数据（Panel）</strong>：两者结合——多个个体、多个时间点</li>
+</ul>
+
+<h2>1.5 统计学在现代世界的角色</h2>
+
+<p>在2026年的今天，统计学的影响力比以往任何时候都大。不是因为统计学本身变了，而是因为<strong>数据的规模变了</strong>。</p>
+
+<p>给你看几个数字：</p>
+<ul>
+  <li>全球每天产生的数据量超过 <strong>2.5 EB（艾字节）</strong></li>
+  <li>一个中型电商平台每天记录的点击流数据就有几百GB</li>
+  <li>一个基因测序实验能产生 <strong>TB级别</strong> 的原始数据</li>
+</ul>
+
+<p>但数据多了≠洞察多了。没有统计思维，大数据只是大噪音。这就是为什么——</p>
+
+<ul>
+  <li><strong>A/B测试</strong>：互联网产品迭代的核心方法论，本质就是双样本假设检验</li>
+  <li><strong>机器学习</strong>：说到底是用统计模型做预测。XGBoost的基础是梯度提升，梯度提升的基础是回归树，回归树的基础是方差分解</li>
+  <li><strong>因果推断</strong>：经济学领域拿了2021年诺贝尔奖的方法，正在被Uber、Netflix、Amazon大规模应用</li>
+  <li><strong>ABM（基于代理的建模）</strong>：疫情预测、交通模拟、金融风控，背后都是随机过程和概率分布</li>
+</ul>
+
+<div class="tip">
+  <p><strong>学习方法建议</strong>：统计学不应该像学数学那样去"推导"，而应该像学开车一样去"练习"。每学一个概念，就找一个真实数据集动手算一遍。本教程每一章都会有可运行的代码示例——打开你的Jupyter Notebook，跟着敲一遍，你会有完全不同的理解。</p>
+</div>
+
+<p>好了，第一章先聊到这里。我们站在了统计学的门口——知道了它从哪里来、要解决什么问题、用哪些基本概念搭建。下一章，我们深入数据的源头：<strong>数据的类型与来源</strong>。因为统计分析的第一个陷阱，往往在你拿到数据的那一刻就已经埋下了。</p>
+
+        <section class="chapter-summary"><h2>本章小结</h2><p>先问清总体、样本和研究问题，再选择描述或推断方法。</p></section><aside class="note caveat"><strong>统计严谨性提醒</strong><p>统计学并非与数学相互排斥；概率论、线性代数和微积分都是重要工具。不要把统计学简单概括成“不是数学”。</p></aside><section class="references"><h2>延伸阅读与参考资料</h2><ol><li><a href="https://www.openintro.org/book/os/" target="_blank" rel="noopener noreferrer">OpenIntro Statistics</a></li><li><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">NIST/SEMATECH e-Handbook</a></li></ol></section><div class="footer-nav">
+            <a href="../../index.html">← 上一章</a>
+            <a href="../../index.html">📖 返回目录</a>
+            <a href="02-data-types-and-sources.html">下一章 →</a>
+        </div>
+    </div>
+</article><footer class="site-footer">统计学 · 从数据中理解不确定性</footer></main></div><script src="../../assets/js/course-data.js" defer></script><script src="../../assets/js/course.js" defer></script></body></html>
