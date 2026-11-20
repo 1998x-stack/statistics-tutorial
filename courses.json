@@ -1,8 +1,45 @@
 {
-  "title": "统计学 · 从入门到精通",
+  "title": "统计学知识地图 · 从入门到实践",
   "emoji": "📊",
-  "subtitle": "📘 28章 实战体系",
+  "subtitle": "28 章 · 7 个知识模块",
   "chapterCount": 28,
+  "categories": [
+    {
+      "id": "foundations",
+      "title": "数据与描述",
+      "description": "从认识数据、测量尺度到用统计量和图表描述数据。"
+    },
+    {
+      "id": "probability",
+      "title": "概率与抽样",
+      "description": "建立不确定性语言，理解随机变量、分布与抽样波动。"
+    },
+    {
+      "id": "inference",
+      "title": "估计与检验",
+      "description": "把样本信息转化为带有不确定性说明的总体判断。"
+    },
+    {
+      "id": "modeling",
+      "title": "关系与模型",
+      "description": "描述变量关系，构建回归模型并诊断模型。"
+    },
+    {
+      "id": "research",
+      "title": "科学推理与因果",
+      "description": "识别研究偏差、因果假设与可重复性问题。"
+    },
+    {
+      "id": "bayes-computing",
+      "title": "贝叶斯与计算",
+      "description": "理解贝叶斯更新，并掌握现代统计工具链。"
+    },
+    {
+      "id": "applications",
+      "title": "数据实践与应用",
+      "description": "将统计方法用于数据分析、实验、机器学习与完整项目。"
+    }
+  ],
   "chapters": [
     {
       "num": "01",
@@ -13,7 +50,14 @@
         "总体与样本",
         "变量类型"
       ],
-      "file": "01.html"
+      "file": "chapters/what-is-statistics/index.html",
+      "slug": "what-is-statistics",
+      "category": "foundations",
+      "categoryTitle": "数据与描述",
+      "summary": "理解统计学如何把数据转化为描述、推断与决策。",
+      "level": "入门",
+      "minutes": 20,
+      "prerequisites": []
     },
     {
       "num": "02",
@@ -24,7 +68,16 @@
         "横截面vs时间序列",
         "抽样方法"
       ],
-      "file": "02.html"
+      "file": "chapters/data-types-and-sources/index.html",
+      "slug": "data-types-and-sources",
+      "category": "foundations",
+      "categoryTitle": "数据与描述",
+      "summary": "识别测量尺度、变量类型与数据结构，避免用错统计方法。",
+      "level": "入门",
+      "minutes": 25,
+      "prerequisites": [
+        "01"
+      ]
     },
     {
       "num": "03",
@@ -35,7 +88,17 @@
         "众数",
         "方差与标准差"
       ],
-      "file": "03.html"
+      "file": "chapters/descriptive-statistics-center-and-spread/index.html",
+      "slug": "descriptive-statistics-center-and-spread",
+      "category": "foundations",
+      "categoryTitle": "数据与描述",
+      "summary": "用均值、中位数、众数、方差与标准差概括数据中心和波动。",
+      "level": "入门",
+      "minutes": 30,
+      "prerequisites": [
+        "01",
+        "02"
+      ]
     },
     {
       "num": "04",
@@ -46,7 +109,16 @@
         "偏度与峰度",
         "数据标准化"
       ],
-      "file": "04.html"
+      "file": "chapters/distribution-shape/index.html",
+      "slug": "distribution-shape",
+      "category": "foundations",
+      "categoryTitle": "数据与描述",
+      "summary": "通过分位数、箱线图、偏度和峰度读懂数据分布的形状。",
+      "level": "入门",
+      "minutes": 30,
+      "prerequisites": [
+        "03"
+      ]
     },
     {
       "num": "05",
@@ -57,7 +129,18 @@
         "条形图",
         "可视化误区"
       ],
-      "file": "05.html"
+      "file": "chapters/data-visualization/index.html",
+      "slug": "data-visualization",
+      "category": "foundations",
+      "categoryTitle": "数据与描述",
+      "summary": "根据变量类型与分析问题选择图表，避免误导性视觉编码。",
+      "level": "入门",
+      "minutes": 25,
+      "prerequisites": [
+        "02",
+        "03",
+        "04"
+      ]
     },
     {
       "num": "06",
@@ -68,7 +151,16 @@
         "贝叶斯公式",
         "随机变量"
       ],
-      "file": "06.html"
+      "file": "chapters/probability-basics/index.html",
+      "slug": "probability-basics",
+      "category": "probability",
+      "categoryTitle": "概率与抽样",
+      "summary": "用事件、条件概率和贝叶斯公式量化不确定性。",
+      "level": "入门",
+      "minutes": 35,
+      "prerequisites": [
+        "01"
+      ]
     },
     {
       "num": "07",
@@ -79,7 +171,16 @@
         "正态分布",
         "中心极限定理"
       ],
-      "file": "07.html"
+      "file": "chapters/probability-distributions/index.html",
+      "slug": "probability-distributions",
+      "category": "probability",
+      "categoryTitle": "概率与抽样",
+      "summary": "理解二项、泊松、正态分布及中心极限定理的适用条件。",
+      "level": "入门",
+      "minutes": 35,
+      "prerequisites": [
+        "06"
+      ]
     },
     {
       "num": "08",
@@ -90,7 +191,17 @@
         "抽样分布",
         "标准误"
       ],
-      "file": "08.html"
+      "file": "chapters/sampling-distributions/index.html",
+      "slug": "sampling-distributions",
+      "category": "probability",
+      "categoryTitle": "概率与抽样",
+      "summary": "理解随机抽样、抽样分布、标准误与样本量的关系。",
+      "level": "入门",
+      "minutes": 30,
+      "prerequisites": [
+        "06",
+        "07"
+      ]
     },
     {
       "num": "09",
@@ -101,7 +212,18 @@
         "置信区间",
         "误差边界"
       ],
-      "file": "09.html"
+      "file": "chapters/estimation-and-confidence-intervals/index.html",
+      "slug": "estimation-and-confidence-intervals",
+      "category": "inference",
+      "categoryTitle": "估计与检验",
+      "summary": "从样本统计量构造总体参数估计，并解释置信区间。",
+      "level": "进阶",
+      "minutes": 35,
+      "prerequisites": [
+        "03",
+        "06",
+        "08"
+      ]
     },
     {
       "num": "10",
@@ -112,7 +234,17 @@
         "p值",
         "显著性水平"
       ],
-      "file": "10.html"
+      "file": "chapters/hypothesis-testing/index.html",
+      "slug": "hypothesis-testing",
+      "category": "inference",
+      "categoryTitle": "估计与检验",
+      "summary": "理解零假设、备择假设、检验统计量、p 值与显著性水平。",
+      "level": "进阶",
+      "minutes": 35,
+      "prerequisites": [
+        "06",
+        "09"
+      ]
     },
     {
       "num": "11",
@@ -123,7 +255,16 @@
         "卡方检验",
         "F检验"
       ],
-      "file": "11.html"
+      "file": "chapters/statistical-tests/index.html",
+      "slug": "statistical-tests",
+      "category": "inference",
+      "categoryTitle": "估计与检验",
+      "summary": "根据变量类型、研究设计与假设条件选择常见假设检验。",
+      "level": "进阶",
+      "minutes": 40,
+      "prerequisites": [
+        "10"
+      ]
     },
     {
       "num": "12",
@@ -134,7 +275,17 @@
         "效应量",
         "样本量计算"
       ],
-      "file": "12.html"
+      "file": "chapters/power-and-sample-size/index.html",
+      "slug": "power-and-sample-size",
+      "category": "inference",
+      "categoryTitle": "估计与检验",
+      "summary": "理解错误概率、统计功效、效应量及样本量规划。",
+      "level": "进阶",
+      "minutes": 35,
+      "prerequisites": [
+        "10",
+        "11"
+      ]
     },
     {
       "num": "13",
@@ -145,7 +296,18 @@
         "相关矩阵",
         "相关≠因果"
       ],
-      "file": "13.html"
+      "file": "chapters/correlation-analysis/index.html",
+      "slug": "correlation-analysis",
+      "category": "modeling",
+      "categoryTitle": "关系与模型",
+      "summary": "使用 Pearson、Spearman 与 Kendall 相关系数描述变量间联系。",
+      "level": "进阶",
+      "minutes": 35,
+      "prerequisites": [
+        "03",
+        "04",
+        "06"
+      ]
     },
     {
       "num": "14",
@@ -156,7 +318,17 @@
         "残差分析",
         "回归诊断"
       ],
-      "file": "14.html"
+      "file": "chapters/simple-linear-regression/index.html",
+      "slug": "simple-linear-regression",
+      "category": "modeling",
+      "categoryTitle": "关系与模型",
+      "summary": "理解最小二乘法、回归系数、R² 与残差诊断。",
+      "level": "进阶",
+      "minutes": 40,
+      "prerequisites": [
+        "03",
+        "13"
+      ]
     },
     {
       "num": "15",
@@ -167,7 +339,16 @@
         "文件抽屉问题",
         "可重复性危机"
       ],
-      "file": "15.html"
+      "file": "chapters/p-values-and-reproducibility/index.html",
+      "slug": "p-values-and-reproducibility",
+      "category": "research",
+      "categoryTitle": "科学推理与因果",
+      "summary": "辨析 p 值误读、选择性分析与可重复性问题。",
+      "level": "进阶",
+      "minutes": 35,
+      "prerequisites": [
+        "10"
+      ]
     },
     {
       "num": "16",
@@ -178,7 +359,17 @@
         "辛普森悖论",
         "幸存者偏差"
       ],
-      "file": "16.html"
+      "file": "chapters/multiple-comparisons-and-fallacies/index.html",
+      "slug": "multiple-comparisons-and-fallacies",
+      "category": "research",
+      "categoryTitle": "科学推理与因果",
+      "summary": "理解多重检验、Bonferroni、FDR 与常见数据解释陷阱。",
+      "level": "进阶",
+      "minutes": 35,
+      "prerequisites": [
+        "10",
+        "11"
+      ]
     },
     {
       "num": "17",
@@ -189,7 +380,18 @@
         "DAG",
         "RCT"
       ],
-      "file": "17.html"
+      "file": "chapters/causal-inference-basics/index.html",
+      "slug": "causal-inference-basics",
+      "category": "research",
+      "categoryTitle": "科学推理与因果",
+      "summary": "从相关走向因果，理解混杂变量、潜在结果与随机对照试验。",
+      "level": "进阶",
+      "minutes": 40,
+      "prerequisites": [
+        "06",
+        "13",
+        "14"
+      ]
     },
     {
       "num": "18",
@@ -200,7 +402,18 @@
         "预注册",
         "开放科学"
       ],
-      "file": "18.html"
+      "file": "chapters/statistical-ethics-and-practice/index.html",
+      "slug": "statistical-ethics-and-practice",
+      "category": "research",
+      "categoryTitle": "科学推理与因果",
+      "summary": "建立透明、负责、可重复的数据分析与报告习惯。",
+      "level": "进阶",
+      "minutes": 30,
+      "prerequisites": [
+        "15",
+        "16",
+        "17"
+      ]
     },
     {
       "num": "19",
@@ -211,7 +424,16 @@
         "交互项",
         "AIC/BIC"
       ],
-      "file": "19.html"
+      "file": "chapters/multiple-linear-regression/index.html",
+      "slug": "multiple-linear-regression",
+      "category": "modeling",
+      "categoryTitle": "关系与模型",
+      "summary": "在多个预测变量下解释回归系数、共线性、交互项与模型选择。",
+      "level": "进阶",
+      "minutes": 40,
+      "prerequisites": [
+        "14"
+      ]
     },
     {
       "num": "20",
@@ -222,7 +444,18 @@
         "ROC曲线",
         "混淆矩阵"
       ],
-      "file": "20.html"
+      "file": "chapters/logistic-regression/index.html",
+      "slug": "logistic-regression",
+      "category": "modeling",
+      "categoryTitle": "关系与模型",
+      "summary": "理解 logit、概率预测、分类阈值与模型评估。",
+      "level": "进阶",
+      "minutes": 40,
+      "prerequisites": [
+        "06",
+        "14",
+        "19"
+      ]
     },
     {
       "num": "21",
@@ -233,7 +466,18 @@
         "交互效应",
         "事后检验"
       ],
-      "file": "21.html"
+      "file": "chapters/anova/index.html",
+      "slug": "anova",
+      "category": "modeling",
+      "categoryTitle": "关系与模型",
+      "summary": "用组间与组内变异比较多个组的均值，并理解事后检验。",
+      "level": "进阶",
+      "minutes": 40,
+      "prerequisites": [
+        "11",
+        "14",
+        "19"
+      ]
     },
     {
       "num": "22",
@@ -244,7 +488,18 @@
         "贝叶斯vs频率学派",
         "AI时代的贝叶斯"
       ],
-      "file": "22.html"
+      "file": "chapters/bayesian-statistics/index.html",
+      "slug": "bayesian-statistics",
+      "category": "bayes-computing",
+      "categoryTitle": "贝叶斯与计算",
+      "summary": "通过先验、似然与后验理解贝叶斯更新和不确定性表达。",
+      "level": "进阶",
+      "minutes": 40,
+      "prerequisites": [
+        "06",
+        "09",
+        "10"
+      ]
     },
     {
       "num": "23",
@@ -255,7 +510,18 @@
         "R基础",
         "Jupyter"
       ],
-      "file": "23.html"
+      "file": "chapters/statistics-toolchain/index.html",
+      "slug": "statistics-toolchain",
+      "category": "bayes-computing",
+      "categoryTitle": "贝叶斯与计算",
+      "summary": "选择 Python、R 与统计工具完成可复现分析。",
+      "level": "实践",
+      "minutes": 30,
+      "prerequisites": [
+        "01",
+        "02",
+        "03"
+      ]
     },
     {
       "num": "24",
@@ -266,7 +532,20 @@
         "建模",
         "报告全流程"
       ],
-      "file": "24.html"
+      "file": "chapters/real-data-analysis/index.html",
+      "slug": "real-data-analysis",
+      "category": "applications",
+      "categoryTitle": "数据实践与应用",
+      "summary": "从数据清洗、探索性分析到建模和结果报告走完分析流程。",
+      "level": "实践",
+      "minutes": 45,
+      "prerequisites": [
+        "02",
+        "03",
+        "05",
+        "09",
+        "14"
+      ]
     },
     {
       "num": "25",
@@ -277,7 +556,19 @@
         "显著性检验",
         "决策规则"
       ],
-      "file": "25.html"
+      "file": "chapters/ab-testing/index.html",
+      "slug": "ab-testing",
+      "category": "applications",
+      "categoryTitle": "数据实践与应用",
+      "summary": "设计随机实验、规划样本量、分析指标并制定决策规则。",
+      "level": "实践",
+      "minutes": 45,
+      "prerequisites": [
+        "10",
+        "12",
+        "14",
+        "17"
+      ]
     },
     {
       "num": "26",
@@ -288,7 +579,19 @@
         "交叉验证",
         "贝叶斯优化"
       ],
-      "file": "26.html"
+      "file": "chapters/statistics-for-machine-learning/index.html",
+      "slug": "statistics-for-machine-learning",
+      "category": "applications",
+      "categoryTitle": "数据实践与应用",
+      "summary": "用偏差—方差、正则化与交叉验证理解泛化能力。",
+      "level": "进阶",
+      "minutes": 40,
+      "prerequisites": [
+        "14",
+        "19",
+        "20",
+        "22"
+      ]
     },
     {
       "num": "27",
@@ -299,7 +602,18 @@
         "断点回归",
         "工具变量"
       ],
-      "file": "27.html"
+      "file": "chapters/modern-causal-inference/index.html",
+      "slug": "modern-causal-inference",
+      "category": "research",
+      "categoryTitle": "科学推理与因果",
+      "summary": "理解 PSM、DID、RDD 与工具变量的识别假设。",
+      "level": "进阶",
+      "minutes": 45,
+      "prerequisites": [
+        "17",
+        "19",
+        "20"
+      ]
     },
     {
       "num": "28",
@@ -310,7 +624,23 @@
         "数据分析",
         "报告撰写"
       ],
-      "file": "28.html"
+      "file": "chapters/end-to-end-project/index.html",
+      "slug": "end-to-end-project",
+      "category": "applications",
+      "categoryTitle": "数据实践与应用",
+      "summary": "把研究问题、数据、设计、分析、解释与报告整合成完整项目。",
+      "level": "综合实践",
+      "minutes": 60,
+      "prerequisites": [
+        "01",
+        "02",
+        "03",
+        "06",
+        "09",
+        "10",
+        "14",
+        "17"
+      ]
     }
   ]
 }
