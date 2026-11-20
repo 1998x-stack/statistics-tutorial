@@ -1,0 +1,48 @@
+name: Validate statistics tutorial
+
+on:
+  push:
+    branches: [master, main, "feat/**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: statistics-tutorial-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install development dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+      - name: Check generated catalog
+        run: python skills/statistics-tutorial/scripts/build_catalog.py --check
+      - name: Run tests
+        run: |
+          python -m pytest -q
+          node tests/offline-catalog.test.cjs
+      - name: Validate chapter HTML and assets
+        run: python skills/statistics-tutorial/scripts/validate.py --all
+      - name: Install Chromium
+        run: python -m playwright install --with-deps chromium
+      - name: Browser smoke tests
+        run: python skills/statistics-tutorial/scripts/browser_check.py --all --output reports/browser
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: statistics-tutorial-browser-evidence
+          path: reports/browser/
+          if-no-files-found: ignore

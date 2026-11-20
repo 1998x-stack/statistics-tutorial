@@ -1,19 +1,16 @@
 #!/usr/bin/env node
-// Regression: local-file catalog must contain the same chapters as courses.json.
+// Offline catalog regression: generated browser data must match courses.json.
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
-const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const canonical = JSON.parse(fs.readFileSync(path.join(root, 'courses.json'), 'utf8'));
-const match = html.match(/var offlineCourses = (\{[^\n]+\});/);
-assert.ok(match, 'embedded offline catalog missing');
-const offline = JSON.parse(match[1]);
-assert.deepEqual(offline, canonical, 'offline catalog drifted from courses.json');
-assert.equal(offline.chapterCount, offline.chapters.length);
-assert.equal(new Set(offline.chapters.map(ch => ch.file)).size, offline.chapters.length);
-assert.ok(offline.chapters.every(ch => /^\d{2}\.html$/.test(ch.file)));
-assert.match(html, /location\.protocol === 'file:'/);
-assert.match(html, /Promise\.resolve\(offlineCourses\)/);
-assert.match(html, /fetch\('courses\.json'\)/);
-console.log('offline catalog checks passed');
+const js = fs.readFileSync(path.join(root, 'assets/js/course-data.js'), 'utf8');
+const match = js.match(/window\.STATISTICS_COURSE_CATALOG = ([\s\S]+);\s*$/);
+assert.ok(match, 'generated course snapshot missing');
+const snapshot = JSON.parse(match[1]);
+assert.deepEqual(snapshot, canonical, 'generated snapshot drifted from courses.json');
+assert.equal(snapshot.chapterCount, snapshot.chapters.length);
+assert.equal(new Set(snapshot.chapters.map(ch => ch.file)).size, snapshot.chapters.length);
+assert.ok(snapshot.chapters.every(ch => /^chapters\//.test(ch.file)));
+console.log('offline course catalog checks passed');
