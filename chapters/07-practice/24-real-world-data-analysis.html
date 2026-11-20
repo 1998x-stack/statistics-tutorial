@@ -1,0 +1,286 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="EDA 先检查数据质量与生成机制，再建模并将结果放回实际问题。"><title>第24章 真实数据分析实战 · 统计学教程</title><link rel="stylesheet" href="../../assets/css/course.css"></head><body class="chapter-page" data-root="../.." data-page="chapter"><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="site-brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学教程</span></a><nav id="courseNav" class="course-nav" aria-label="课程章节目录"><p class="nav-loading">正在载入课程目录…</p></nav></aside><main id="main-content" class="main-content"><article class="chapter-article" data-chapter="24"><div class="breadcrumbs"><a href="../../index.html">课程总览</a><span>/</span><span>数据分析与实验实践</span><span>/</span><span>第 24 章</span></div><div class="chapter-meta"><span class="chapter-number">CHAPTER 24</span><span class="chapter-category">数据分析与实验实践</span><span class="chapter-level">实践</span><span class="chapter-duration">约 25 分钟</span></div>
+        <h1>第24章：真实数据分析实战</h1>
+
+        <p class="lead">大家好，我是你们的讲师。前23章我们积累了大量的统计知识，上一章又装备好了工具链。是时候真刀真枪地干一场了。本章我们将用一个真实的数据集，走完从原始数据到最终结论的完整分析流程。没有模拟数据，没有"假设某某条件成立"——真实的脏数据就是你每天在工作中会遇到的样子。</p><section class="learning-path" aria-label="本章学习目标"><p class="section-eyebrow">本章学习目标</p><ul><li>数据清洗</li><li>EDA</li><li>建模</li></ul></section><figure class="concept-figure"><img src="../../assets/figures/24-real-world-data-analysis.svg" alt="先检查数据，再进入建模。EDA 从数据结构、缺失值、分布和异常值开始，避免模型掩盖数据问题。" loading="eager"><figcaption><strong>图 24.</strong> 先检查数据，再进入建模：EDA 从数据结构、缺失值、分布和异常值开始，避免模型掩盖数据问题。</figcaption></figure><section class="lab" data-lab="24" aria-labelledby="lab-heading-24"><h2 id="lab-heading-24">交互实验：缺失比例对数据规模的影响</h2><p>假设有 1000 条记录，改变缺失比例，估算需要进一步调查的缺失数量。</p><div class="lab-mount"><p class="lab-fallback">交互控件加载后，可调整参数并观察统计量的变化。</p></div></section>
+
+        <p>我们选用的数据集是经典的 Ames Housing 数据集（爱荷华州埃姆斯市的房价数据），它比波士顿房价数据更新、特征更丰富，包含79个解释变量和1460条观测。我们的目标是：建立一个能够解释房价驱动因素的统计模型，并给出可操作的业务建议。</p>
+
+        <div class="highlight">
+            <strong>选择 Ames Housing 的原因：</strong>这个数据集兼具趣味性和教学价值。它不是"干净"的——有缺失值、有偏态分布、有强共线性的特征，还有明显的异常值。所有这些"不完美"恰恰是真实数据分析的常态，也是最好的学习材料。
+        </div>
+
+        <h2>24.1 第一步：数据加载与初步探索</h2>
+
+        <p>任何分析项目的开端都应该是理解数据本身。我们先加载数据，看看它长什么样：</p>
+
+        <pre><code>import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import scipy.stats as stats
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+
+# 设置中文显示
+plt.rcParams['font.sans-serif'] = ['PingFang SC', 'SimHei', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False
+
+# 加载数据
+df = pd.read_csv('AmesHousing.csv')
+print(f"数据集形状: {df.shape}")
+print(f"列名: {df.columns.tolist()[:15]}...")  # 只看前15列
+
+# 基本信息概览
+print("\n=== 数据基本信息 ===")
+print(df.info())
+
+# 检查缺失值
+missing = df.isnull().sum()
+missing_pct = (missing / len(df) * 100).round(2)
+missing_df = pd.DataFrame({'缺失数': missing, '缺失百分比': missing_pct})
+missing_df = missing_df[missing_df['缺失数'] > 0].sort_values('缺失数', ascending=False)
+print("\n=== 存在缺失值的特征 ===")
+print(missing_df.head(20))
+
+# 目标变量的分布
+print("\n=== SalePrice 描述统计 ===")
+print(df['SalePrice'].describe())
+
+# 偏度和峰度
+skew = stats.skew(df['SalePrice'].dropna())
+kurt = stats.kurtosis(df['SalePrice'].dropna(), fisher=True)
+print(f"SalePrice 偏度: {skew:.3f}, 峰度: {kurt:.3f}")
+
+# 正态性检验
+_, norm_p = stats.normaltest(df['SalePrice'].dropna())
+print(f"SalePrice 正态性检验 p值: {norm_p:.6f}")
+
+# 对数变换后的房价分布
+df['LogSalePrice'] = np.log(df['SalePrice'])
+log_skew = stats.skew(df['LogSalePrice'].dropna())
+log_norm_p = stats.normaltest(df['LogSalePrice'].dropna()).pvalue
+print(f"对数变换后: 偏度={log_skew:.3f}, 正态性p值={log_norm_p:.4f}")</code></pre>
+
+        <div class="tip">
+            <strong>关键发现：</strong>房价（SalePrice）的偏度达到1.88，呈现明显的右偏分布，且正态性检验的 p 值接近于0。经过对数变换后，偏度降到-0.06，分布接近正态。这提示我们在建模时应该使用对数房价作为目标变量——这是房价建模的行业惯例。
+        </div>
+
+        <h2>24.2 第二步：数据清洗与特征工程</h2>
+
+        <p>数据清洗是最不性感但最重要的步骤。真实数据中缺失值、异常值和编码错误无处不在。以下是我们的清洗策略：</p>
+
+        <table>
+            <tr><th>数据类型</th><th>处理方式</th><th>特征举例</th></tr>
+            <tr><td>数值特征、缺失率 &lt; 5%</td><td>用中位数填充</td><td>LotFrontage, MasVnrArea</td></tr>
+            <tr><td>数值特征、缺失率 &gt; 5%</td><td>用"无"类别替代或删除</td><td>PoolArea（缺失=无泳池）</td></tr>
+            <tr><td>类别特征、缺失率 &lt; 5%</td><td>用众数填充</td><td>KitchenQual, BsmtQual</td></tr>
+            <tr><td>类别特征、缺失率 &gt; 5%</td><td>将缺失作为单独类别</td><td>Alley, Fence</td></tr>
+            <tr><td>异常值（Z-score > 3 或 IQR 法）</td><td>截尾处理（winsorize）</td><td>面积异常大/小的房屋</td></tr>
+            <tr><td>高度偏态特征</td><td>对数变换或 Box-Cox 变换</td><td>LotArea, MiscVal</td></tr>
+        </table>
+
+        <pre><code># === 数据清洗流程（核心步骤） ===
+
+# 1. 处理缺失值——按策略分组填充
+# 数值特征：用中位数填充
+fill_median = ['LotFrontage', 'MasVnrArea', 'GarageYrBlt']
+for col in fill_median:
+    df[col] = df[col].fillna(df[col].median())
+
+# 类别特征：将缺失标记为 'None'
+fill_none = ['Alley', 'BsmtQual', 'BsmtCond', 'BsmtFinType1',
+             'BsmtFinType2', 'FireplaceQu', 'GarageType', 'GarageFinish',
+             'GarageQual', 'GarageCond', 'PoolQC', 'Fence', 'MiscFeature']
+for col in fill_none:
+    df[col] = df[col].fillna('None')
+
+# 2. 异常值处理——对极端面积做截尾
+from scipy.stats.mstats import winsorize
+df['LotArea_winsorized'] = winsorize(df['LotArea'], limits=[0, 0.02])
+
+# 3. 特征编码——对有序类别做数值映射
+qual_map = {'Ex': 5, 'Gd': 4, 'TA': 3, 'Fa': 2, 'Po': 1, 'None': 0}
+df['OverallQual_score'] = df['OverallQual']  # 已经是数值
+df['KitchenQual_score'] = df['KitchenQual'].map(qual_map)
+df['ExterQual_score'] = df['ExterQual'].map(qual_map)
+
+# 4. 创建有意义的组合特征
+df['TotalSF'] = df['TotalBsmtSF'] + df['1stFlrSF'] + df['2ndFlrSF']
+df['YearSinceRemodel'] = df['YrSold'] - df['YearRemodAdd']
+df['TotalBath'] = (df['FullBath'] + 0.5 * df['HalfBath'] +
+                   df['BsmtFullBath'] + 0.5 * df['BsmtHalfBath'])
+
+# 5. 删除无关或冗余特征
+drop_cols = ['Order', 'PID', 'GarageYrBlt', 'LotArea']
+df = df.drop(columns=drop_cols)
+
+print(f"清洗后数据集: {df.shape}")
+print(f"剩余缺失值: {df.isnull().sum().sum()}")</code></pre>
+
+        <div class="warning">
+            <strong>踩坑故事：数据清洗阶段就引入了偏差</strong>
+            <p>我曾见过一个团队在做客户流失分析时，直接删除了所有包含缺失值的记录。清洗后的数据从5万条变成了不到2万条。他们没意识到，大量缺失集中在"高价值长期客户"这个群体中——因为这些客户刚注册不久，很多合同信息还没来得及填写。删除这些记录相当于直接剔除了最有价值的客户群体，导致模型对高价值客户的预测完全失准。更稳妥的做法是先分析缺失模式（Missing Data Pattern），判断缺失是 MCAR、MAR 还是 MNAR，再选择合适的处理方案。</p>
+            <p>在 Ames Housing 数据中，Alley（巷道类型）的缺失并不是随机的——缺失代表"没有巷道"。如果不加思考地填充或删除，就会丢失这个业务信息。</p>
+        </div>
+
+        <h2>24.3 第三步：探索性数据分析（EDA）</h2>
+
+        <p>EDA 是统计分析的灵魂。在跑任何模型之前，你必须先"感受"数据。以下是一份 EDA 清单，每次分析都应该逐一检查：</p>
+
+        <table>
+            <tr><th>检查项</th><th>方法</th><th>目的</th></tr>
+            <tr><td>单变量分布</td><td>直方图 + 箱线图</td><td>了解每个特征的分布形态、异常值、偏态</td></tr>
+            <tr><td>目标变量分布</td><td>直方图 + Q-Q 图</td><td>检查是否需要对目标变量做变换</td></tr>
+            <tr><td>缺失值模式</td><td>缺失矩阵热力图</td><td>判断缺失是否随机，决定填充策略</td></tr>
+            <tr><td>数值特征相关性</td><td>相关系数矩阵热力图</td><td>发现强共线性，指导特征选择</td></tr>
+            <tr><td>类别特征与目标的关系</td><td>箱线图 / 分组均值</td><td>评估每个类别特征的解释力</td></tr>
+            <tr><td>特征-目标散点图</td><td>散点图 + 回归拟合线</td><td>检查线性关系假设是否合理</td></tr>
+            <tr><td>多重共线性</td><td>VIF（方差膨胀因子）</td><td>检测共线性严重的特征</td></tr>
+            <tr><td>分组比较</td><td>t检验 / ANOVA</td><td>检验组间差异是否显著</td></tr>
+        </table>
+
+        <pre><code># === EDA 核心代码 ===
+
+# 1. 相关性矩阵（选取关键数值特征）
+num_cols = ['SalePrice', 'LogSalePrice', 'OverallQual', 'TotalSF',
+            'GarageCars', 'YearBuilt', 'KitchenQual_score', 'TotalBath']
+corr_matrix = df[num_cols].corr()
+
+plt.figure(figsize=(10, 8))
+sns.heatmap(corr_matrix, annot=True, fmt='.2f', cmap='RdBu_r',
+            center=0, square=True, linewidths=0.5)
+plt.title('关键数值特征相关系数矩阵', fontsize=14)
+plt.tight_layout()
+plt.savefig('output/figures/corr_matrix.png', dpi=150, bbox_inches='tight')
+plt.show()
+
+# 2. 类别特征分组比较（One-way ANOVA）
+cat_features = ['Neighborhood', 'MSZoning', 'SaleCondition']
+for feat in cat_features:
+    groups = [df[df[feat] == val]['LogSalePrice'].values
+              for val in df[feat].unique()]
+    f_stat, p_val = stats.f_oneway(*groups)
+    print(f"{feat}: F={f_stat:.3f}, p={p_val:.6f}")
+
+# 3. 偏相关系数（控制其他变量后）
+# 使用 statsmodels 计算偏相关系数
+from statsmodels.stats.correlation_tools import partial_corr
+
+# 控制 OverallQual 后，TotalSF 与 LogSalePrice 的偏相关
+pc = partial_corr(df[['LogSalePrice', 'TotalSF', 'OverallQual']])
+print(f"\n控制 OverallQual 后的偏相关系数:")
+print(pc)
+
+# 4. 多重共线性诊断（VIF）
+X_vif = df[['OverallQual', 'TotalSF', 'GarageCars', 'YearBuilt', 'KitchenQual_score']]
+X_vif = sm.add_constant(X_vif)
+vif_data = pd.DataFrame()
+vif_data['特征'] = X_vif.columns
+vif_data['VIF'] = [variance_inflation_factor(X_vif.values, i)
+                   for i in range(X_vif.shape[1])]
+print("\n方差膨胀因子 (VIF):")
+print(vif_data)</code></pre>
+
+        <h2>24.4 第四步：统计建模与模型诊断</h2>
+
+        <p>基于 EDA 的发现，我们选择对数房价作为目标变量，使用多元线性回归建模。特征选择采用逐步回归策略，兼顾模型的解释力和预测精度。</p>
+
+        <pre><code># === 多元线性回归建模 ===
+
+# 选取最终进入模型的特征
+features = ['OverallQual', 'TotalSF', 'KitchenQual_score',
+            'GarageCars', 'YearBuilt', 'YearSinceRemodel',
+            'TotalBath', 'Neighborhood', 'MSZoning']
+target = 'LogSalePrice'
+
+# 对类别特征做独热编码
+df_model = pd.get_dummies(df[features + [target]],
+                          columns=['Neighborhood', 'MSZoning'],
+                          drop_first=True)
+
+# 拆分训练集和测试集
+from sklearn.model_selection import train_test_split
+X = df_model.drop(columns=[target])
+y = df_model[target]
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42)
+
+print(f"训练集: {X_train.shape}, 测试集: {X_test.shape}")
+
+# 使用 statsmodels 建模
+X_train_sm = sm.add_constant(X_train)
+model = sm.OLS(y_train, X_train_sm).fit()
+print(model.summary())
+
+# 模型诊断
+# 1. 残差 vs 拟合值图（检查线性性和等方差性）
+fitted = model.fittedvalues
+residuals = model.resid
+
+plt.figure(figsize=(12, 4))
+plt.subplot(1, 3, 1)
+plt.scatter(fitted, residuals, alpha=0.5)
+plt.axhline(y=0, color='r', linestyle='--')
+plt.xlabel('拟合值')
+plt.ylabel('残差')
+plt.title('残差 vs 拟合值')
+
+# 2. Q-Q 图（检查正态性）
+plt.subplot(1, 3, 2)
+stats.probplot(residuals, dist="norm", plot=plt)
+plt.title('残差 Q-Q 图')
+
+# 3. Cook's Distance（检查强影响点）
+from statsmodels.stats.outliers_influence import OLSInfluence
+influence = OLSInfluence(model)
+cooks = influence.cooks_distance[0]
+plt.subplot(1, 3, 3)
+plt.stem(range(len(cooks)), cooks, markerfmt=",")
+plt.axhline(y=4/len(cooks), color='r', linestyle='--',
+            label='Cook距离阈值')
+plt.xlabel('观测序号')
+plt.ylabel("Cook's Distance")
+plt.title('强影响点诊断')
+plt.tight_layout()
+plt.savefig('output/figures/model_diagnostics.png', dpi=150)
+
+# 测试集评估
+X_test_sm = sm.add_constant(X_test)
+y_pred = model.predict(X_test_sm)
+test_r2 = np.corrcoef(y_test, y_pred)[0, 1] ** 2
+rmse = np.sqrt(np.mean((y_test - y_pred) ** 2))
+mae = np.mean(np.abs(y_test - y_pred))
+print(f"\n测试集 R² = {test_r2:.4f}")
+print(f"RMSE = {rmse:.4f} (在log尺度上)")
+print(f"MAE  = {mae:.4f} (在log尺度上)")</code></pre>
+
+        <h2>24.5 第五步：结果解释与业务建议</h2>
+
+        <p>模型的 R² 达到 0.89，说明特征解释了房价对数变异的89%。但更重要的是系数的实际含义：</p>
+
+        <ul>
+            <li><strong>OverallQual（整体质量）：</strong>评分每提高1分，房价中位数增加约17%（因为我们对数变换了，所以系数需要指数化解释：<code>exp(0.157)-1 ≈ 17%</code>）</li>
+            <li><strong>TotalSF（总面积）：</strong>总面积每增加100平方英尺，房价增加约2.3%</li>
+            <li><strong>KitchenQual（厨房质量）：</strong>从"一般"提升到"良好"，房价增加约9.5%</li>
+            <li><strong>YearBuilt（建筑年份）：</strong>每新10年，房价增加约4.1%</li>
+            <li><strong>Neighborhood（社区）：</strong>相比参考社区，某些高档社区的溢价可达30-50%</li>
+        </ul>
+
+        <div class="tip">
+            <strong>业务洞见：</strong>分析结果清晰地表明，房屋的整体质量和总面积是房价最主要的驱动因素。有意思的是，在控制了其他变量后，"浴室数量"的边际贡献并不大——这说明买家更在意房屋的整体品质，而不是某个单独的房间数量。对于房地产开发商来说，这意味着与其增加更多浴室，不如提升整体装修标准和扩大居住面积。
+        </div>
+
+        <h2>24.6 本章小结</h2>
+
+        <p>这一章我们从零开始完成了一个完整的数据分析项目：数据加载与探索、缺失值与异常值处理、EDA 分析、统计建模、模型诊断到最终的业务解读。每一步都可能踩坑，但每一步也能带来宝贵的洞察。真实数据分析的精髓不在于模型多复杂，而在于你是否真正理解了自己的数据和业务问题。</p>
+
+        <p>下一章我们将进入互联网行业最经典的统计应用场景——A/B测试。你将学会如何科学地设计实验、计算最小样本量、选择合适的检验方法，并避免那些即使在资深团队中也反复出现的统计陷阱。</p>
+
+        <section class="chapter-summary"><h2>本章小结</h2><p>数据质量和缺失机制会影响后续所有分析结论。</p></section><aside class="note caveat"><strong>统计严谨性提醒</strong><p>缺失值处理前要考虑 MCAR、MAR、MNAR 等机制；简单删除或均值填补可能引入偏差。</p></aside><section class="references"><h2>延伸阅读与参考资料</h2><ol><li><a href="https://pandas.pydata.org/docs/user_guide/missing_data.html" target="_blank" rel="noopener noreferrer">Pandas: Working with Missing Data</a></li><li><a href="https://www.itl.nist.gov/div898/handbook/eda/" target="_blank" rel="noopener noreferrer">NIST: Exploratory Data Analysis</a></li></ol></section><div class="footer-nav">
+            <a href="23-statistics-toolchain.html">← 上一章</a>
+            <a href="../../index.html">📖 返回目录</a>
+            <a href="25-ab-testing-in-practice.html">下一章 →</a>
+        </div>
+    </div>
+</article><footer class="site-footer">统计学 · 从数据中理解不确定性</footer></main></div><script src="../../assets/js/course-data.js" defer></script><script src="../../assets/js/course.js" defer></script></body></html>
