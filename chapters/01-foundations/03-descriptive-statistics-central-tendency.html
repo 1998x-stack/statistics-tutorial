@@ -3,9 +3,9 @@
 <body class="chapter-page" data-root="../.." data-page="chapter"><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="site-brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学教程</span></a><nav id="courseNav" class="course-nav" aria-label="课程章节目录"><p class="nav-loading">正在载入课程目录…</p></nav></aside><main id="main-content" class="main-content"><article class="chapter-article" data-chapter="03"><div class="breadcrumbs"><a href="../../index.html">课程总览</a><span>/</span><span>统计基础与数据认知</span><span>/</span><span>第 03 章</span></div><div class="chapter-meta"><span class="chapter-number">CHAPTER 03</span><span class="chapter-category">统计基础与数据认知</span><span class="chapter-level">基础</span><span class="chapter-duration">约 15 分钟</span></div>
         <h1>第3章：描述统计（一）——集中趋势与离散趋势</h1>
 
-        <p class="lead">大家好，我是你们的讲师。想象一下这个场景：你刚拿到一份员工工资表，里面有1000个人的薪资数据。老板让你"用一句话概括一下"。你会说什么？</p><section class="learning-path" aria-label="本章学习目标"><p class="section-eyebrow">本章学习目标</p><ul><li>均值</li><li>中位数</li><li>众数</li></ul></section><figure class="concept-figure"><img src="../../assets/figures/03-descriptive-statistics-central-tendency.svg" alt="极端值会拉动均值。同一组数据中，极端值会显著改变均值，而中位数对单个极端值更稳健。" loading="eager"><figcaption><strong>图 3.</strong> 极端值会拉动均值：同一组数据中，极端值会显著改变均值，而中位数对单个极端值更稳健。</figcaption></figure><section class="lab" data-lab="03" aria-labelledby="lab-heading-03"><h2 id="lab-heading-03">交互实验：一个极端值怎样拉动均值</h2><p>在同一组工资数据中改变 CEO 的工资，观察均值与中位数如何变化。</p><div class="lab-mount"><p class="lab-fallback">交互控件加载后，可调整参数并观察统计量的变化。</p></div></section>
+        <p class="lead">想象你拿到一份包含 1000 条记录的员工工资表，管理者希望用一句话概括薪资水平。你会选择均值、中位数，还是其他指标？不同指标回答的是不同问题。</p><section class="learning-path" aria-label="本章学习目标"><p class="section-eyebrow">本章学习目标</p><ul><li>均值</li><li>中位数</li><li>众数</li></ul></section><figure class="concept-figure"><img src="../../assets/figures/03-descriptive-statistics-central-tendency.svg" alt="极端值会拉动均值。同一组数据中，极端值会显著改变均值，而中位数对单个极端值更稳健。" loading="eager"><figcaption><strong>图 3.</strong> 极端值会拉动均值：同一组数据中，极端值会显著改变均值，而中位数对单个极端值更稳健。</figcaption></figure><section class="lab" data-lab="03" aria-labelledby="lab-heading-03"><h2 id="lab-heading-03">交互实验：一个极端值怎样拉动均值</h2><p>在同一组工资数据中改变 CEO 的工资，观察均值与中位数如何变化。</p><div class="lab-mount"><p class="lab-fallback">交互控件加载后，可调整参数并观察统计量的变化。</p></div></section>
 
-        <p>大多数人脱口而出的是"平均工资"。但就是这个看似简单的"平均"，藏着一个巨大的陷阱。我曾经参与过一家互联网公司的薪酬分析项目，HR总监看着报告里的"平均工资28,000元"，信心满满地说我们公司薪资很有竞争力。然而，当我们按岗位层级拆开看，发现这个数字完全是由顶层高管拉高的——90%的员工工资在15,000以下。<strong>均值在某些时候不仅不能代表数据，反而会误导你</strong>。</p>
+        <p>大多数人会先想到“平均工资”。但算术平均数可能被少数极端高薪拉高。例如，一家公司公布平均工资 28,000 元，并不意味着大多数员工都接近这个水平；应进一步查看中位数、分位数和岗位分组。均值本身并没有错，关键是它回答的问题是否与你关心的“典型员工薪资”一致。</p>
 
         <p>这一章，我们来系统地学习如何用数字"描述"一堆数据——包括集中趋势（数据往哪集中）和离散程度（数据有多分散）。</p>
 
@@ -129,7 +129,7 @@ print(f"均值 - 中位数 = {mean - median:.1f}k")
         <div class="highlight">
             <p><strong>📖 踩坑故事：均值的误导</strong></p>
             <p>几年前，我为一个创业团队做数据咨询。他们刚刚完成A轮融资，创始人自豪地告诉我"我们团队平均薪资35k，在行业里很有竞争力"。我让他把原始数据发给我。</p>
-            <p>拿到数据后我发现了问题：团队有40个人，其中3个创始合伙人各拿80k，5个技术负责人各拿50k，剩下的32个工程师平均只有22k。均值35k，中位数却只有22k。</p>
+            <p>再看一个数值例子：团队有 40 人，其中 3 位创始合伙人月薪各为 80k，5 位技术负责人各为 50k，剩余 32 位工程师的月薪均为 22k。整体均值为 (3×80 + 5×50 + 32×22) ÷ 40 = 29.85k；中位数为 22k。两个指标都计算正确，但它们回答的问题不同。</p>
             <p>创始人自己也在拿80k的"平均"队伍里，所以一直没有发现这个差距。当我把真实分布展示给他看时，他立刻意识到问题——他的"平均薪资很有竞争力"完全是个幻象。如果不及时调整薪资结构，核心工程师迟早会被挖走。</p>
             <p><strong>教训</strong>：当你看到任何均值报告时，永远追问一句："中位数是多少？"这两个数字的差距直接告诉你数据的偏斜程度。</p>
         </div>
