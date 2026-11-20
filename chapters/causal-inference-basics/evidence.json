@@ -1,0 +1,43 @@
+{
+  "chapter": "17",
+  "title": "因果推断基础",
+  "sources": [
+    {
+      "id": "whatif",
+      "title": "Causal Inference: What If",
+      "url": "https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/",
+      "publisher": "Harvard"
+    },
+    {
+      "id": "the-effect",
+      "title": "The Effect: An Introduction to Research Design and Causality",
+      "url": "https://theeffectbook.net/",
+      "publisher": "Nick Huntington-Klein"
+    }
+  ],
+  "claims": [
+    {
+      "id": "core-concept",
+      "claim": "从相关走向因果，理解混杂变量、潜在结果与随机对照试验。",
+      "kind": "conceptual",
+      "source_ids": [
+        "whatif",
+        "the-effect"
+      ],
+      "locator": "请在对应章节中逐项核对",
+      "status": "unverified",
+      "notes": "候选权威来源已登记；在逐句核验前不标记为已验证。"
+    },
+    {
+      "id": "teaching-demo",
+      "claim": "研究设计决定因果结论的边界",
+      "kind": "illustrative",
+      "source_ids": [],
+      "locator": "本页交互示例",
+      "status": "illustrative",
+      "notes": "教学模拟，不是实证研究或真实总体数据。"
+    }
+  ],
+  "review_status": "first-pass-structure-only",
+  "last_reviewed": "2026-11-20"
+}

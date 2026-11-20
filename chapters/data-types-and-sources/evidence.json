@@ -1,0 +1,43 @@
+{
+  "chapter": "02",
+  "title": "数据的类型与来源",
+  "sources": [
+    {
+      "id": "openstax",
+      "title": "OpenStax · Introductory Statistics 2e",
+      "url": "https://openstax.org/details/books/introductory-statistics-2e",
+      "publisher": "OpenStax"
+    },
+    {
+      "id": "nist",
+      "title": "NIST/SEMATECH e-Handbook of Statistical Methods",
+      "url": "https://www.itl.nist.gov/div898/handbook/",
+      "publisher": "NIST"
+    }
+  ],
+  "claims": [
+    {
+      "id": "core-concept",
+      "claim": "识别测量尺度、变量类型与数据结构，避免用错统计方法。",
+      "kind": "conceptual",
+      "source_ids": [
+        "openstax",
+        "nist"
+      ],
+      "locator": "请在对应章节中逐项核对",
+      "status": "unverified",
+      "notes": "候选权威来源已登记；在逐句核验前不标记为已验证。"
+    },
+    {
+      "id": "teaching-demo",
+      "claim": "这个变量允许什么运算？",
+      "kind": "illustrative",
+      "source_ids": [],
+      "locator": "本页交互示例",
+      "status": "illustrative",
+      "notes": "教学模拟，不是实证研究或真实总体数据。"
+    }
+  ],
+  "review_status": "first-pass-structure-only",
+  "last_reviewed": "2026-11-20"
+}

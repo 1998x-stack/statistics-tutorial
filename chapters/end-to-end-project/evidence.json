@@ -1,0 +1,43 @@
+{
+  "chapter": "28",
+  "title": "综合项目：从问题到结论",
+  "sources": [
+    {
+      "id": "nist",
+      "title": "NIST/SEMATECH e-Handbook of Statistical Methods",
+      "url": "https://www.itl.nist.gov/div898/handbook/",
+      "publisher": "NIST"
+    },
+    {
+      "id": "asa-ethics",
+      "title": "ASA Ethical Guidelines for Statistical Practice",
+      "url": "https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice",
+      "publisher": "American Statistical Association"
+    }
+  ],
+  "claims": [
+    {
+      "id": "core-concept",
+      "claim": "把研究问题、数据、设计、分析、解释与报告整合成完整项目。",
+      "kind": "conceptual",
+      "source_ids": [
+        "nist",
+        "asa-ethics"
+      ],
+      "locator": "请在对应章节中逐项核对",
+      "status": "unverified",
+      "notes": "候选权威来源已登记；在逐句核验前不标记为已验证。"
+    },
+    {
+      "id": "teaching-demo",
+      "claim": "用交付物检查项目是否完整",
+      "kind": "illustrative",
+      "source_ids": [],
+      "locator": "本页交互示例",
+      "status": "illustrative",
+      "notes": "教学模拟，不是实证研究或真实总体数据。"
+    }
+  ],
+  "review_status": "first-pass-structure-only",
+  "last_reviewed": "2026-11-20"
+}

@@ -1,0 +1,36 @@
+{
+  "chapter": "06",
+  "title": "概率基础",
+  "sources": [
+    {
+      "id": "openstax",
+      "title": "OpenStax · Introductory Statistics 2e",
+      "url": "https://openstax.org/details/books/introductory-statistics-2e",
+      "publisher": "OpenStax"
+    }
+  ],
+  "claims": [
+    {
+      "id": "core-concept",
+      "claim": "用事件、条件概率和贝叶斯公式量化不确定性。",
+      "kind": "conceptual",
+      "source_ids": [
+        "openstax"
+      ],
+      "locator": "请在对应章节中逐项核对",
+      "status": "unverified",
+      "notes": "候选权威来源已登记；在逐句核验前不标记为已验证。"
+    },
+    {
+      "id": "teaching-demo",
+      "claim": "重复试验能让频率更稳定吗？",
+      "kind": "illustrative",
+      "source_ids": [],
+      "locator": "本页交互示例",
+      "status": "illustrative",
+      "notes": "教学模拟，不是实证研究或真实总体数据。"
+    }
+  ],
+  "review_status": "first-pass-structure-only",
+  "last_reviewed": "2026-11-20"
+}

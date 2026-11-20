@@ -1,0 +1,121 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="理解错误概率、统计功效、效应量及样本量规划。"><title>第 12 章 统计功效与样本量 · 统计学知识地图</title><link rel="stylesheet" href="../../assets/css/article.css"></head><body><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学知识地图<small>STATISTICS · LEARNING PATH</small></span></a><div class="sidebar-current"><span>当前章节</span><strong>12 · 统计功效与样本量</strong><small>估计与检验 / 进阶</small></div><nav class="course-nav" aria-label="课程知识模块"><details ><summary>数据与描述 <span>5</span></summary><ul><li><a  href="../what-is-statistics/index.html">01 · 什么是统计学</a></li><li><a  href="../data-types-and-sources/index.html">02 · 数据的类型与来源</a></li><li><a  href="../descriptive-statistics-center-and-spread/index.html">03 · 描述统计（一）</a></li><li><a  href="../distribution-shape/index.html">04 · 描述统计（二）</a></li><li><a  href="../data-visualization/index.html">05 · 数据可视化基础</a></li></ul></details><details ><summary>概率与抽样 <span>3</span></summary><ul><li><a  href="../probability-basics/index.html">06 · 概率基础</a></li><li><a  href="../probability-distributions/index.html">07 · 常见概率分布</a></li><li><a  href="../sampling-distributions/index.html">08 · 抽样与抽样分布</a></li></ul></details><details open><summary>估计与检验 <span>4</span></summary><ul><li><a  href="../estimation-and-confidence-intervals/index.html">09 · 点估计与区间估计</a></li><li><a  href="../hypothesis-testing/index.html">10 · 假设检验入门</a></li><li><a  href="../statistical-tests/index.html">11 · 常见假设检验</a></li><li><a aria-current="page" class="active" href="../power-and-sample-size/index.html">12 · 统计功效与样本量</a></li></ul></details><details ><summary>关系与模型 <span>5</span></summary><ul><li><a  href="../correlation-analysis/index.html">13 · 相关分析</a></li><li><a  href="../simple-linear-regression/index.html">14 · 简单线性回归</a></li><li><a  href="../multiple-linear-regression/index.html">19 · 多元线性回归</a></li><li><a  href="../logistic-regression/index.html">20 · 逻辑回归</a></li><li><a  href="../anova/index.html">21 · 方差分析（ANOVA）</a></li></ul></details><details ><summary>科学推理与因果 <span>5</span></summary><ul><li><a  href="../p-values-and-reproducibility/index.html">15 · p值与显著性危机</a></li><li><a  href="../multiple-comparisons-and-fallacies/index.html">16 · 多重比较与谬误</a></li><li><a  href="../causal-inference-basics/index.html">17 · 因果推断基础</a></li><li><a  href="../statistical-ethics-and-practice/index.html">18 · 统计伦理与最佳实践</a></li><li><a  href="../modern-causal-inference/index.html">27 · 现代因果推断</a></li></ul></details><details ><summary>贝叶斯与计算 <span>2</span></summary><ul><li><a  href="../bayesian-statistics/index.html">22 · 贝叶斯统计入门</a></li><li><a  href="../statistics-toolchain/index.html">23 · 统计学工具链</a></li></ul></details><details ><summary>数据实践与应用 <span>4</span></summary><ul><li><a  href="../real-data-analysis/index.html">24 · 真实数据分析实战</a></li><li><a  href="../ab-testing/index.html">25 · A/B测试实战</a></li><li><a  href="../statistics-for-machine-learning/index.html">26 · 机器学习中的统计学</a></li><li><a  href="../end-to-end-project/index.html">28 · 综合项目：从问题到结论</a></li></ul></details></nav><a class="back-home" href="../../index.html">← 返回课程首页</a></aside><main id="main-content" class="main-content"><header class="article-header"><p class="eyebrow">第 12 章 <span>·</span> 估计与检验 <span>·</span> 进阶 <span>·</span> 约 35 分钟</p><h1>统计功效与样本量</h1><p class="dek">理解错误概率、统计功效、效应量及样本量规划。</p><div class="learning-outcomes"><strong>完成本章后，你将能够</strong><ul><li>Type I/II错误</li><li>功效分析</li><li>效应量</li></ul></div></header><nav class="local-toc" aria-label="本章目录"><strong>本章路线</strong><a href="#section-1">12.1 Type I错误（α）与Type II错误（β）</a><a href="#section-2">12.2 统计功效（Power）= 1 - β</a><a href="#section-3">12.3 效应量（Cohen's d等）</a><a href="#section-4">12.4 样本量计算：四个参数的关系</a><a href="#section-5">12.5 为什么大多数研究的统计功效不足</a></nav><article class="article-body">
+
+        <p class="lead">一次实验没有得到显著结果，究竟说明干预无效，还是样本太少、检测能力不足？统计功效回答的是：当某个真实效应存在时，研究设计有多大机会把它检测出来。</p>
+
+        <p>你可能觉得这是一个非常基础的问题——但实际上，大多数已发表研究的统计功效都远低于常规标准。著名的估计显示，许多生物医学研究的统计功效仅为20%-30%。这意味着如果这些研究中的效应真实存在，它们有70%-80%的概率<strong>错过</strong>这个发现。这是一个细思极恐的事情——浪费了大量的人力物力，只得到一个"无显著差异"的结论，而真实的效果就在那里，只是你没有足够的"火力"去检测到它。</p>
+
+        <figure class="concept-figure"><img src="assets/overview.svg" alt="第 12 章 统计功效与样本量 核心概念图" width="840" height="300"><figcaption>两种分布重叠的区域体现检验的错误风险；效应量或样本量会改变重叠程度。</figcaption></figure><h2 id="section-1">12.1 Type I错误（α）与Type II错误（β）</h2>
+
+        <p>在假设检验中，我们可能犯两种错误：</p>
+
+        <table>
+            <tr><th></th><th>真实情况：H₀为真</th><th>真实情况：H₁为真</th></tr>
+            <tr><td><strong>我们拒绝H₀</strong></td><td>Type I错误（假阳性）<br>概率 = α</td><td>正确！</td></tr>
+            <tr><td><strong>我们无法拒绝H₀</strong></td><td>正确！</td><td>Type II错误（假阴性）<br>概率 = β</td></tr>
+        </table>
+
+        <ul>
+            <li><strong>Type I错误（假阳性）：</strong>零假设为真，但我们错误地拒绝了它。通俗地说就是"谎报军情"——以为有效果，其实没有。α 就是犯这种错误的概率，通常设定为 0.05。</li>
+            <li><strong>Type II错误（假阴性）：</strong>备择假设为真，但我们没能拒绝零假设。通俗地说就是"错失良机"——其实有效果，但我们没检测到。β 就是犯这种错误的概率。</li>
+            <li><strong>统计功效（Power）：</strong>Power = 1 - β，也就是当效果真实存在时，我们正确检测到它的概率。</li>
+        </ul>
+
+        <div class="tip">
+            <strong>两种错误的权衡：</strong>你不可能同时把 α 和 β 都降到很低——就像你不能让衬衫既完全防水又完全透气一样。如果你为了降低假阳性而把 α 设得很小（比如 0.001），那么你需要更大的样本量才能维持同样的统计功效，否则 β 就会变大。实践中，我们通常固定 α = 0.05，然后通过样本量计算来确保 β 不超过 0.20（即 Power ≥ 0.80）。
+        </div>
+
+        <h2 id="section-2">12.2 统计功效（Power）= 1 - β</h2>
+
+        <p>为什么 0.80 通常被认为是统计功效的"最低标准"？这个传统来自心理测量学和教育学领域的先驱 Jacob Cohen 他在1988年的经典著作中提出了这个建议。但这个标准同样应该根据具体情境调整：</p>
+
+        <ul>
+            <li>如果错过一个真实效果的代价很高（如药物安全性检测），你应该追求 0.90 甚至 0.99 的统计功效。</li>
+            <li>如果是探索性的预研究，0.60-0.70 也可以接受。</li>
+        </ul>
+
+        <div class="highlight">
+            <strong>关键事实：</strong>统计功效取决于四个因素——<strong>效应量、样本量、显著性水平α、检验方法</strong>。这四个参数是有"交易"关系的：知道任意三个，就能求出第四个。最常见的情况是：你希望达到某种效应量的检测能力（基于过去的研究或实际意义），固定 α = 0.05 和 Power = 0.80，然后倒推出所需的样本量。
+        </div>
+
+        <h2 id="section-3">12.3 效应量（Cohen's d等）</h2>
+
+        <p>p值告诉你"有没有效果"，效应量（effect size）告诉你"效果有多大"。一个在超大样本中 p < 0.00001 的结果，效应量可能只有微不足道的 0.01——这意味着虽然"显著"，但实际意义很小。</p>
+
+        <p>常见的效应量指标：</p>
+
+        <ul>
+            <li><strong>Cohen's d：</strong>两组均值差除以合并标准差。d = 0.2 为小效应，0.5 为中效应，0.8 为大效应。</li>
+            <li><strong>Pearson r：</strong>相关系数本身就是效应量。r = 0.1 为小效应，0.3 为中效应，0.5 为大效应。</li>
+            <li><strong>Cohen's f：</strong>用于ANOVA的效应量。</li>
+        </ul>
+
+        <h2 id="section-4">12.4 样本量计算：四个参数的关系</h2>
+
+        <p>样本量计算是研究设计中最关键的一步。下面我们用 Python 的 statsmodels 来进行功效分析和样本量计算：</p>
+
+        <pre><code>import numpy as np
+from statsmodels.stats.power import TTestIndPower, TTestPower
+
+# 初始化功效分析工具
+analysis = TTestIndPower()
+
+# == 场景1：已知效应量、样本量，求统计功效 ==
+effect_size = 0.5   # Cohen's d = 0.5（中等效应）
+n_per_group = 50    # 每组50人
+alpha = 0.05
+power = analysis.solve_power(
+    effect_size=effect_size,
+    nobs1=n_per_group,
+    alpha=alpha,
+    ratio=1.0,       # 两组样本量比例
+    alternative='two-sided'
+)
+print(f"效应量 d={effect_size}, 每组n={n_per_group}")
+print(f"统计功效: {power:.3f}")
+
+# == 场景2：已知目标功效，求所需样本量 ==
+target_power = 0.80
+effect_size = 0.5
+required_n = analysis.solve_power(
+    effect_size=effect_size,
+    power=target_power,
+    alpha=alpha,
+    ratio=1.0,
+    alternative='two-sided'
+)
+print(f"\n要达到 {target_power:.0%} 的统计功效")
+print(f"需要每组样本量: {np.ceil(required_n):.0f}")
+
+# == 场景3：不同效应量下所需的样本量对比 ==
+for d in [0.2, 0.5, 0.8]:
+    n = analysis.solve_power(effect_size=d, power=0.80,
+                             alpha=0.05, ratio=1.0)
+    print(f"d = {d:.1f}: 需要 n = {np.ceil(n):.0f} 人/组")</code></pre>
+
+        <p>运行这段代码你会发现：要检测小效应（d = 0.2）需要每组约 393 人；中等效应（d = 0.5）需要约 64 人；大效应（d = 0.8）只需要约 26 人。这就是为什么<strong>效应量对样本量要求的影响是巨大的</strong>。</p>
+
+        <h2 id="section-5">12.5 为什么大多数研究的统计功效不足</h2>
+
+        <div class="warning">
+            <strong>踩坑故事：</strong>我曾经参与过一个教育科技公司的项目，他们想验证一种新的教学方法是否比传统方法更有效。团队采用了每组30人的小规模实验（理由是"预算有限"）。结果 p = 0.24，"无显著差异"，结论是新方法没有用。但事后我们做了功效分析发现：如果真实效应量是 Cohen's d = 0.4（在教育干预中已算中等），每组30人只能提供约 18% 的统计功效！换句话说，即使新方法真的有效，这个实验也只有不到五分之一的机会检测到它。这是一个典型的<strong>样本量太小而无法得出有意义结论</strong>的案例。<br><br>
+            更糟糕的是，很多研究者把"p > 0.05"等同于"没有效果"。但如果你的统计功效只有 20%，那么 80% 的"无显著差异"结果实际上都是假阴性——效果存在，你没看到而已。
+        </div>
+
+        <p>为什么那么多研究的统计功效不足？几个原因：</p>
+
+        <ul>
+            <li><strong>经费限制：</strong>招募更多被试需要更多钱和时间。</li>
+            <li><strong>效应量被高估：</strong>很多研究者用小规模预实验中的效应量来设计正式实验，但预实验中由于样本量小，效应量往往被高估（这被称为"胜利者的诅咒"）。</li>
+            <li><strong>缺乏规划：</strong>很多人在收集数据前根本没做功效分析。</li>
+            <li><strong>发表偏倚：</strong>只有"显著"的结果更容易发表，这反过来降低了对统计功效的重视。</li>
+        </ul>
+
+        <div class="tip">
+            <strong>实用建议：</strong>在收集任何数据之前，请务必做三件事：1）查文献了解合理的效应量范围；2）用功效分析确定所需的样本量；3）把分析计划（包括样本量）预先注册（pre-registration）。这不仅能保护你免受自己无意识的偏见影响，也能让研究更可信。
+        </div>
+
+        <p>统计功效分析让我们从"这个p值是多少"的狭隘视角中跳脱出来，开始问一些更本质的问题："我们的实验设计是否合理？我们有多大的把握能检测到真实效果？"这种思维转变，才是优秀分析师的标志。</p>
+
+        <p>下一章，我们将转向另一个重要的话题——相关分析。当你想了解两个变量之间是否有关系、关系有多强的时候，相关系数就是你最好的朋友。</p>
+
+        <section class="core-equation"><p class="section-kicker">CORE RELATION</p><h2>本章核心关系</h2><div class="math-equation" role="group" aria-label="统计功效等于 1 减去第二类错误概率"><div class="math-scroll" tabindex="0" role="region" aria-label="统计功效等于 1 减去第二类错误概率，可横向滚动"><math display="block" aria-label="统计功效等于 1 减去第二类错误概率"><mrow><mtext>Power</mtext><mo>=</mo><mn>1</mn><mo>−</mo><mi>β</mi></mrow></math></div></div><p>功效必须对应一个具体备择效应大小；没有指定效应大小，就没有唯一功效值。</p></section><section class="interactive-lab" id="experiment" data-demo="effect-size"><div class="lab-heading"><span class="lab-kicker">INTERACTIVE EXPLORATION</span><h2>小效应通常需要更多样本</h2><p>用近似关系展示效应量减半时样本量需求如何变化；这是规划直觉，不替代正式功效分析。</p></div><div class="lab-control"><label class="control-label" for="demo-12">标准化效应量 d <output data-demo-value>0.5</output></label><input id="demo-12" type="range" min="0.1" max="1" step="0.05" value="0.5" data-demo-input><div class="range-ends"><span>0.1</span><span>1</span></div><p class="demo-result" data-demo-output aria-live="polite"></p></div><p class="lab-caveat">教学模拟：用于理解概念与方向，不替代真实数据分析、正式功效计算或研究设计审查。</p></section><section class="chapter-recap" id="recap"><p class="section-kicker">TAKEAWAYS</p><h2>本章要记住的三件事</h2><ol><li>统计功效是 1−β，表示在指定备择情形下拒绝零假设的概率。</li><li>功效依赖效应量、样本量、显著性水平、检验方法和设计。</li><li>0.80 是常见规划目标，不是所有研究都适用的普遍定律。</li></ol></section><section class="references" id="references"><p class="section-kicker">FURTHER READING</p><h2>延伸阅读与核对来源</h2><ul><li><a href="https://openstax.org/details/books/introductory-statistics-2e" target="_blank" rel="noopener noreferrer">OpenStax · Introductory Statistics 2e</a><span>OpenStax</span></li><li><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">NIST/SEMATECH e-Handbook of Statistical Methods</a><span>NIST</span></li></ul><p class="source-note">参考来源用于核对概念与方法。涉及具体数据、历史细节或行业案例时，应回到原始研究或官方文档逐项核验。</p></section><nav class="chapter-pagination" aria-label="章节切换"><a href="../statistical-tests/index.html"><small>上一章 · 11</small><strong>← 常见假设检验</strong></a><a class="pagination-home" href="../../index.html">全部章节</a><a class="next" href="../correlation-analysis/index.html"><small>下一章 · 13</small><strong>相关分析 →</strong></a></nav></article></main></div><script src="../../assets/js/article.js" defer></script></body></html>

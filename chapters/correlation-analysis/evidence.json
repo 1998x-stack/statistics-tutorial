@@ -1,0 +1,43 @@
+{
+  "chapter": "13",
+  "title": "相关分析",
+  "sources": [
+    {
+      "id": "openstax",
+      "title": "OpenStax · Introductory Statistics 2e",
+      "url": "https://openstax.org/details/books/introductory-statistics-2e",
+      "publisher": "OpenStax"
+    },
+    {
+      "id": "nist",
+      "title": "NIST/SEMATECH e-Handbook of Statistical Methods",
+      "url": "https://www.itl.nist.gov/div898/handbook/",
+      "publisher": "NIST"
+    }
+  ],
+  "claims": [
+    {
+      "id": "core-concept",
+      "claim": "使用 Pearson、Spearman 与 Kendall 相关系数描述变量间联系。",
+      "kind": "conceptual",
+      "source_ids": [
+        "openstax",
+        "nist"
+      ],
+      "locator": "请在对应章节中逐项核对",
+      "status": "unverified",
+      "notes": "候选权威来源已登记；在逐句核验前不标记为已验证。"
+    },
+    {
+      "id": "teaching-demo",
+      "claim": "相关系数的方向与强度",
+      "kind": "illustrative",
+      "source_ids": [],
+      "locator": "本页交互示例",
+      "status": "illustrative",
+      "notes": "教学模拟，不是实证研究或真实总体数据。"
+    }
+  ],
+  "review_status": "first-pass-structure-only",
+  "last_reviewed": "2026-11-20"
+}

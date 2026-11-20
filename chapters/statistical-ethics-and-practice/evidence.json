@@ -1,0 +1,36 @@
+{
+  "chapter": "18",
+  "title": "统计伦理与最佳实践",
+  "sources": [
+    {
+      "id": "asa-ethics",
+      "title": "ASA Ethical Guidelines for Statistical Practice",
+      "url": "https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice",
+      "publisher": "American Statistical Association"
+    }
+  ],
+  "claims": [
+    {
+      "id": "core-concept",
+      "claim": "建立透明、负责、可重复的数据分析与报告习惯。",
+      "kind": "conceptual",
+      "source_ids": [
+        "asa-ethics"
+      ],
+      "locator": "请在对应章节中逐项核对",
+      "status": "unverified",
+      "notes": "候选权威来源已登记；在逐句核验前不标记为已验证。"
+    },
+    {
+      "id": "teaching-demo",
+      "claim": "把最佳实践变成检查清单",
+      "kind": "illustrative",
+      "source_ids": [],
+      "locator": "本页交互示例",
+      "status": "illustrative",
+      "notes": "教学模拟，不是实证研究或真实总体数据。"
+    }
+  ],
+  "review_status": "first-pass-structure-only",
+  "last_reviewed": "2026-11-20"
+}

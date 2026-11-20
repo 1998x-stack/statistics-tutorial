@@ -1,0 +1,43 @@
+{
+  "chapter": "04",
+  "title": "描述统计（二）",
+  "sources": [
+    {
+      "id": "openstax",
+      "title": "OpenStax · Introductory Statistics 2e",
+      "url": "https://openstax.org/details/books/introductory-statistics-2e",
+      "publisher": "OpenStax"
+    },
+    {
+      "id": "nist",
+      "title": "NIST/SEMATECH e-Handbook of Statistical Methods",
+      "url": "https://www.itl.nist.gov/div898/handbook/",
+      "publisher": "NIST"
+    }
+  ],
+  "claims": [
+    {
+      "id": "core-concept",
+      "claim": "通过分位数、箱线图、偏度和峰度读懂数据分布的形状。",
+      "kind": "conceptual",
+      "source_ids": [
+        "openstax",
+        "nist"
+      ],
+      "locator": "请在对应章节中逐项核对",
+      "status": "unverified",
+      "notes": "候选权威来源已登记；在逐句核验前不标记为已验证。"
+    },
+    {
+      "id": "teaching-demo",
+      "claim": "分布形状会影响你如何总结数据",
+      "kind": "illustrative",
+      "source_ids": [],
+      "locator": "本页交互示例",
+      "status": "illustrative",
+      "notes": "教学模拟，不是实证研究或真实总体数据。"
+    }
+  ],
+  "review_status": "first-pass-structure-only",
+  "last_reviewed": "2026-11-20"
+}
