@@ -1,7 +1,7 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="功效分析把最小有意义效应转化为样本量计划，而不是事后追逐显著性。"><title>第12章 统计功效与样本量 · 统计学教程</title><link rel="stylesheet" href="../../assets/css/course.css"></head><body class="chapter-page" data-root="../.." data-page="chapter"><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="site-brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学教程</span></a><nav id="courseNav" class="course-nav" aria-label="课程章节目录"><p class="nav-loading">正在载入课程目录…</p></nav></aside><main id="main-content" class="main-content"><article class="chapter-article" data-chapter="12"><div class="breadcrumbs"><a href="../../index.html">课程总览</a><span>/</span><span>抽样与统计推断</span><span>/</span><span>第 12 章</span></div><div class="chapter-meta"><span class="chapter-number">CHAPTER 12</span><span class="chapter-category">抽样与统计推断</span><span class="chapter-level">核心</span><span class="chapter-duration">约 20 分钟</span></div>
         <h1>第12章：统计功效与样本量</h1>
 
-        <p class="lead">大家好，我是你们的讲师。先问一个问题：如果你的新药真的有效，你做的实验有多大概率能检测到这个效果？这个概率就是<strong>统计功效（statistical power）</strong>。</p><section class="learning-path" aria-label="本章学习目标"><p class="section-eyebrow">本章学习目标</p><ul><li>Type I/II错误</li><li>功效分析</li><li>效应量</li></ul></section><figure class="concept-figure"><img src="../../assets/figures/12-statistical-power-and-sample-size.svg" alt="功效由效应量、样本量和错误率共同决定。在其他条件相同的情况下，样本量增加通常会提高检测特定效应的功效。" loading="eager"><figcaption><strong>图 12.</strong> 功效由效应量、样本量和错误率共同决定：在其他条件相同的情况下，样本量增加通常会提高检测特定效应的功效。</figcaption></figure><section class="lab" data-lab="12" aria-labelledby="lab-heading-12"><h2 id="lab-heading-12">交互实验：样本量如何影响统计功效</h2><p>用双样本均值差的正态近似演示样本量与功效的关系，结果仅作教学说明。</p><div class="lab-mount"><p class="lab-fallback">交互控件加载后，可调整参数并观察统计量的变化。</p></div></section>
+        <p class="lead">设计实验前，一个重要问题是：如果某个真实效应存在，当前研究设计有多大机会识别它？这个概率就是统计功效（statistical power）。</p><section class="learning-path" aria-label="本章学习目标"><p class="section-eyebrow">本章学习目标</p><ul><li>Type I/II错误</li><li>功效分析</li><li>效应量</li></ul></section><figure class="concept-figure"><img src="../../assets/figures/12-statistical-power-and-sample-size.svg" alt="功效由效应量、样本量和错误率共同决定。在其他条件相同的情况下，样本量增加通常会提高检测特定效应的功效。" loading="eager"><figcaption><strong>图 12.</strong> 功效由效应量、样本量和错误率共同决定：在其他条件相同的情况下，样本量增加通常会提高检测特定效应的功效。</figcaption></figure><section class="lab" data-lab="12" aria-labelledby="lab-heading-12"><h2 id="lab-heading-12">交互实验：样本量如何影响统计功效</h2><p>用双样本均值差的正态近似演示样本量与功效的关系，结果仅作教学说明。</p><div class="lab-mount"><p class="lab-fallback">交互控件加载后，可调整参数并观察统计量的变化。</p></div></section>
 
         <p>你可能觉得这是一个非常基础的问题——但实际上，大多数已发表研究的统计功效都远低于常规标准。著名的估计显示，许多生物医学研究的统计功效仅为20%-30%。这意味着如果这些研究中的效应真实存在，它们有70%-80%的概率<strong>错过</strong>这个发现。这是一个细思极恐的事情——浪费了大量的人力物力，只得到一个"无显著差异"的结论，而真实的效果就在那里，只是你没有足够的"火力"去检测到它。</p>
 
@@ -97,10 +97,7 @@ for d in [0.2, 0.5, 0.8]:
 
         <h2>12.5 为什么大多数研究的统计功效不足</h2>
 
-        <div class="warning">
-            <strong>踩坑故事：</strong>我曾经参与过一个教育科技公司的项目，他们想验证一种新的教学方法是否比传统方法更有效。团队采用了每组30人的小规模实验（理由是"预算有限"）。结果 p = 0.24，"无显著差异"，结论是新方法没有用。但事后我们做了功效分析发现：如果真实效应量是 Cohen's d = 0.4（在教育干预中已算中等），每组30人只能提供约 18% 的统计功效！换句话说，即使新方法真的有效，这个实验也只有不到五分之一的机会检测到它。这是一个典型的<strong>样本量太小而无法得出有意义结论</strong>的案例。<br><br>
-            更糟糕的是，很多研究者把"p > 0.05"等同于"没有效果"。但如果你的统计功效只有 20%，那么 80% 的"无显著差异"结果实际上都是假阴性——效果存在，你没看到而已。
-        </div>
+        <div class="warning"><strong>案例说明：</strong>设想一项教育干预实验，每组招募 30 人，观察到 p = 0.24。这个结果不能直接证明教学方法无效。若真实标准化效应量为 d = 0.4，在两组独立、样本量相等、双侧 α = 0.05 等简化条件下，功效大约只有三分之一（具体数值会随检验方法和假设变化）。这意味着若该效应确实存在，重复开展同样设计的实验，拒绝零假设的机会仍然有限。功效约 33% 不等于“当前不显著结果中有 67% 都是假阴性”；后者还取决于真实效应的先验概率和研究背景。应在研究前根据最小有意义效应规划样本量。</div>
 
         <p>为什么那么多研究的统计功效不足？几个原因：</p>
 
