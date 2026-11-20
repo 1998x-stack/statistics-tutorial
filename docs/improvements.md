@@ -12,3 +12,11 @@
 - Follow-up: Run Node test and browser E2E for both file:// and HTTP, and include test in future existing quality checks only with explicit workflow authorization.
 - Commit: pending
 - PR: pending
+
+
+### 2026-11-20 — Statistics tutorial Olah-style migration
+- Scope: introduced seven-module taxonomy, dedicated statistics Skill, shared offline-first article design system, and migrated chapters 01–28 into per-chapter directories.
+- Article changes: each chapter receives a problem-first opening, learning outcomes, chapter navigation, a topic-specific SVG, a chapter-level interaction, MathML for selected core relations, recap, references, and an evidence ledger.
+- Compatibility: root 01.html–28.html paths redirect to canonical chapter pages; courses.json is the catalog source of truth and index.html retains a file:// snapshot.
+- Evidence status: candidate references are recorded; existing empirical, historical, and company-specific claims remain unverified pending editorial review.
+- Validation status: static tests and browser QA are configured but not yet executed in this environment. No deployment or Pages status is claimed.

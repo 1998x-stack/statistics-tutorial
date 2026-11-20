@@ -1,0 +1,100 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="在多个预测变量下解释回归系数、共线性、交互项与模型选择。"><title>第 19 章 多元线性回归 · 统计学知识地图</title><link rel="stylesheet" href="../../assets/css/article.css"></head><body><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学知识地图<small>STATISTICS · LEARNING PATH</small></span></a><div class="sidebar-current"><span>当前章节</span><strong>19 · 多元线性回归</strong><small>关系与模型 / 进阶</small></div><nav class="course-nav" aria-label="课程知识模块"><details ><summary>数据与描述 <span>5</span></summary><ul><li><a  href="../what-is-statistics/index.html">01 · 什么是统计学</a></li><li><a  href="../data-types-and-sources/index.html">02 · 数据的类型与来源</a></li><li><a  href="../descriptive-statistics-center-and-spread/index.html">03 · 描述统计（一）</a></li><li><a  href="../distribution-shape/index.html">04 · 描述统计（二）</a></li><li><a  href="../data-visualization/index.html">05 · 数据可视化基础</a></li></ul></details><details ><summary>概率与抽样 <span>3</span></summary><ul><li><a  href="../probability-basics/index.html">06 · 概率基础</a></li><li><a  href="../probability-distributions/index.html">07 · 常见概率分布</a></li><li><a  href="../sampling-distributions/index.html">08 · 抽样与抽样分布</a></li></ul></details><details ><summary>估计与检验 <span>4</span></summary><ul><li><a  href="../estimation-and-confidence-intervals/index.html">09 · 点估计与区间估计</a></li><li><a  href="../hypothesis-testing/index.html">10 · 假设检验入门</a></li><li><a  href="../statistical-tests/index.html">11 · 常见假设检验</a></li><li><a  href="../power-and-sample-size/index.html">12 · 统计功效与样本量</a></li></ul></details><details open><summary>关系与模型 <span>5</span></summary><ul><li><a  href="../correlation-analysis/index.html">13 · 相关分析</a></li><li><a  href="../simple-linear-regression/index.html">14 · 简单线性回归</a></li><li><a aria-current="page" class="active" href="../multiple-linear-regression/index.html">19 · 多元线性回归</a></li><li><a  href="../logistic-regression/index.html">20 · 逻辑回归</a></li><li><a  href="../anova/index.html">21 · 方差分析（ANOVA）</a></li></ul></details><details ><summary>科学推理与因果 <span>5</span></summary><ul><li><a  href="../p-values-and-reproducibility/index.html">15 · p值与显著性危机</a></li><li><a  href="../multiple-comparisons-and-fallacies/index.html">16 · 多重比较与谬误</a></li><li><a  href="../causal-inference-basics/index.html">17 · 因果推断基础</a></li><li><a  href="../statistical-ethics-and-practice/index.html">18 · 统计伦理与最佳实践</a></li><li><a  href="../modern-causal-inference/index.html">27 · 现代因果推断</a></li></ul></details><details ><summary>贝叶斯与计算 <span>2</span></summary><ul><li><a  href="../bayesian-statistics/index.html">22 · 贝叶斯统计入门</a></li><li><a  href="../statistics-toolchain/index.html">23 · 统计学工具链</a></li></ul></details><details ><summary>数据实践与应用 <span>4</span></summary><ul><li><a  href="../real-data-analysis/index.html">24 · 真实数据分析实战</a></li><li><a  href="../ab-testing/index.html">25 · A/B测试实战</a></li><li><a  href="../statistics-for-machine-learning/index.html">26 · 机器学习中的统计学</a></li><li><a  href="../end-to-end-project/index.html">28 · 综合项目：从问题到结论</a></li></ul></details></nav><a class="back-home" href="../../index.html">← 返回课程首页</a></aside><main id="main-content" class="main-content"><header class="article-header"><p class="eyebrow">第 19 章 <span>·</span> 关系与模型 <span>·</span> 进阶 <span>·</span> 约 40 分钟</p><h1>多元线性回归</h1><p class="dek">在多个预测变量下解释回归系数、共线性、交互项与模型选择。</p><div class="learning-outcomes"><strong>完成本章后，你将能够</strong><ul><li>多元回归</li><li>共线性</li><li>交互项</li></ul></div></header><nav class="local-toc" aria-label="本章目录"><strong>本章路线</strong><a href="#section-1">19.1 从简单回归到多元回归：加入更多自变量</a><a href="#section-2">19.2 回归系数的解释：控制其他变量</a><a href="#section-3">19.3 多重共线性：当自变量互相打架</a><a href="#section-4">19.4 交互项：效应不是简单相加</a><a href="#section-5">19.5 模型选择：AIC、BIC 与逐步回归的争议</a></nav><article class="article-body">
+<p class="lead">房屋价格不仅与面积有关，也可能受地段、房龄、楼层和交通影响。多元回归试图在同一个模型中描述多个变量与结果的条件关系，但“控制其他变量”不自动消除混杂。</p>
+
+<figure class="concept-figure"><img src="assets/overview.svg" alt="第 19 章 多元线性回归 核心概念图" width="840" height="300"><figcaption>多个预测变量共同进入模型；每个系数都需要在其余变量固定的条件下解释。</figcaption></figure><h2 id="section-1">19.1 从简单回归到多元回归：加入更多自变量</h2>
+<p>简单线性回归的公式是 <code>y = β₀ + β₁x</code>，而多元回归只是在右边加更多的项：</p>
+<pre><code>y = β₀ + β₁x₁ + β₂x₂ + ... + βₚxₚ + ε</code></pre>
+<p>这里每个 βⱼ 都是在"控制其他变量不变"的情况下，xⱼ 变化一个单位时 y 的平均变化量。这个"控制其他变量不变"非常关键，也是多元回归相较于简单回归的核心优势：它让我们从"相关"走向更接近"因果"的推断。</p>
+
+<div class="tip">
+<strong>教师笔记：</strong>很多初学者把多元回归（multiple regression）和多元输出回归（multivariate regression）搞混。前者是多个自变量、一个因变量；后者是多个因变量同时预测。在机器学习术语中，别搞混了。
+</div>
+
+<h2 id="section-2">19.2 回归系数的解释：控制其他变量</h2>
+<p>多元回归中的系数被称为<strong>偏回归系数</strong>（partial regression coefficient）。它回答的是这样一个问题："当其他所有变量都保持不变时，这个变量的变化能带来什么效果？"</p>
+<p>举个例子。假设我们想预测员工的年薪（万元）：</p>
+<pre><code>年薪 = β₀ + β₁ × 工作年限 + β₂ × 教育年限 + β₃ × 每周加班小时 + ε</code></pre>
+<p>如果 β₁ = 1.5，那就意味着：在<strong>教育程度和加班时间相同</strong>的情况下，多工作一年平均多赚 1.5 万元。这比简单回归中只有一个变量时的系数要"干净"得多，因为我们排除了教育水平和加班时间的混淆效应。</p>
+
+<h2 id="section-3">19.3 多重共线性：当自变量互相打架</h2>
+<p>多元回归有一个隐蔽但危险的陷阱：<strong>多重共线性</strong>（Multicollinearity）。问题出在自变量之间高度相关，使得它们"抢功"——模型无法区分到底哪个变量在贡献预测力。</p>
+<p>判断共线性的常用指标是 <strong>VIF</strong>（Variance Inflation Factor，方差膨胀因子）。一般认为 VIF > 10 时共线性严重，需要处理。</p>
+
+<table>
+<thead><tr><th>自变量</th><th>VIF</th><th>是否严重</th><th>含义</th></tr></thead>
+<tbody>
+<tr><td>工作年限</td><td>2.3</td><td>否</td><td>与其他变量相关度低</td></tr>
+<tr><td>教育年限</td><td>1.8</td><td>否</td><td>相对独立</td></tr>
+<tr><td>每周加班小时</td><td>1.2</td><td>否</td><td>几乎独立</td></tr>
+<tr><td>上一次工资</td><td>14.5</td><td>是</td><td>与工作年限强相关</td></tr>
+<tr><td>同事评价得分</td><td>9.8</td><td>临界</td><td>可能有问题</td></tr>
+</tbody>
+</table>
+
+<div class="warning">
+<strong>我的踩坑故事：</strong>几年前我在分析房价数据时，把所有房间数（bedrooms）和总房间数（total_rooms）都放进了模型。结果显示卧室数的系数竟然是<strong>负数</strong>——卧室越多，房价越低？这显然荒谬。原因是总房间数已经包含了卧室数，两者高度共线，导致系数估计完全翻转。检查 VIF 后发现卧室数的 VIF 高达 18.7。删除总房间数后，卧室数的系数恢复了正号。这就是共线性让系数符号反转的典型案例。
+</div>
+
+<p>处理共线性的方法包括：<strong>删除</strong>其中一个高度相关的变量、使用 <strong>PCA</strong> 降维后建模、或者采用<strong>岭回归</strong>（Ridge Regression）等正则化方法。</p>
+
+<h2 id="section-4">19.4 交互项：效应不是简单相加</h2>
+<p>多元回归隐含一个假设：各变量的效果是<strong>可加</strong>的（additive）。但很多时候变量之间存在<strong>交互效应</strong>（Interaction Effect）——一个变量的效果依赖于另一个变量的取值。</p>
+<p>比如，教育年限对收入的影响，可能在高科技行业比在传统行业更大。这就可以建模为：</p>
+<pre><code>收入 = β₀ + β₁ × 教育 + β₂ × 行业类型 + β₃ × (教育 × 行业类型) + ε</code></pre>
+<p>这里的 β₃ 就是交互项系数。如果它显著为正，说明高科技行业中教育回报率确实更高。</p>
+
+<h2 id="section-5">19.5 模型选择：AIC、BIC 与逐步回归的争议</h2>
+<p>当你有很多潜在自变量时，如何选择最合适的模型？常用的指标包括：</p>
+<ul>
+<li><strong>AIC</strong>（Akaike Information Criterion）：AIC = -2 ln(L) + 2k，其中 L 是似然值，k 是参数个数。AIC 越小越好，偏向选择预测能力强的模型。</li>
+<li><strong>BIC</strong>（Bayesian Information Criterion）：BIC = -2 ln(L) + k ln(n)，惩罚比 AIC 更严厉（尤其当样本量大时），倾向于更简约的模型。</li>
+</ul>
+<p>一种常见的做法是<strong>逐步回归</strong>（Stepwise Regression）：向前选择（逐个加变量）、向后剔除（逐个删变量）或双向选择。但这个方法近年来争议很大，因为它本质上是在做自动化的多重比较，容易过拟合且 p 值不可靠。</p>
+
+<div class="highlight">
+<strong>经验之谈：</strong>我的建议是，不要完全依赖逐步回归的自动选择。先用领域知识和直觉选择候选变量，然后用 AIC/BIC 做有限范围的比较，最后用交叉验证（Cross-validation）来评估真实预测表现。自动工具只是参考，你才是最终决策者。
+</div>
+
+<p>下面我们用 Python 的 statsmodels 做一个完整的多元回归演示，包括 VIF 计算：</p>
+<pre><code>import statsmodels.api as sm
+import pandas as pd
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+
+# 模拟数据
+import numpy as np
+np.random.seed(42)
+n = 200
+data = pd.DataFrame({
+    '面积': np.random.normal(100, 20, n),
+    '房龄': np.random.uniform(1, 30, n),
+    '楼层': np.random.randint(1, 20, n),
+    '卧室数': np.random.randint(1, 6, n)
+})
+# 构造房价：真实关系
+data['房价'] = (2.5 * data['面积'] - 1.2 * data['房龄']
+                + 0.3 * data['楼层'] + 5 * data['卧室数']
+                + np.random.normal(0, 10, n))
+
+X = data[['面积', '房龄', '楼层', '卧室数']]
+X = sm.add_constant(X)
+y = data['房价']
+
+model = sm.OLS(y, X).fit()
+print(model.summary())
+
+# VIF 计算
+vif_data = pd.DataFrame()
+vif_data["变量"] = X.columns
+vif_data["VIF"] = [variance_inflation_factor(X.values, i)
+                   for i in range(X.shape[1])]
+print(vif_data)</code></pre>
+
+<p>运行这段代码，你会看到每个自变量的系数、p 值和置信区间，以及 VIF 值。注意这里的 <code>卧室数</code> 和 <code>面积</code> 天然有一定相关（更大的房子通常有更多卧室），但因为我们的数据构造时控制得比较好，VIF 应该不会太高。</p>
+
+<div class="tip">
+<strong>思考题：</strong>如果你在模型中加入了 <code>面积</code> 和 <code>面积²</code>（二次项），它们之间必然高度相关，VIF 会很高。这是共线性问题吗？不一定。多项式项之间的相关是"结构性"的，不是数据问题，通常不需要处理。VIF 工具要结合上下文理解。
+</div>
+
+<p>好了，这一章我们认识了多元线性回归——从简单回归扩展到多个自变量，理解了偏回归系数的"控制其他变量"的含义，识别了多重共线性的陷阱，知道了如何通过交互项来建模更复杂的关系，以及用 AIC/BIC 来做模型选择。下一章，我们将进入分类问题的世界：当因变量不是连续数值，而是"是/否"这样的二分类变量时，<strong>逻辑回归</strong>（Logistic Regression）就是我们的利器。</p>
+
+<section class="core-equation"><p class="section-kicker">CORE RELATION</p><h2>本章核心关系</h2><div class="math-equation" role="group" aria-label="多元线性回归模型"><div class="math-scroll" tabindex="0" role="region" aria-label="多元线性回归模型，可横向滚动"><math display="block" aria-label="多元线性回归模型"><mrow><mi>Y</mi><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>p</mi></munderover><msub><mi>β</mi><mi>j</mi></msub><msub><mi>X</mi><mi>j</mi></msub><mo>+</mo><mi>ε</mi></mrow></math></div></div><p>线性指对参数线性；变量与结果之间可以通过变换或交互项表达更复杂的关系。</p></section><section class="interactive-lab" id="experiment" data-demo="multivariate"><div class="lab-heading"><span class="lab-kicker">INTERACTIVE EXPLORATION</span><h2>控制其他变量后，系数如何进入预测？</h2><p>固定截距 5、面积系数 2、房龄系数 −0.5，在示例输入下调整地段系数。</p></div><div class="lab-control"><label class="control-label" for="demo-19">地段系数 β₂ <output data-demo-value>1.5</output></label><input id="demo-19" type="range" min="-5" max="5" step="0.25" value="1.5" data-demo-input><div class="range-ends"><span>-5</span><span>5</span></div><p class="demo-result" data-demo-output aria-live="polite"></p></div><p class="lab-caveat">教学模拟：用于理解概念与方向，不替代真实数据分析、正式功效计算或研究设计审查。</p></section><section class="chapter-recap" id="recap"><p class="section-kicker">TAKEAWAYS</p><h2>本章要记住的三件事</h2><ol><li>βⱼ 表示其他纳入模型的变量固定时，Xⱼ 与条件均值的线性关联。</li><li>多重共线性会使系数估计不稳定，但不一定降低预测准确率。</li><li>交互项表达一个变量的关联随另一个变量水平变化。</li></ol></section><section class="references" id="references"><p class="section-kicker">FURTHER READING</p><h2>延伸阅读与核对来源</h2><ul><li><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">NIST/SEMATECH e-Handbook of Statistical Methods</a><span>NIST</span></li><li><a href="https://openstax.org/details/books/introductory-statistics-2e" target="_blank" rel="noopener noreferrer">OpenStax · Introductory Statistics 2e</a><span>OpenStax</span></li></ul><p class="source-note">参考来源用于核对概念与方法。涉及具体数据、历史细节或行业案例时，应回到原始研究或官方文档逐项核验。</p></section><nav class="chapter-pagination" aria-label="章节切换"><a href="../statistical-ethics-and-practice/index.html"><small>上一章 · 18</small><strong>← 统计伦理与最佳实践</strong></a><a class="pagination-home" href="../../index.html">全部章节</a><a class="next" href="../logistic-regression/index.html"><small>下一章 · 20</small><strong>逻辑回归 →</strong></a></nav></article></main></div><script src="../../assets/js/article.js" defer></script></body></html>

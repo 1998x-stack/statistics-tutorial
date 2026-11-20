@@ -1,0 +1,50 @@
+{
+  "chapter": "23",
+  "title": "统计学工具链",
+  "sources": [
+    {
+      "id": "scipy",
+      "title": "SciPy Statistics documentation",
+      "url": "https://docs.scipy.org/doc/scipy/reference/stats.html",
+      "publisher": "SciPy"
+    },
+    {
+      "id": "statsmodels",
+      "title": "statsmodels documentation",
+      "url": "https://www.statsmodels.org/stable/index.html",
+      "publisher": "statsmodels"
+    },
+    {
+      "id": "pandas",
+      "title": "pandas documentation",
+      "url": "https://pandas.pydata.org/docs/",
+      "publisher": "pandas"
+    }
+  ],
+  "claims": [
+    {
+      "id": "core-concept",
+      "claim": "选择 Python、R 与统计工具完成可复现分析。",
+      "kind": "conceptual",
+      "source_ids": [
+        "scipy",
+        "statsmodels",
+        "pandas"
+      ],
+      "locator": "请在对应章节中逐项核对",
+      "status": "unverified",
+      "notes": "候选权威来源已登记；在逐句核验前不标记为已验证。"
+    },
+    {
+      "id": "teaching-demo",
+      "claim": "按任务选择工具",
+      "kind": "illustrative",
+      "source_ids": [],
+      "locator": "本页交互示例",
+      "status": "illustrative",
+      "notes": "教学模拟，不是实证研究或真实总体数据。"
+    }
+  ],
+  "review_status": "first-pass-structure-only",
+  "last_reviewed": "2026-11-20"
+}

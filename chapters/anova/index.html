@@ -1,0 +1,107 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="用组间与组内变异比较多个组的均值，并理解事后检验。"><title>第 21 章 方差分析（ANOVA） · 统计学知识地图</title><link rel="stylesheet" href="../../assets/css/article.css"></head><body><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学知识地图<small>STATISTICS · LEARNING PATH</small></span></a><div class="sidebar-current"><span>当前章节</span><strong>21 · 方差分析（ANOVA）</strong><small>关系与模型 / 进阶</small></div><nav class="course-nav" aria-label="课程知识模块"><details ><summary>数据与描述 <span>5</span></summary><ul><li><a  href="../what-is-statistics/index.html">01 · 什么是统计学</a></li><li><a  href="../data-types-and-sources/index.html">02 · 数据的类型与来源</a></li><li><a  href="../descriptive-statistics-center-and-spread/index.html">03 · 描述统计（一）</a></li><li><a  href="../distribution-shape/index.html">04 · 描述统计（二）</a></li><li><a  href="../data-visualization/index.html">05 · 数据可视化基础</a></li></ul></details><details ><summary>概率与抽样 <span>3</span></summary><ul><li><a  href="../probability-basics/index.html">06 · 概率基础</a></li><li><a  href="../probability-distributions/index.html">07 · 常见概率分布</a></li><li><a  href="../sampling-distributions/index.html">08 · 抽样与抽样分布</a></li></ul></details><details ><summary>估计与检验 <span>4</span></summary><ul><li><a  href="../estimation-and-confidence-intervals/index.html">09 · 点估计与区间估计</a></li><li><a  href="../hypothesis-testing/index.html">10 · 假设检验入门</a></li><li><a  href="../statistical-tests/index.html">11 · 常见假设检验</a></li><li><a  href="../power-and-sample-size/index.html">12 · 统计功效与样本量</a></li></ul></details><details open><summary>关系与模型 <span>5</span></summary><ul><li><a  href="../correlation-analysis/index.html">13 · 相关分析</a></li><li><a  href="../simple-linear-regression/index.html">14 · 简单线性回归</a></li><li><a  href="../multiple-linear-regression/index.html">19 · 多元线性回归</a></li><li><a  href="../logistic-regression/index.html">20 · 逻辑回归</a></li><li><a aria-current="page" class="active" href="../anova/index.html">21 · 方差分析（ANOVA）</a></li></ul></details><details ><summary>科学推理与因果 <span>5</span></summary><ul><li><a  href="../p-values-and-reproducibility/index.html">15 · p值与显著性危机</a></li><li><a  href="../multiple-comparisons-and-fallacies/index.html">16 · 多重比较与谬误</a></li><li><a  href="../causal-inference-basics/index.html">17 · 因果推断基础</a></li><li><a  href="../statistical-ethics-and-practice/index.html">18 · 统计伦理与最佳实践</a></li><li><a  href="../modern-causal-inference/index.html">27 · 现代因果推断</a></li></ul></details><details ><summary>贝叶斯与计算 <span>2</span></summary><ul><li><a  href="../bayesian-statistics/index.html">22 · 贝叶斯统计入门</a></li><li><a  href="../statistics-toolchain/index.html">23 · 统计学工具链</a></li></ul></details><details ><summary>数据实践与应用 <span>4</span></summary><ul><li><a  href="../real-data-analysis/index.html">24 · 真实数据分析实战</a></li><li><a  href="../ab-testing/index.html">25 · A/B测试实战</a></li><li><a  href="../statistics-for-machine-learning/index.html">26 · 机器学习中的统计学</a></li><li><a  href="../end-to-end-project/index.html">28 · 综合项目：从问题到结论</a></li></ul></details></nav><a class="back-home" href="../../index.html">← 返回课程首页</a></aside><main id="main-content" class="main-content"><header class="article-header"><p class="eyebrow">第 21 章 <span>·</span> 关系与模型 <span>·</span> 进阶 <span>·</span> 约 40 分钟</p><h1>方差分析（ANOVA）</h1><p class="dek">用组间与组内变异比较多个组的均值，并理解事后检验。</p><div class="learning-outcomes"><strong>完成本章后，你将能够</strong><ul><li>单因素ANOVA</li><li>双因素ANOVA</li><li>交互效应</li></ul></div></header><nav class="local-toc" aria-label="本章目录"><strong>本章路线</strong><a href="#section-1">21.1 ANOVA 的直觉：比较多个组的均值</a><a href="#section-2">21.2 单因素 ANOVA：F 统计量与组间/组内方差</a><a href="#section-3">21.3 双因素 ANOVA 与交互效应</a><a href="#section-4">21.4 事后检验（Post-hoc）：Tukey HSD</a><a href="#section-5">21.5 ANOVA 与线性回归的关系</a></nav><article class="article-body">
+<p class="lead">比较三种教学方法的平均成绩时，如果每次只做两组 t 检验，反复检验会增加整体假阳性风险。方差分析先检验多个总体均值是否存在差异，再进行受控的事后比较。</p>
+
+<figure class="concept-figure"><img src="assets/overview.svg" alt="第 21 章 方差分析（ANOVA） 核心概念图" width="840" height="300"><figcaption>ANOVA 将总变异拆分为组间与组内两部分，并比较它们相对于自由度的大小。</figcaption></figure><h2 id="section-1">21.1 ANOVA 的直觉：比较多个组的均值</h2>
+<p>ANOVA 这个名字可能会误导你——它叫"方差分析"，但目的是比较均值。为什么比较均值却要从方差入手？原因在于：如果各组均值差异很大，那么组间方差就会远大于组内方差。换句话说，ANOVA 的核心思路是<strong>分解总方差</strong>：</p>
+<ul>
+<li><strong>组间方差（Between-group variance）：</strong> 各组均值与总均值之间的差异，体现了"处理效应"。</li>
+<li><strong>组内方差（Within-group variance）：</strong> 每组内部个体之间的差异，体现了"随机误差"。</li>
+</ul>
+<p>如果组间方差显著大于组内方差，我们就说至少有一组的均值与其他组不同。</p>
+
+<div class="tip">
+<strong>直觉类比：</strong>想象你在听三个乐队演奏同一首歌。如果三个乐队水平差异很大（组间差异大），你很容易区分；如果每个乐队内部节奏都不稳（组内差异大），那就很难说哪个更好。ANOVA 做的就是"比较信号和噪音的大小"。
+</div>
+
+<h2 id="section-2">21.2 单因素 ANOVA：F 统计量与组间/组内方差</h2>
+<p>单因素 ANOVA（One-way ANOVA）只有一个分类自变量（因素）。F 统计量的计算公式为：</p>
+<pre><code>F = (组间均方 MSB) / (组内均方 MSW)
+  = (SSB / df_between) / (SSW / df_within)</code></pre>
+<p>F 值越大，组间差异越显著。对应的 p 值告诉我们这个 F 值在零假设（所有组均值相等）下出现的概率。</p>
+<p>使用 ANOVA 有三个关键前提：</p>
+<ol>
+<li><strong>正态性：</strong>每组数据近似服从正态分布。</li>
+<li><strong>方差齐性（Homogeneity of variance）：</strong>各组的方差大致相等。可以用 Levene 检验来验证。</li>
+<li><strong>独立性：</strong>观测值之间相互独立。</li>
+</ol>
+
+<h2 id="section-3">21.3 双因素 ANOVA 与交互效应</h2>
+<p>双因素 ANOVA（Two-way ANOVA）有两个分类自变量，可以分析：</p>
+<ul>
+<li><strong>主效应（Main Effect）：</strong>每个自变量的独立效果。</li>
+<li><strong>交互效应（Interaction Effect）：</strong>两个自变量是否"联手"产生了单独行动没有的效果。</li>
+</ul>
+<p>例如，研究"教学方法"和"学生性别"对考试成绩的影响。可能的结果：</p>
+
+<table>
+<thead><tr><th>教学方法</th><th>男生平均分</th><th>女生平均分</th><th>行平均</th></tr></thead>
+<tbody>
+<tr><td>传统讲授</td><td>72</td><td>75</td><td>73.5</td></tr>
+<tr><td>互动式教学</td><td>85</td><td>78</td><td>81.5</td></tr>
+<tr><td>线上自学</td><td>68</td><td>80</td><td>74.0</td></tr>
+<tr><td>列平均</td><td>75.0</td><td>77.7</td><td>—</td></tr>
+</tbody>
+</table>
+
+<p>这里教学方法有主效应（行平均有差异），性别的主效应不显著，但交互效应可能存在——因为互动式教学对男生效果更好，而线上自学对女生效果更好。这就是交互效应：一个因素的效应依赖于另一个因素的取值。</p>
+
+<h2 id="section-4">21.4 事后检验（Post-hoc）：Tukey HSD</h2>
+<p>如果 ANOVA 结果显示至少有一组不同，但我们不知道是哪几组不同。这就需要进行<strong>事后检验</strong>（Post-hoc Test）。最常用的是 <strong>Tukey's HSD</strong>（Honestly Significant Difference）检验，它对所有可能的组对进行两两比较，同时校正多重比较带来的假阳性膨胀。</p>
+
+<div class="warning">
+<strong>我的踩坑故事：</strong>学生时代第一次做实验数据分析，我比较四种肥料的农作物产量效果。为了"全面"地看各组差异，我做了 C(4,2)=6 次独立的 t 检验，结果发现有两个组"显著差异"（p &lt; 0.05），兴高采烈地去向导师汇报。导师冷静地说："你做 6 次 t 检验，每次假阳性率 5%，至少出现一次假阳性的概率是 1 - 0.95⁶ ≈ 26.5%。你的'发现'很可能是假阳性。"那次被训让我明白：<strong>多个 t 检验代替 ANOVA 会导致假阳性率暴增</strong>——这就是多重比较问题的典型例子，也是我们第 16 章讲过的内容的具体体现。
+</div>
+
+<h2 id="section-5">21.5 ANOVA 与线性回归的关系</h2>
+<p>ANOVA 和线性回归实际上是<strong>同一个广义线性模型框架下的特例</strong>。事实上，ANOVA 可以看作是以分类变量为自变量的线性回归：</p>
+<ul>
+<li>把 k 个组用 k-1 个虚拟变量（dummy variables）表示。</li>
+<li>回归的 F 检验和 ANOVA 的 F 检验完全等价。</li>
+<li>回归的 R² 等于 ANOVA 中的 η²（eta-squared），反映"组间方差占总方差的比例"。</li>
+</ul>
+<p>在 statsmodels 中，你可以用 ols + anova_lm 来同时获得回归结果和 ANOVA 表：</p>
+
+<pre><code>import numpy as np
+import pandas as pd
+import scipy.stats as stats
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+from statsmodels.stats.anova import anova_lm
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
+
+# 模拟数据：三种教学方法对成绩的影响
+np.random.seed(42)
+n_per_group = 30
+data = pd.DataFrame({
+    '成绩': np.concatenate([
+        np.random.normal(72, 8, n_per_group),   # 传统
+        np.random.normal(80, 8, n_per_group),   # 互动
+        np.random.normal(75, 8, n_per_group),   # 线上
+    ]),
+    '方法': ['传统'] * n_per_group + ['互动'] * n_per_group + ['线上'] * n_per_group
+})
+
+# 方法一：scipy 单因素 ANOVA
+f_stat, p_val = stats.f_oneway(
+    data[data['方法']=='传统']['成绩'],
+    data[data['方法']=='互动']['成绩'],
+    data[data['方法']=='线上']['成绩']
+)
+print(f"F = {f_stat:.3f}, p = {p_val:.5f}")
+
+# 方法二：statsmodels 回归视角下的 ANOVA
+model = ols('成绩 ~ C(方法)', data=data).fit()
+anova_table = anova_lm(model)
+print(anova_table)
+
+# 事后检验：Tukey HSD
+tukey = pairwise_tukeyhsd(data['成绩'], data['方法'], alpha=0.05)
+print(tukey)</code></pre>
+
+<div class="highlight">
+<strong>ANOVA 的变体：</strong>当方差不齐时，可以使用 Welch's ANOVA 作为替代；当数据不是正态分布时，可以用 Kruskal-Wallis 检验（非参数版本）。重复测量 ANOVA（Repeated Measures ANOVA）用于同一组对象在不同时间点的测量数据。ANOVA 家族庞大，但核心思想始终如一：用方差分解来检验均值差异。
+</div>
+
+<p>这一章我们学习了方差分析——从直觉理解到 F 统计量、单因素和双因素 ANOVA、事后检验 Tukey HSD、以及 ANOVA 和线性回归的内在联系。下一章我们将进行一次世界观的转换，从频率学派走向<strong>贝叶斯统计</strong>——一种把概率解释为"信念程度"的思维方式。</p>
+
+<section class="core-equation"><p class="section-kicker">CORE RELATION</p><h2>本章核心关系</h2><div class="math-equation" role="group" aria-label="单因素方差分析的 F 统计量"><div class="math-scroll" tabindex="0" role="region" aria-label="单因素方差分析的 F 统计量，可横向滚动"><math display="block" aria-label="单因素方差分析的 F 统计量"><mrow><mi>F</mi><mo>=</mo><mfrac><msub><mi>MS</mi><mtext>组间</mtext></msub><msub><mi>MS</mi><mtext>组内</mtext></msub></mfrac></mrow></math></div></div><p>经典 ANOVA 的推断依赖独立性、组内误差分布与方差齐性等条件。</p></section><section class="interactive-lab" id="experiment" data-demo="anova"><div class="lab-heading"><span class="lab-kicker">INTERACTIVE EXPLORATION</span><h2>F 统计量在比较什么？</h2><p>调整示意 F 值，理解组间变异相对组内变异的大小；真实 p 值还取决于自由度。</p></div><div class="lab-control"><label class="control-label" for="demo-21">F 统计量（示意） <output data-demo-value>3.2</output></label><input id="demo-21" type="range" min="0.5" max="8" step="0.1" value="3.2" data-demo-input><div class="range-ends"><span>0.5</span><span>8</span></div><p class="demo-result" data-demo-output aria-live="polite"></p></div><p class="lab-caveat">教学模拟：用于理解概念与方向，不替代真实数据分析、正式功效计算或研究设计审查。</p></section><section class="chapter-recap" id="recap"><p class="section-kicker">TAKEAWAYS</p><h2>本章要记住的三件事</h2><ol><li>单因素 ANOVA 的零假设是所有组总体均值相等。</li><li>F 统计量比较组间均方与组内均方。</li><li>显著的总体 F 检验不能告诉你具体哪些组不同；需要合适的事后比较。</li></ol></section><section class="references" id="references"><p class="section-kicker">FURTHER READING</p><h2>延伸阅读与核对来源</h2><ul><li><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">NIST/SEMATECH e-Handbook of Statistical Methods</a><span>NIST</span></li><li><a href="https://openstax.org/details/books/introductory-statistics-2e" target="_blank" rel="noopener noreferrer">OpenStax · Introductory Statistics 2e</a><span>OpenStax</span></li></ul><p class="source-note">参考来源用于核对概念与方法。涉及具体数据、历史细节或行业案例时，应回到原始研究或官方文档逐项核验。</p></section><nav class="chapter-pagination" aria-label="章节切换"><a href="../logistic-regression/index.html"><small>上一章 · 20</small><strong>← 逻辑回归</strong></a><a class="pagination-home" href="../../index.html">全部章节</a><a class="next" href="../bayesian-statistics/index.html"><small>下一章 · 22</small><strong>贝叶斯统计入门 →</strong></a></nav></article></main></div><script src="../../assets/js/article.js" defer></script></body></html>

@@ -1,0 +1,43 @@
+{
+  "chapter": "15",
+  "title": "p值与显著性危机",
+  "sources": [
+    {
+      "id": "asa-pvalue",
+      "title": "ASA Statement on Statistical Significance and P-Values",
+      "url": "https://www.amstat.org/asa/files/pdfs/P-ValueStatement.pdf",
+      "publisher": "American Statistical Association"
+    },
+    {
+      "id": "openstax",
+      "title": "OpenStax · Introductory Statistics 2e",
+      "url": "https://openstax.org/details/books/introductory-statistics-2e",
+      "publisher": "OpenStax"
+    }
+  ],
+  "claims": [
+    {
+      "id": "core-concept",
+      "claim": "辨析 p 值误读、选择性分析与可重复性问题。",
+      "kind": "conceptual",
+      "source_ids": [
+        "asa-pvalue",
+        "openstax"
+      ],
+      "locator": "请在对应章节中逐项核对",
+      "status": "unverified",
+      "notes": "候选权威来源已登记；在逐句核验前不标记为已验证。"
+    },
+    {
+      "id": "teaching-demo",
+      "claim": "把 p 值放回它真正的条件里",
+      "kind": "illustrative",
+      "source_ids": [],
+      "locator": "本页交互示例",
+      "status": "illustrative",
+      "notes": "教学模拟，不是实证研究或真实总体数据。"
+    }
+  ],
+  "review_status": "first-pass-structure-only",
+  "last_reviewed": "2026-11-20"
+}

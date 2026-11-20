@@ -1,0 +1,43 @@
+{
+  "chapter": "22",
+  "title": "贝叶斯统计入门",
+  "sources": [
+    {
+      "id": "bayes",
+      "title": "Bayesian Data Analysis",
+      "url": "https://www.stat.columbia.edu/~gelman/book/",
+      "publisher": "Gelman et al."
+    },
+    {
+      "id": "openstax",
+      "title": "OpenStax · Introductory Statistics 2e",
+      "url": "https://openstax.org/details/books/introductory-statistics-2e",
+      "publisher": "OpenStax"
+    }
+  ],
+  "claims": [
+    {
+      "id": "core-concept",
+      "claim": "通过先验、似然与后验理解贝叶斯更新和不确定性表达。",
+      "kind": "conceptual",
+      "source_ids": [
+        "bayes",
+        "openstax"
+      ],
+      "locator": "请在对应章节中逐项核对",
+      "status": "unverified",
+      "notes": "候选权威来源已登记；在逐句核验前不标记为已验证。"
+    },
+    {
+      "id": "teaching-demo",
+      "claim": "基准率如何影响阳性预测值？",
+      "kind": "illustrative",
+      "source_ids": [],
+      "locator": "本页交互示例",
+      "status": "illustrative",
+      "notes": "教学模拟，不是实证研究或真实总体数据。"
+    }
+  ],
+  "review_status": "first-pass-structure-only",
+  "last_reviewed": "2026-11-20"
+}

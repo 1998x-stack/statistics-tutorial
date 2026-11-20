@@ -1,0 +1,43 @@
+{
+  "chapter": "16",
+  "title": "多重比较与谬误",
+  "sources": [
+    {
+      "id": "asa-pvalue",
+      "title": "ASA Statement on Statistical Significance and P-Values",
+      "url": "https://www.amstat.org/asa/files/pdfs/P-ValueStatement.pdf",
+      "publisher": "American Statistical Association"
+    },
+    {
+      "id": "nist",
+      "title": "NIST/SEMATECH e-Handbook of Statistical Methods",
+      "url": "https://www.itl.nist.gov/div898/handbook/",
+      "publisher": "NIST"
+    }
+  ],
+  "claims": [
+    {
+      "id": "core-concept",
+      "claim": "理解多重检验、Bonferroni、FDR 与常见数据解释陷阱。",
+      "kind": "conceptual",
+      "source_ids": [
+        "asa-pvalue",
+        "nist"
+      ],
+      "locator": "请在对应章节中逐项核对",
+      "status": "unverified",
+      "notes": "候选权威来源已登记；在逐句核验前不标记为已验证。"
+    },
+    {
+      "id": "teaching-demo",
+      "claim": "检验次数越多，整体假阳性风险如何变化？",
+      "kind": "illustrative",
+      "source_ids": [],
+      "locator": "本页交互示例",
+      "status": "illustrative",
+      "notes": "教学模拟，不是实证研究或真实总体数据。"
+    }
+  ],
+  "review_status": "first-pass-structure-only",
+  "last_reviewed": "2026-11-20"
+}

@@ -1,0 +1,192 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="选择 Python、R 与统计工具完成可复现分析。"><title>第 23 章 统计学工具链 · 统计学知识地图</title><link rel="stylesheet" href="../../assets/css/article.css"></head><body><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学知识地图<small>STATISTICS · LEARNING PATH</small></span></a><div class="sidebar-current"><span>当前章节</span><strong>23 · 统计学工具链</strong><small>贝叶斯与计算 / 实践</small></div><nav class="course-nav" aria-label="课程知识模块"><details ><summary>数据与描述 <span>5</span></summary><ul><li><a  href="../what-is-statistics/index.html">01 · 什么是统计学</a></li><li><a  href="../data-types-and-sources/index.html">02 · 数据的类型与来源</a></li><li><a  href="../descriptive-statistics-center-and-spread/index.html">03 · 描述统计（一）</a></li><li><a  href="../distribution-shape/index.html">04 · 描述统计（二）</a></li><li><a  href="../data-visualization/index.html">05 · 数据可视化基础</a></li></ul></details><details ><summary>概率与抽样 <span>3</span></summary><ul><li><a  href="../probability-basics/index.html">06 · 概率基础</a></li><li><a  href="../probability-distributions/index.html">07 · 常见概率分布</a></li><li><a  href="../sampling-distributions/index.html">08 · 抽样与抽样分布</a></li></ul></details><details ><summary>估计与检验 <span>4</span></summary><ul><li><a  href="../estimation-and-confidence-intervals/index.html">09 · 点估计与区间估计</a></li><li><a  href="../hypothesis-testing/index.html">10 · 假设检验入门</a></li><li><a  href="../statistical-tests/index.html">11 · 常见假设检验</a></li><li><a  href="../power-and-sample-size/index.html">12 · 统计功效与样本量</a></li></ul></details><details ><summary>关系与模型 <span>5</span></summary><ul><li><a  href="../correlation-analysis/index.html">13 · 相关分析</a></li><li><a  href="../simple-linear-regression/index.html">14 · 简单线性回归</a></li><li><a  href="../multiple-linear-regression/index.html">19 · 多元线性回归</a></li><li><a  href="../logistic-regression/index.html">20 · 逻辑回归</a></li><li><a  href="../anova/index.html">21 · 方差分析（ANOVA）</a></li></ul></details><details ><summary>科学推理与因果 <span>5</span></summary><ul><li><a  href="../p-values-and-reproducibility/index.html">15 · p值与显著性危机</a></li><li><a  href="../multiple-comparisons-and-fallacies/index.html">16 · 多重比较与谬误</a></li><li><a  href="../causal-inference-basics/index.html">17 · 因果推断基础</a></li><li><a  href="../statistical-ethics-and-practice/index.html">18 · 统计伦理与最佳实践</a></li><li><a  href="../modern-causal-inference/index.html">27 · 现代因果推断</a></li></ul></details><details open><summary>贝叶斯与计算 <span>2</span></summary><ul><li><a  href="../bayesian-statistics/index.html">22 · 贝叶斯统计入门</a></li><li><a aria-current="page" class="active" href="../statistics-toolchain/index.html">23 · 统计学工具链</a></li></ul></details><details ><summary>数据实践与应用 <span>4</span></summary><ul><li><a  href="../real-data-analysis/index.html">24 · 真实数据分析实战</a></li><li><a  href="../ab-testing/index.html">25 · A/B测试实战</a></li><li><a  href="../statistics-for-machine-learning/index.html">26 · 机器学习中的统计学</a></li><li><a  href="../end-to-end-project/index.html">28 · 综合项目：从问题到结论</a></li></ul></details></nav><a class="back-home" href="../../index.html">← 返回课程首页</a></aside><main id="main-content" class="main-content"><header class="article-header"><p class="eyebrow">第 23 章 <span>·</span> 贝叶斯与计算 <span>·</span> 实践 <span>·</span> 约 30 分钟</p><h1>统计学工具链</h1><p class="dek">选择 Python、R 与统计工具完成可复现分析。</p><div class="learning-outcomes"><strong>完成本章后，你将能够</strong><ul><li>Python scipy.stats</li><li>statsmodels</li><li>R基础</li></ul></div></header><nav class="local-toc" aria-label="本章目录"><strong>本章路线</strong><a href="#section-1">23.1 Python vs R：世纪之争</a><a href="#section-2">23.2 Python 统计核心：scipy.stats 实战</a><a href="#section-3">23.3 statsmodels：公式接口让回归更优雅</a><a href="#section-4">23.4 环境搭建与工作流管理</a><a href="#section-5">23.5 Jupyter Notebook：交互式分析的核心</a><a href="#section-6">23.6 常用工作流：一份完整的统计项目流程</a><a href="#section-7">23.7 本章小结</a></nav><article class="article-body">
+
+        <p class="lead">工具能让统计分析更快，但不会替你判断数据类型、研究设计或模型假设。可靠工作流要把数据处理、统计计算、模型诊断和报告记录连接起来。</p>
+
+        <figure class="concept-figure"><img src="assets/overview.svg" alt="第 23 章 统计学工具链 核心概念图" width="840" height="300"><figcaption>工具链是分工协作的流水线；统计判断仍需由研究问题和模型假设驱动。</figcaption></figure><h2 id="section-1">23.1 Python vs R：世纪之争</h2>
+
+        <p>每个刚入行的数据分析师都会面临这个灵魂拷问："我应该学 Python 还是 R？" 答案其实很简单——看你的战场在哪里。R 语言诞生于统计学家之手，天生就是做统计分析和可视化的，它的 <code>tidyverse</code> 生态让数据清洗和探索变得浑然天成。Python 则是通用编程语言，凭借 <code>scipy.stats</code>、<code>statsmodels</code> 和 <code>scikit-learn</code> 在机器学习与工程落地上占据绝对优势。</p>
+
+        <p>我的建议是：不必二选一，而是两个都要懂。你日常的主力可以是一个，但理解另一个的生态会让你在跨团队协作时游刃有余。下面这张对比表可以帮你快速定位：</p>
+
+        <table>
+            <tr><th>任务</th><th>Python 包</th><th>R 包</th></tr>
+            <tr><td>描述统计</td><td>scipy.stats, pandas</td><td>psych, summarytools</td></tr>
+            <tr><td>假设检验</td><td>scipy.stats (ttest, mannwhitney)</td><td>stats (t.test, wilcox.test)</td></tr>
+            <tr><td>线性回归</td><td>statsmodels (ols)</td><td>lm (基础包)</td></tr>
+            <tr><td>逻辑回归</td><td>statsmodels (logit)</td><td>glm (binomial family)</td></tr>
+            <tr><td>方差分析</td><td>statsmodels (anova_lm)</td><td>aov, car</td></tr>
+            <tr><td>时间序列</td><td>statsmodels.tsa</td><td>forecast, tsibble</td></tr>
+            <tr><td>数据清洗</td><td>pandas</td><td>dplyr, tidyr</td></tr>
+            <tr><td>可视化</td><td>matplotlib, seaborn</td><td>ggplot2</td></tr>
+            <tr><td>可重复报告</td><td>Jupyter Notebook</td><td>R Markdown / Quarto</td></tr>
+            <tr><td>贝叶斯分析</td><td>PyMC</td><td>brms, rstan</td></tr>
+        </table>
+
+        <div class="highlight">
+            <strong>讲师经验：</strong>在实际项目中，我通常用 Python 做数据清洗和特征工程（因为 pandas 实在太顺手了），然后用 R 的 ggplot2 做出版级的可视化，最后在 Jupyter 里整合所有结果。Python 和 R 之间的互联通过 <code>rpy2</code> 包就可以实现，完全不需要在两种语言之间痛苦地切换。
+        </div>
+
+        <h2 id="section-2">23.2 Python 统计核心：scipy.stats 实战</h2>
+
+        <p><code>scipy.stats</code> 是 Python 生态中最基础的统计库，它涵盖了几乎所有常见的概率分布和假设检验方法。让我们通过一个实际例子来感受它的用法。假设我们有两组用户的点击率数据，想要检验它们是否存在显著差异：</p>
+
+        <pre><code>import numpy as np
+import scipy.stats as stats
+
+# 模拟两组用户的点击率数据（单位：百分比）
+np.random.seed(42)
+group_a = np.random.normal(loc=5.2, scale=1.5, size=200)  # 对照组
+group_b = np.random.normal(loc=6.8, scale=1.7, size=180)  # 实验组
+
+# 1. 描述统计
+print("A组: mean={:.3f}, std={:.3f}, n={}".format(
+    group_a.mean(), group_a.std(ddof=1), len(group_a)))
+print("B组: mean={:.3f}, std={:.3f}, n={}".format(
+    group_b.mean(), group_b.std(ddof=1), len(group_b)))
+
+# 2. 正态性检验（Shapiro-Wilk）
+shap_a = stats.shapiro(group_a)
+shap_b = stats.shapiro(group_b)
+print(f"A组正态性 p={shap_a.pvalue:.4f}, B组正态性 p={shap_b.pvalue:.4f}")
+
+# 3. 方差齐性检验（Levene）
+levene = stats.levene(group_a, group_b)
+print(f"方差齐性 p={levene.pvalue:.4f}")
+
+# 4. 独立样本 t 检验（双尾）
+t_stat, p_val = stats.ttest_ind(group_a, group_b, equal_var=True)
+print(f"t检验: t={t_stat:.4f}, p={p_val:.6f}")
+
+# 5. 如果正态性不满足，使用 Mann-Whitney U 检验
+u_stat, u_pval = stats.mannwhitneyu(group_a, group_b, alternative='two-sided')
+print(f"Mann-Whitney U: U={u_stat:.1f}, p={u_pval:.6f}")
+
+# 6. 效应量（Cohen's d）
+pooled_std = np.sqrt(((len(group_a)-1)*group_a.std(ddof=1)**2 +
+                       (len(group_b)-1)*group_b.std(ddof=1)**2) /
+                      (len(group_a)+len(group_b)-2))
+cohens_d = (group_b.mean() - group_a.mean()) / pooled_std
+print(f"Cohen's d = {cohens_d:.3f}")</code></pre>
+
+        <p>这段代码展现了一个标准的假设检验流程：先做描述统计，再检查数据前提条件（正态性和方差齐性），然后选择合适的检验方法，最后计算效应量。每一步都是我们在前几章中学过的知识，现在都用代码串起来了。</p>
+
+        <h2 id="section-3">23.3 statsmodels：公式接口让回归更优雅</h2>
+
+        <p><code>statsmodels</code> 是 Python 中最接近 R 风格的统计建模库。它最大的亮点是提供了类似 R 的公式 API（<code>formula API</code>），让你可以用 <code>y ~ x1 + x2</code> 这样的语法来定义模型。这对于习惯 R 的用户来说简直是福音。</p>
+
+        <pre><code>import pandas as pd
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+from statsmodels.stats.anova import anova_lm
+from sklearn.datasets import make_regression
+
+# 生成模拟数据
+np.random.seed(123)
+n = 500
+X = np.random.RandomState(42).randn(n, 3)
+beta = np.array([2.5, -1.3, 0.8])
+y = 5.0 + X @ beta + np.random.randn(n) * 1.2
+
+df = pd.DataFrame(X, columns=['age', 'income', 'education'])
+df['target'] = y
+
+# 使用 statsmodels 公式 API 拟合多元线性回归
+model = smf.ols('target ~ age + income + education', data=df)
+result = model.fit()
+print(result.summary())
+
+# 方差分析表
+anova_table = anova_lm(result)
+print("\nANOVA 分解：")
+print(anova_table)
+
+# 预测与残差诊断
+df['pred'] = result.fittedvalues
+df['resid'] = result.resid
+
+# Durbin-Watson 检验（残差自相关）
+dw = sm.stats.durbin_watson(df['resid'])
+print(f"\nDurbin-Watson 统计量: {dw:.4f}")
+
+# Breusch-Pagan 异方差检验
+bp_test = sm.stats.het_breuschpagan(df['resid'], result.model.exog)
+print(f"Breusch-Pagan 异方差检验 p={bp_test[1]:.4f}")</code></pre>
+
+        <div class="tip">
+            <strong>小贴士：</strong><code>result.summary()</code> 输出的表格几乎是论文级的——它一次性报告了回归系数、标准误、t值、p值、置信区间、R-squared、F检验和多种信息准则。相比 scikit-learn，statsmodels 更关注统计推断而非纯预测，是统计建模的首选。
+        </div>
+
+        <h2 id="section-4">23.4 环境搭建与工作流管理</h2>
+
+        <p>一个好的工具链不仅包括分析库，还包括项目管理和环境管理工具。以下是我推荐的标准工作流：</p>
+
+        <pre><code># ---- 推荐的环境管理方案 ----
+# 方案 A：conda（适合数据科学全栈）
+conda create -n stat-analysis python=3.10
+conda activate stat-analysis
+conda install numpy pandas scipy statsmodels matplotlib seaborn jupyter
+conda install -c conda-forge r-base r-essentials  # 可选：安装R内核
+
+# 方案 B：pip + venv（轻量级）
+python -m venv stat-env
+source stat-env/bin/activate    # macOS/Linux
+# stat-env\Scripts\activate     # Windows
+pip install numpy pandas scipy statsmodels jupyter
+
+# 安装 R 内核到 Jupyter（在 R 环境中运行）
+# install.packages('IRkernel')
+# IRkernel::installspec()</code></pre>
+
+        <h3>23.4.1 推荐的项目目录结构</h3>
+
+        <pre><code>project/
+├── data/              # 原始数据（只读！）
+│   ├── raw/
+│   └── processed/
+├── notebooks/         # Jupyter Notebooks
+│   ├── 01-eda.ipynb
+│   └── 02-modeling.ipynb
+├── src/               # 可复用的 Python 模块
+│   ├── __init__.py
+│   ├── data_utils.py
+│   └── stat_helpers.py
+├── output/            # 输出结果
+│   ├── figures/
+│   └── tables/
+└── reports/           # 最终报告
+    └── analysis_report.html</code></pre>
+
+        <h2 id="section-5">23.5 Jupyter Notebook：交互式分析的核心</h2>
+
+        <p>Jupyter Notebook 已经成为数据科学界的"通用语言"。它的单元格式交互让探索性分析变得无比顺畅——你可以在一个单元格里跑描述统计，下一个单元格画图，再下一个跑模型，所有中间结果都保存在内存中。配合 <code>nbconvert</code>，你可以把 notebook 一键导出为 HTML、PDF 甚至幻灯片。</p>
+
+        <p>高级用法上，我推荐大家使用 <code>Jupyter Lab</code> 而非传统的 Notebook。 Lab 提供了文件浏览器、多标签页、终端集成等 IDE 级别的功能，还能并排查看多个 notebook 和数据文件。</p>
+
+        <h2 id="section-6">23.6 常用工作流：一份完整的统计项目流程</h2>
+
+        <p>将前面学到的工具整合起来，一个标准的统计学分析项目通常遵循以下流程：</p>
+
+        <ol>
+            <li><strong>问题定义：</strong>明确分析目标和假设</li>
+            <li><strong>数据获取：</strong>从数据库/CSV/API 加载数据</li>
+            <li><strong>数据清洗：</strong>处理缺失值、异常值、类型转换</li>
+            <li><strong>探索性分析（EDA）：</strong>描述统计 + 可视化 + 相关性分析</li>
+            <li><strong>统计建模：</strong>根据问题选择回归/分类/聚类等方法</li>
+            <li><strong>模型诊断：</strong>残差分析、共线性检测、交叉验证</li>
+            <li><strong>结果报告：</strong>用 Jupyter + Quarto 生成可复现报告</li>
+            <li><strong>部署（可选）：</strong>将模型封装为 API 或仪表盘</li>
+        </ol>
+
+        <div class="warning">
+            <strong>踩坑故事：包版本冲突导致结果不一致</strong>
+            <p>我曾经帮一个团队排查一个诡异的问题——同样的数据、同样的统计方法，两个分析师跑出的 p 值居然不一样。查了两天才发现：一个用的是 scipy 1.7.0，另一个是 scipy 1.11.0。原来在 scipy 1.9 之后，<code>ttest_ind</code> 的默认参数 <code>equal_var</code> 的实现细节变了，当两组样本量差异较大时，Welch t 检验的自由度计算公式做了微调，导致 p 值在边界线附近出现了差异。</p>
+            <p>教训：永远在项目中包含 <code>requirements.txt</code> 或 <code>environment.yml</code>，并记录关键包的版本号。对于重要结论，最好在两种工具中互相验证一下结果。</p>
+        </div>
+
+        <h2 id="section-7">23.7 本章小结</h2>
+
+        <p>统计学工具链的选择没有银弹。Python 和 R 各有所长，理解它们的差异能让你在面对不同任务时做出更明智的选择。掌握了 <code>scipy.stats</code> 和 <code>statsmodels</code> 这两个核心库，再配合 Jupyter 的交互式环境，你就拥有了从数据清洗到统计建模再到结果报告的一整套"兵器库"。</p>
+
+        <p>下一章，我们将要用这套工具链去解决一个真实的问题——不再用模拟数据，而是拿一个真实的数据集，走完从清洗到建模的完整分析流程。希望大家带着工具链的知识，和我一起动手实战！</p>
+
+        <section class="interactive-lab" id="experiment" data-demo="toolchain"><div class="lab-heading"><span class="lab-kicker">INTERACTIVE EXPLORATION</span><h2>按任务选择工具</h2><p>选择你当前要完成的工作，查看常见工具组合与需要保留的可复现信息。</p></div><div class="lab-control"><label class="control-label" for="demo-23">选择分析任务</label><select id="demo-23" data-demo-input><option value="clean" >清洗与重塑表格数据</option><option value="test" >执行 t 检验或分布检验</option><option value="model" selected>拟合回归并查看置信区间</option><option value="report" >生成可复现分析报告</option></select><p class="demo-result" data-demo-output aria-live="polite"></p></div><p class="lab-caveat">教学模拟：用于理解概念与方向，不替代真实数据分析、正式功效计算或研究设计审查。</p></section><section class="chapter-recap" id="recap"><p class="section-kicker">TAKEAWAYS</p><h2>本章要记住的三件事</h2><ol><li>pandas 适合数据整理；SciPy 提供统计计算；statsmodels 强调统计模型与推断。</li><li>R 在统计建模、可视化和报告生态中同样成熟。</li><li>Notebook 需要固定随机种子、依赖版本和数据来源，避免只保存最终输出。</li></ol></section><section class="references" id="references"><p class="section-kicker">FURTHER READING</p><h2>延伸阅读与核对来源</h2><ul><li><a href="https://docs.scipy.org/doc/scipy/reference/stats.html" target="_blank" rel="noopener noreferrer">SciPy Statistics documentation</a><span>SciPy</span></li><li><a href="https://www.statsmodels.org/stable/index.html" target="_blank" rel="noopener noreferrer">statsmodels documentation</a><span>statsmodels</span></li><li><a href="https://pandas.pydata.org/docs/" target="_blank" rel="noopener noreferrer">pandas documentation</a><span>pandas</span></li></ul><p class="source-note">参考来源用于核对概念与方法。涉及具体数据、历史细节或行业案例时，应回到原始研究或官方文档逐项核验。</p></section><nav class="chapter-pagination" aria-label="章节切换"><a href="../bayesian-statistics/index.html"><small>上一章 · 22</small><strong>← 贝叶斯统计入门</strong></a><a class="pagination-home" href="../../index.html">全部章节</a><a class="next" href="../real-data-analysis/index.html"><small>下一章 · 24</small><strong>真实数据分析实战 →</strong></a></nav></article></main></div><script src="../../assets/js/article.js" defer></script></body></html>
