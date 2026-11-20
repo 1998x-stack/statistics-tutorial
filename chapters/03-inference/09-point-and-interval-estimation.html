@@ -1,0 +1,115 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="估计量给出参数的近似值，区间表达不确定性，解释必须匹配统计框架。"><title>第09章 点估计与区间估计 · 统计学教程</title><link rel="stylesheet" href="../../assets/css/course.css"></head><body class="chapter-page" data-root="../.." data-page="chapter"><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="site-brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学教程</span></a><nav id="courseNav" class="course-nav" aria-label="课程章节目录"><p class="nav-loading">正在载入课程目录…</p></nav></aside><main id="main-content" class="main-content"><article class="chapter-article" data-chapter="09"><div class="breadcrumbs"><a href="../../index.html">课程总览</a><span>/</span><span>抽样与统计推断</span><span>/</span><span>第 09 章</span></div><div class="chapter-meta"><span class="chapter-number">CHAPTER 09</span><span class="chapter-category">抽样与统计推断</span><span class="chapter-level">核心</span><span class="chapter-duration">约 20 分钟</span></div>
+        <h1>第9章：点估计与区间估计</h1>
+
+        <p class="lead">大家好，我是你们的讲师。想象一下，你的朋友刚搬到一个陌生城市，问你："那边平均房价是多少？"你不可能知道真正的答案——除非你把全城的每套房都查一遍。但你可以抽几套房看看，然后说："我猜大概5万每平米。"这就是<strong>点估计（point estimation）</strong>——用一个数字猜测总体参数。但如果你稍微谨慎一些，会说："我猜大概在4.5万到5.5万之间。"这就是<strong>区间估计（interval estimation）</strong>。</p><section class="learning-path" aria-label="本章学习目标"><p class="section-eyebrow">本章学习目标</p><ul><li>矩估计</li><li>最大似然</li><li>置信区间</li></ul></section><figure class="concept-figure"><img src="../../assets/figures/09-point-and-interval-estimation.svg" alt="区间估计表达估计的不确定性。每个区间来自一次样本；重复抽样时，区间覆盖真值的长期比例由方法保证。" loading="eager"><figcaption><strong>图 9.</strong> 区间估计表达估计的不确定性：每个区间来自一次样本；重复抽样时，区间覆盖真值的长期比例由方法保证。</figcaption></figure><section class="lab" data-lab="09" aria-labelledby="lab-heading-09"><h2 id="lab-heading-09">交互实验：样本量如何缩窄置信区间</h2><p>在正态近似下，用已知标准差演示均值区间的宽度如何随 n 变化。</p><div class="lab-mount"><p class="lab-fallback">交互控件加载后，可调整参数并观察统计量的变化。</p></div></section>
+
+        <p>用一个数字来猜，听起来就很危险对不对？确实，点估计几乎不可能刚好命中真实参数。但如果我们理解估计的不确定性，并为之"留出余地"，那么区间估计就比点估计实用得多。本章我们从点估计的两种常用方法开始，然后过渡到置信区间——这是每个数据从业者必须掌握的核心工具。</p>
+
+        <h2>9.1 什么是点估计：用样本猜总体</h2>
+
+        <p>点估计的核心思想很直观：用样本中计算出的一个统计量来估计总体中对应的参数。比如用样本均值 x̄ 来估计总体均值 μ，用样本方差 s² 来估计总体方差 σ²。</p>
+
+        <p>好的点估计有两个理想性质：<strong>无偏性（unbiasedness）</strong>，即估计量的期望等于真实参数值；<strong>有效性（efficiency）</strong>，即估计量的方差尽可能小。样本均值 x̄ 是一个无偏估计量，因为 E(x̄) = μ。而且相比中位数，样本均值的方差更小，所以更"有效"。</p>
+
+        <div class="tip">
+            <strong>直觉理解无偏性：</strong>无偏并不是说你的某一次估计很准——而是说如果你反复做同样的实验很多次，你估计值的平均值会无限接近真实值。这就像射箭——无偏意味着你的着箭点平均来说在靶心，虽然每次可能有偏差；有偏则意味着你总是往一个方向偏。
+        </div>
+
+        <h2>9.2 矩估计法（MME）</h2>
+
+        <p>矩估计法（Method of Moments Estimation）是统计史上最古老、最直观的估计方法之一。它的逻辑非常简单：用样本矩（如样本均值、样本方差）来估计总体矩（总体均值、总体方差），然后解出参数。</p>
+
+        <p>假设你怀疑某组数据来自正态分布 N(μ, σ²)，那么矩估计就直接用 x̄ 估计 μ，用 s² 估计 σ²。对于更复杂的分布，比如 Gamma 分布有两个参数需要估计，你就需要用前两阶矩（样本均值和样本方差）来建立两个方程，然后联立求解。</p>
+
+        <div class="highlight">
+            <strong>有趣的历史：</strong>矩估计法是由英国统计学家卡尔·皮尔逊（Karl Pearson）在19世纪末提出的。这位爷也是卡方检验的发明者，还是现代统计学的奠基人之一。不过有趣的是，皮尔逊的矩估计法后来被费歇尔的MLE在许多场景下"击败"了——MLE通常更有效（方差更小）。
+        </div>
+
+        <h2>9.3 最大似然估计（MLE）的直觉</h2>
+
+        <p>最大似然估计（Maximum Likelihood Estimation, MLE）是当代统计学中使用最广泛的估计方法。它的核心思想是：<strong>在众多可能的参数值中，选择那个最可能让我们观测到当前数据的值</strong>。</p>
+
+        <p>举个例子：假设你看到朋友连续投了10次硬币，结果全是正面。现在让你估计这个硬币正面朝上的概率 p。矩估计会算样本均值 = 10/10 = 1，估计 p = 1。MLE呢？对于二项分布，似然函数 L(p) = p¹⁰(1-p)⁰ = p¹⁰。最大化 p¹⁰ 显然也是在 p = 1 时取到。所以两种方法的答案一样。</p>
+
+        <p>但如果数据是"9次正面，1次反面"呢？矩估计给出 p = 0.9。MLE同样给出 p = 0.9——因为在这个简单例子中两种方法等价。但在更复杂的模型中（比如有多个参数或数据分布很特殊），两种方法可能给出不同的结果。MLE通常有更好的大样本性质。</p>
+
+        <p>我们来看一个用 scipy 计算置信区间的完整例子：</p>
+
+        <pre><code>import numpy as np
+from scipy import stats
+
+# 假设我们测量了30名成年男性的身高（cm）
+np.random.seed(42)
+heights = np.random.normal(loc=172, scale=6, size=30)
+
+# 计算样本均值和样本标准差
+x_bar = np.mean(heights)
+s = np.std(heights, ddof=1)  # 注意：ddof=1 使用n-1
+n = len(heights)
+
+# 计算95%置信区间（使用t分布，因为σ未知）
+confidence = 0.95
+alpha = 1 - confidence
+t_critical = stats.t.ppf(1 - alpha/2, df=n-1)
+margin_error = t_critical * s / np.sqrt(n)
+ci_low = x_bar - margin_error
+ci_high = x_bar + margin_error
+
+print(f"样本均值: {x_bar:.2f}")
+print(f"样本标准差: {s:.2f}")
+print(f"t临界值（df={n-1}）: {t_critical:.4f}")
+print(f"标准误: {s/np.sqrt(n):.2f}")
+print(f"误差边际: {margin_error:.2f}")
+print(f"95% 置信区间: [{ci_low:.2f}, {ci_high:.2f}]")
+
+# 也可以直接用 scipy 一步到位
+ci = stats.t.interval(0.95, df=n-1, loc=x_bar, scale=s/np.sqrt(n))
+print(f"直接用 scipy: [{ci[0]:.2f}, {ci[1]:.2f}]")</code></pre>
+
+        <h2>9.4 置信区间：给估计留余地</h2>
+
+        <p>置信区间（confidence interval, CI）的核心公式是：</p>
+
+        <p style="text-align:center; font-size:1.1rem;"><strong>点估计 ± (临界值 × 标准误)</strong></p>
+
+        <p>其中"临界值 × 标准误"就是<strong>误差边际（margin of error）</strong>。从公式可以看出，置信区间的宽度取决于三个因素：</p>
+
+        <ul>
+            <li><strong>置信水平：</strong>置信水平越高（如99% vs 95%），临界值越大，区间越宽。</li>
+            <li><strong>样本变异性：</strong>数据越分散（s越大），区间越宽。</li>
+            <li><strong>样本量：</strong>样本量越大（n越大），标准误越小，区间越窄。</li>
+        </ul>
+
+        <p>在实践中，我们最常用的就是95%置信区间。但请注意：95%是一个<strong>先验概率</strong>，而不是对某个具体区间的概率声明。</p>
+
+        <h2>9.5 置信区间的正确解读</h2>
+
+        <div class="warning">
+            <strong>最常见的误解：</strong>许多人认为"95%置信区间意味着真实参数有95%的概率落在这个区间内。"——这是<strong>错的</strong>！真实参数是固定不变的（虽然我们不知道它在哪里），区间则是随机的。正确的解读是：如果我们重复抽样很多次，每次计算一个95%置信区间，那么这些区间中大约有95%会包含真实参数。<br><br>
+            再强调一遍：对于一个具体的区间，真实参数要么在里面（100%），要么不在（0%），不存在"95%概率在里面"这种说法。这个误解非常普遍，甚至连一些统计学家写的教材都有过这种不严谨的表述。
+        </div>
+
+        <p>让我用一个类比来帮助理解。想象你在玩飞镖，靶心是真实参数。你的每次飞镖投中的位置就是一次点估计。而置信区间就像你在着靶点周围画的一个圈——圈的大小取决于你的水平（置信水平）和你的稳定度（标准误）。如果你水平稳定（标准误小），圈就画得小。如果你想要95%的信心，圈就比90%的信心更大——但不管怎样，对于一次具体的投掷，靶心要么在圈里，要么不在。</p>
+
+        <p>下表总结了不同置信水平对应的临界值：</p>
+
+        <table>
+            <tr><th>置信水平</th><th>α</th><th>z临界值（σ已知）</th><th>备注</th></tr>
+            <tr><td>90%</td><td>0.10</td><td>1.645</td><td>较窄，但不那么"可靠"</td></tr>
+            <tr><td>95%</td><td>0.05</td><td>1.960</td><td>最常用，黄金标准</td></tr>
+            <tr><td>99%</td><td>0.01</td><td>2.576</td><td>较宽，更保守</td></tr>
+        </table>
+
+        <div class="tip">
+            <strong>小技巧：</strong>很多人记不住 z = 1.96 这个数，其实你可以近似为 z ≈ 2。对于95%置信区间，粗略地讲就是"点估计 ± 2×标准误"。这个近似在样本量较大时很好用。我经常在头脑风暴或快速估算时用这个心算规则。
+        </div>
+
+        <p>点估计和区间估计为我们提供了从样本推断总体的两个层次：一个"最佳猜测"和一个"合理范围"。但这就够了吗？很多时候我们想要的不仅仅是估计——我们想判断某个假设是否成立。下一章我们将进入统计推断的另一个核心话题：假设检验。</p>
+
+        <section class="chapter-summary"><h2>本章小结</h2><p>置信区间的解释取决于频率学派或贝叶斯框架。</p></section><aside class="note caveat"><strong>统计严谨性提醒</strong><p>矩估计使用样本矩时通常采用 n 分母；n−1 校正对应另一种方差估计目标。MLE 也不保证小样本无偏。</p></aside><section class="references"><h2>延伸阅读与参考资料</h2><ol><li><a href="https://www.openintro.org/book/os/" target="_blank" rel="noopener noreferrer">OpenIntro Statistics</a></li><li><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">NIST/SEMATECH e-Handbook</a></li></ol></section><div class="footer-nav">
+            <a href="08-sampling-and-sampling-distributions.html">← 上一章</a>
+            <a href="../../index.html">📖 返回目录</a>
+            <a href="10-hypothesis-testing.html">下一章 →</a>
+        </div>
+    </div>
+</article><footer class="site-footer">统计学 · 从数据中理解不确定性</footer></main></div><script src="../../assets/js/course-data.js" defer></script><script src="../../assets/js/course.js" defer></script></body></html>
