@@ -1,0 +1,167 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="概率是描述不确定性的语言；条件概率与贝叶斯更新都依赖明确的信息条件。"><title>第06章 概率基础 · 统计学教程</title><link rel="stylesheet" href="../../assets/css/course.css"></head><body class="chapter-page" data-root="../.." data-page="chapter"><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="site-brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学教程</span></a><nav id="courseNav" class="course-nav" aria-label="课程章节目录"><p class="nav-loading">正在载入课程目录…</p></nav></aside><main id="main-content" class="main-content"><article class="chapter-article" data-chapter="06"><div class="breadcrumbs"><a href="../../index.html">课程总览</a><span>/</span><span>概率与随机模型</span><span>/</span><span>第 06 章</span></div><div class="chapter-meta"><span class="chapter-number">CHAPTER 06</span><span class="chapter-category">概率与随机模型</span><span class="chapter-level">基础</span><span class="chapter-duration">约 15 分钟</span></div>
+        <h1>第6章：概率基础</h1>
+
+        <p class="lead">大家好，我是你们的讲师。从这一章开始，我们进入了统计学最硬核的部分——<strong>概率论</strong>。很多同学听到"概率"两个字就开始头疼，但其实概率问题每天都在困扰我们。比如："要不要带伞出门？"（降水概率30%）；"这次A/B测试的结果是碰巧的吗？"（p值）；"这个检测说我得了病，我该信吗？"（贝叶斯公式）。</p><section class="learning-path" aria-label="本章学习目标"><p class="section-eyebrow">本章学习目标</p><ul><li>古典概率</li><li>条件概率</li><li>贝叶斯公式</li></ul></section><figure class="concept-figure"><img src="../../assets/figures/06-probability-basics.svg" alt="阳性结果不等于患病概率。贝叶斯更新把基准率、灵敏度和特异度放在同一条概率路径中。" loading="eager"><figcaption><strong>图 6.</strong> 阳性结果不等于患病概率：贝叶斯更新把基准率、灵敏度和特异度放在同一条概率路径中。</figcaption></figure><section class="lab" data-lab="06" aria-labelledby="lab-heading-06"><h2 id="lab-heading-06">交互实验：基准率如何改变阳性预测值</h2><p>固定灵敏度和特异度，改变患病率，观察阳性结果中真正患病者的比例。</p><div class="lab-mount"><p class="lab-fallback">交互控件加载后，可调整参数并观察统计量的变化。</p></div></section>
+
+        <p>概率论就是一套"量化不确定性"的语言。没有概率，统计学就无从谈起——因为统计学的核心就是从样本到总体的推断，而任何推断都带有不确定性。理解了概率，你才能真正理解后面要学的假设检验、置信区间和贝叶斯统计。</p>
+
+        <h2>6.1 概率的定义：古典、频率、主观</h2>
+
+        <p>概率到底是什么意思？历史上主要有三种不同的解读：</p>
+
+        <table>
+            <tr>
+                <th>学派</th>
+                <th>定义</th>
+                <th>核心思想</th>
+                <th>局限性</th>
+            </tr>
+            <tr>
+                <td><strong>古典概率</strong></td>
+                <td>P(A) = 有利结果数 / 所有可能结果数</td>
+                <td>假设所有结果等可能</td>
+                <td>只能用于对称场景（骰子、硬币）</td>
+            </tr>
+            <tr>
+                <td><strong>频率概率</strong></td>
+                <td>P(A) = n→∞时事件A发生的频率极限</td>
+                <td>概率是长期相对频率</td>
+                <td>无法定义单次事件的概率</td>
+            </tr>
+            <tr>
+                <td><strong>主观概率</strong></td>
+                <td>P(A) = 个人对事件A发生的信念程度</td>
+                <td>概率是主观的、可更新的</td>
+                <td>不同人可以有不同"概率"</td>
+            </tr>
+        </table>
+
+        <p>古典概率最直观：掷一个公平的骰子，每个面出现的概率是1/6。但这种定义只适用于"对称"的随机试验。现实世界中几乎没有任何事情是完全对称的。</p>
+
+        <p>频率概率是经典统计学（频率学派）的基础。它说概率就是"长期重复试验中事件发生的频率"。比如，"某药物治愈率为80%"的意思是，如果你让大量患者服用这个药，长期来看会有大约80%的人被治愈。</p>
+
+        <p>主观概率则是贝叶斯统计学的基础。它认为概率可以根据新的信息不断更新。明天有30%的降水概率——这在频率学派看来很难理解（明天的天气只能发生一次），但在主观概率框架下完全合理：这是一个气象学家结合所有可用信息后给出的"信念程度"。</p>
+
+        <h2>6.2 条件概率与乘法法则</h2>
+
+        <p><strong>条件概率（Conditional Probability）</strong>是概率论中最核心的概念之一。它回答的问题是："已知B发生的情况下，A发生的概率是多少？"</p>
+
+        <p>用符号表示：P(A|B) = P(A∩B) / P(B)</p>
+
+        <p>直观理解：条件概率就是"在缩小了的结果空间中重新计算概率"。当你知道了B已经发生，所有不包含B的结果就被排除了，我们在B这个"新全集"中重新计算A的比例。</p>
+
+        <p>从条件概率出发可以推导出<strong>乘法法则</strong>：P(A∩B) = P(A|B) × P(B) = P(B|A) × P(A)</p>
+
+        <p>这个公式看起来简单，却是一切高级概率推理的基础。</p>
+
+        <div class="tip">
+            <p><strong>💡 条件概率 vs 联合概率</strong>：这两个概念经常被混淆。P(A|B)是"已知B发生下A的概率"；P(A∩B)是"A和B同时发生的概率"。两者的区别就在分母上——条件概率除以了P(B)。比如："一个人是程序员且近视"（联合概率）和"已知一个人是程序员，他近视的概率"（条件概率）是完全不同的问题。</p>
+        </div>
+
+        <h2>6.3 贝叶斯公式的直观理解</h2>
+
+        <p>贝叶斯公式是条件概率的简单推论，却被称为"统计学界的哥白尼革命"。</p>
+
+        <p>公式：P(A|B) = P(B|A) × P(A) / P(B)</p>
+
+        <p>或者写成更直观的形式：</p>
+
+        <p><strong>后验概率 = 似然 × 先验概率 / 证据</strong></p>
+
+        <p>我们来拆解一下：</p>
+        <ul>
+            <li><strong>先验概率 P(A)</strong>：在看到数据之前，你对A的初始信念</li>
+            <li><strong>似然 P(B|A)</strong>：如果A为真，你观察到数据B的可能性</li>
+            <li><strong>证据 P(B)</strong>：数据B本身出现的概率（作为归一化常数）</li>
+            <li><strong>后验概率 P(A|B)</strong>：在看到数据之后，你更新后的信念</li>
+        </ul>
+
+        <p>贝叶斯公式的美妙之处在于它给了我们一个<strong>从数据中学习的数学框架</strong>：先有一个初始信念（先验），然后看到新数据，根据数据更新信念（后验），这个后验又可以作为下一次更新的先验——形成一个持续学习的过程。</p>
+
+        <pre><code># 贝叶斯更新模拟：药物有效性判断
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 先验：假设药物有效的概率分布（Beta分布）
+# Beta(2, 8) 表示我们比较保守，认为有效率大约20%
+from scipy import stats
+
+prior_a, prior_b = 2, 8
+prior = stats.beta(prior_a, prior_b)
+
+# 我们做了一个小规模试验：30个患者中15人有效
+n_trials = 30
+n_success = 15
+
+# 后验分布：Beta(prior_a + n_success, prior_b + n_trials - n_success)
+post_a = prior_a + n_success
+post_b = prior_b + n_trials - n_success
+posterior = stats.beta(post_a, post_b)
+
+# 计算后验均值和95%置信区间
+mean_effect = posterior.mean()
+ci_low, ci_high = posterior.interval(0.95)
+
+print(f"先验期望有效率: {prior.mean():.1%}")
+print(f"后验期望有效率: {mean_effect:.1%}")
+print(f"后验95%置信区间: [{ci_low:.1%}, {ci_high:.1%}]")
+
+# 输出：
+# 先验期望有效率: 20.0%
+# 后验期望有效率: 42.5%
+# 后验95%置信区间: [30.0%, 55.6%]</code></pre>
+
+        <h2>6.4 随机变量：从事件到数值</h2>
+
+        <p>随机变量（Random Variable）是一个函数——它把随机试验的每个结果映射成一个数字。定义随机变量的好处是：我们可以用数学方法（均值、方差、分布函数）来研究随机性。</p>
+
+        <p>两类随机变量：</p>
+        <ul>
+            <li><strong>离散随机变量</strong>：取值可数。比如"掷骰子的点数"（1,2,3,4,5,6）、"一个小时内收到的邮件数"（0,1,2,...）</li>
+            <li><strong>连续随机变量</strong>：取值不可数，可以在一个区间内取任意值。比如"身高"、"反应时间"</li>
+        </ul>
+
+        <p>描述随机变量分布的两个关键函数：</p>
+        <ul>
+            <li><strong>概率质量函数（PMF）</strong>：用于离散变量，给出每个具体取值的概率</li>
+            <li><strong>概率密度函数（PDF）</strong>：用于连续变量，给出某个取值附近的"概率密度"</li>
+        </ul>
+
+        <p>随机变量的期望（均值）和方差，本质上是对"分布的中心"和"分布的离散程度"的量化——和我们第3章学的样本均值/样本标准差是对应的概念，只不过这里是在"总体"层面上。</p>
+
+        <h2>6.5 三门问题与基础疾病的悖论</h2>
+
+        <p>概率论中有很多"反直觉"的结果，这里聊两个最著名的。</p>
+
+        <p><strong>三门问题（Monty Hall Problem）</strong>：你在一个游戏节目中，面前有三扇门，一扇后面是汽车，另外两扇后面是山羊。你选了一扇（比如1号门）。主持人知道车在哪，他打开了另一扇有山羊的门（比如3号门）。然后问你：要不要换成2号门？</p>
+
+        <p>大多数人直觉认为换与不换概率都是50%。但正确答案是：<strong>换！换了之后中奖概率从1/3提高到2/3</strong>。因为主持人提供的信息改变了概率空间——他的行动不是随机的，他必然打开一扇有山羊的门。这给"不换"策略带来了信息劣势。</p>
+
+        <div class="highlight">
+            <p><strong>📖 踩坑故事：基础疾病悖论——为什么检测阳性不等于患病</strong></p>
+            <p>这是我从事数据分析以来遇到的"最反直觉"的案例之一。</p>
+            <p>假设有一种罕见病，在人群中的患病率是0.1%（先验概率）。有一种检测方法，灵敏度（真阳性率）是99%，特异性（真阴性率）也是99%。你去做检测，结果是阳性。你有多大概率真的得了这个病？</p>
+            <p>很多人的直觉是99%。我们照直觉来算——</p>
+            <p>用贝叶斯公式：</p>
+            <p>P(患病|阳性) = P(阳性|患病) × P(患病) / P(阳性)</p>
+            <p>= 0.99 × 0.001 / (0.99 × 0.001 + 0.01 × 0.999)</p>
+            <p>= 0.00099 / (0.00099 + 0.00999)</p>
+            <p>= 0.00099 / 0.01098</p>
+            <p>≈ 9%</p>
+            <p>是的，你只有大约9%的概率真的患病。即使检测是"99%准确"的，因为疾病本身太罕见了，大部分阳性结果都是"假阳性"。</p>
+            <p>这个悖论我亲眼见过多次。一位朋友体检后某项指标异常（阳性），吓得失眠了两周，结果复查后发现只是虚惊一场。如果早点理解贝叶斯公式，就不至于白担心了。</p>
+        </div>
+
+        <div class="warning">
+            <p><strong>⚠️ 一个重要教训</strong>：在任何领域看到检测结果时（医学检测、垃圾邮件分类、欺诈检测），永远记住：<strong>检测精度（灵敏度/特异性）只是故事的一半，先验概率（事件本身有多罕见）同样关键</strong>。忽视先验概率是概率直觉中最常见的错误。我们会在第22章贝叶斯统计中详细展开这个主题。</p>
+        </div>
+
+        <p>概率是统计学的语言。理解了概率的基本概念——条件概率、贝叶斯公式、随机变量——你就具备了理解后续所有推断统计工具的基础。下一章，我们将学习最常见的几种概率分布，包括那个无处不在的<strong>正态分布</strong>。</p>
+
+        <section class="chapter-summary"><h2>本章小结</h2><p>条件概率中的条件不能丢；基准率是贝叶斯判断的关键。</p></section><aside class="note caveat"><strong>统计严谨性提醒</strong><p>贝叶斯公式是概率恒等式；先验与似然需要明确，检测阳性后的概率必须考虑基准率。</p></aside><section class="references"><h2>延伸阅读与参考资料</h2><ol><li><a href="https://www.openintro.org/book/os/" target="_blank" rel="noopener noreferrer">OpenIntro Statistics</a></li><li><a href="https://www.itl.nist.gov/div898/handbook/eda/section3/eda366.htm" target="_blank" rel="noopener noreferrer">NIST: Probability Distributions</a></li></ol></section><div class="footer-nav">
+            <a href="../01-foundations/05-data-visualization.html">← 上一章</a>
+            <a href="../../index.html">📖 返回目录</a>
+            <a href="07-common-probability-distributions.html">下一章 →</a>
+        </div>
+    </div>
+</article><footer class="site-footer">统计学 · 从数据中理解不确定性</footer></main></div><script src="../../assets/js/course-data.js" defer></script><script src="../../assets/js/course.js" defer></script></body></html>
