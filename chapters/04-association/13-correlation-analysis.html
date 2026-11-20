@@ -1,0 +1,130 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="相关描述变量之间的关联方向与强度，不能单独建立因果关系。"><title>第13章 相关分析 · 统计学教程</title><link rel="stylesheet" href="../../assets/css/course.css"></head><body class="chapter-page" data-root="../.." data-page="chapter"><a class="skip-link" href="#main-content">跳转至正文</a><div class="site-shell"><aside class="sidebar"><a class="site-brand" href="../../index.html"><span class="brand-mark">σ</span><span>统计学教程</span></a><nav id="courseNav" class="course-nav" aria-label="课程章节目录"><p class="nav-loading">正在载入课程目录…</p></nav></aside><main id="main-content" class="main-content"><article class="chapter-article" data-chapter="13"><div class="breadcrumbs"><a href="../../index.html">课程总览</a><span>/</span><span>关联分析与多重检验</span><span>/</span><span>第 13 章</span></div><div class="chapter-meta"><span class="chapter-number">CHAPTER 13</span><span class="chapter-category">关联分析与多重检验</span><span class="chapter-level">核心</span><span class="chapter-duration">约 20 分钟</span></div>
+        <h1>第13章：相关分析</h1>
+
+        <p class="lead">大家好，我是你们的讲师。"相关不等于因果"——这是统计学中最著名的一句话，也是最容易被忽视的一句话。但相关分析本身仍然是一个极其强大的工具。它告诉我们：两个变量之间是否存在某种联系，联系有多强，方向是正是反。</p><section class="learning-path" aria-label="本章学习目标"><p class="section-eyebrow">本章学习目标</p><ul><li>Pearson相关</li><li>Spearman相关</li><li>相关矩阵</li></ul></section><figure class="concept-figure"><img src="../../assets/figures/13-correlation-analysis.svg" alt="散点图揭示相关关系的形状。相关系数把关联压缩成一个数，散点图能显示离群、非线性和分群。" loading="eager"><figcaption><strong>图 13.</strong> 散点图揭示相关关系的形状：相关系数把关联压缩成一个数，散点图能显示离群、非线性和分群。</figcaption></figure><section class="lab" data-lab="13" aria-labelledby="lab-heading-13"><h2 id="lab-heading-13">交互实验：相关强度不等于因果强度</h2><p>改变相关系数，观察线性关联方向与强度；散点图仍然不可省略。</p><div class="lab-mount"><p class="lab-fallback">交互控件加载后，可调整参数并观察统计量的变化。</p></div></section>
+
+        <p>想象一下：如果你能分析出用户的年龄和购买金额之间的关系，你就能更好地针对不同年龄段的用户做推荐；如果你发现气温和冰淇淋销量高度相关，你就能根据天气预报来安排进货量。相关分析的妙处在于：它不需要复杂的数学模型，就能给你直观而深刻的洞见。</p>
+
+        <h2>13.1 Pearson相关系数：线性相关的度量</h2>
+
+        <p>Pearson相关系数（通常记为 r）是最常用的相关系数。它的取值范围是 [-1, 1]：</p>
+
+        <ul>
+            <li><strong>r = 1：</strong>完全正相关——一个变量增加，另一个也成比例增加。</li>
+            <li><strong>r = -1：</strong>完全负相关——一个变量增加，另一个成比例减少。</li>
+            <li><strong>r = 0：</strong>没有线性相关——但要注意！r = 0 并不意味着没有关系，只是没有<strong>线性</strong>关系。</li>
+        </ul>
+
+        <p>判断相关性强弱的经验法则：|r| ≥ 0.7 为强相关，0.3 ≤ |r| < 0.7 为中等相关，|r| < 0.3 为弱相关。</p>
+
+        <div class="highlight">
+            <strong>重要提醒：</strong>Pearson相关系数只能捕捉<strong>线性关系</strong>。如果两个变量之间存在非线性关系（比如 U 型关系），Pearson r 可能会接近 0，但两个变量实际上密切相关。所以在计算 Pearson 相关系数之前，<strong>永远要先画散点图</strong>！每次看到有人只看相关系数矩阵而不画图，我都替他捏把汗。
+        </div>
+
+        <h2>13.2 Spearman秩相关：单调关系</h2>
+
+        <p>Spearman秩相关系数（Spearman's rank correlation）是 Pearson 的非参数版本。它不关心原始数值，而是把数据转换成<strong>秩次（rank）</strong>——也就是排序的位置。然后计算秩次之间的 Pearson 相关系数。</p>
+
+        <p>Spearman 的好处是：</p>
+
+        <ul>
+            <li>不要求数据服从正态分布。</li>
+            <li>可以捕捉单调关系（不一定是线性，只要一直增加或一直减少）。</li>
+            <li>对异常值不敏感。</li>
+        </ul>
+
+        <h2>13.3 Kendall τ：另一种秩相关</h2>
+
+        <p>Kendall's τ（tau）是另一种基于秩次的相关系数。它的计算基于"一致对"和"不一致对"的概念：随机抽取两个数据点，如果它们的两个变量的大小顺序一致（一个变量大另一个也大），就称为一致对；否则是不一致对。</p>
+
+        <p>Kendall τ 的优点是它的<strong>统计性质更好</strong>——它的分布更接近正态分布，在小样本下比 Spearman 更可靠。缺点是计算复杂度高一些（在非常大的数据集上可能较慢）。</p>
+
+        <table>
+            <tr><th>相关系数</th><th>类型</th><th>适合的数据</th><th>对异常值敏感</th><th>需要正态性</th></tr>
+            <tr><td>Pearson r</td><td>参数</td><td>连续、线性关系</td><td>很敏感</td><td>是</td></tr>
+            <tr><td>Spearman ρ</td><td>非参数</td><td>连续/有序、单调关系</td><td>不敏感</td><td>否</td></tr>
+            <tr><td>Kendall τ</td><td>非参数</td><td>连续/有序、单调关系</td><td>不敏感</td><td>否</td></tr>
+        </table>
+
+        <h2>13.4 相关矩阵与热力图</h2>
+
+        <p>在实际数据分析中，我们常常需要同时看多个变量之间的相关关系，这时候<strong>相关矩阵（correlation matrix）</strong>和<strong>热力图（heatmap）</strong>就派上了用场。</p>
+
+        <p>下面是用 Python 计算相关系数并绘制热力图的完整代码：</p>
+
+        <pre><code>import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy import stats
+
+# 生成模拟数据
+np.random.seed(42)
+n = 200
+data = pd.DataFrame({
+    'age': np.random.normal(35, 12, n),
+    'income': np.random.normal(15000, 5000, n),
+    'education_years': np.random.normal(14, 3, n),
+    'satisfaction': np.random.normal(7, 1.5, n),
+})
+
+# 人为加入一些相关关系
+data['income'] = data['income'] + data['education_years'] * 800  # 教育和收入正相关
+data['satisfaction'] = data['satisfaction'] - data['age'] * 0.03  # 年龄和满意度负相关
+
+# == 1. 计算 Pearson 相关系数 ==
+pearson_r, pearson_p = stats.pearsonr(data['education_years'], data['income'])
+print(f"教育年限与收入的 Pearson r = {pearson_r:.3f}, p = {pearson_p:.4f}")
+
+# == 2. 计算 Spearman 秩相关系数 ==
+spearman_r, spearman_p = stats.spearmanr(data['education_years'], data['income'])
+print(f"教育年限与收入的 Spearman ρ = {spearman_r:.3f}, p = {spearman_p:.4f}")
+
+# == 3. 计算 Kendall τ ==
+kendall_tau, kendall_p = stats.kendalltau(data['education_years'], data['income'])
+print(f"教育年限与收入的 Kendall τ = {kendall_tau:.3f}, p = {kendall_p:.4f}")
+
+# == 4. 相关矩阵与热力图 ==
+corr_matrix = data.corr(method='pearson')  # 可选 'spearman', 'kendall'
+print("\n相关矩阵:")
+print(corr_matrix.round(3))
+
+# 用 seaborn 绘制热力图（如果环境支持图形显示）
+# plt.figure(figsize=(8, 6))
+# sns.heatmap(corr_matrix, annot=True, cmap='RdBu_r',
+#             vmin=-1, vmax=1, center=0,
+#             square=True, linewidths=0.5)
+# plt.title('变量相关矩阵热力图')
+# plt.tight_layout()
+# plt.show()</code></pre>
+
+        <h2>13.5 相关不等于因果（经典案例）</h2>
+
+        <div class="warning">
+            <strong>经典搞笑案例：</strong>有人发现，美国 Maine 州的离婚率与人均人造黄油消费量之间的 Pearson 相关系数高达 r = 0.99！这难道说明吃人造黄油会导致离婚吗？当然不是。这种明显的虚假相关（spurious correlation）往往是因为两个变量都跟时间趋势有关——随着社会发展，离婚率和人造黄油消费可能都发生了变化，但两者之间根本没有因果关系。<br><br>
+            另一个著名的例子：冰激凌销量与溺水人数的相关系数很高。是因为吃冰激凌让人容易溺水吗？不是。其实是因为天气热的时候，吃冰激凌的人多，去游泳的人也越多，而游泳的人多了，溺水的人数自然上升。这里的混淆变量是"气温"。
+        </div>
+
+        <p>为什么相关不等于因果？主要有以下几个原因：</p>
+
+        <ul>
+            <li><strong>遗漏变量/混淆变量：</strong>可能存在第三个变量同时影响两个观测变量（如上面的气温例子）。</li>
+            <li><strong>反向因果：</strong>可能是 B 导致了 A，而不是 A 导致了 B。比如收入高的人更健康——但到底是收入高导致了健康，还是健康的人更容易赚到高收入？</li>
+            <li><strong>纯粹的巧合：</strong>在大数据中，总能找到一些听起来很荒谬但统计上显著的相关关系。</li>
+        </ul>
+
+        <div class="tip">
+            <strong>实用建议：</strong>当你看到一个有趣的相关关系时，不要急于下因果结论。先问自己三个问题：1）是否存在一个合理的因果机制？（理论上说得通吗？）2）是否存在可能的混淆变量？3）时间顺序是否合理？（因在前，果在后）。这三个问题至少能帮你过滤掉一半以上的虚假相关。
+        </div>
+
+        <p>相关分析是探索性数据分析的利剑，但它不是终点。如果你想进一步量化一个变量如何影响另一个变量，并且控制其他变量的影响，就需要进入下一章的话题——回归分析。</p>
+
+        <p>下一章，我们将从最简单的回归模型开始——简单线性回归。我们来看看如何找到那条"最佳"的直线。</p>
+
+        <section class="chapter-summary"><h2>本章小结</h2><p>相关系数是关联摘要，不是因果证据。</p></section><aside class="note caveat"><strong>统计严谨性提醒</strong><p>Pearson 相关系数本身可计算而不要求正态；经典显著性推断另有假设。Spearman 也不等同于“对异常值不敏感”。</p></aside><section class="references"><h2>延伸阅读与参考资料</h2><ol><li><a href="https://www.itl.nist.gov/div898/handbook/eda/section3/eda35b.htm" target="_blank" rel="noopener noreferrer">NIST: Correlation</a></li><li><a href="https://www.openintro.org/book/os/" target="_blank" rel="noopener noreferrer">OpenIntro Statistics</a></li></ol></section><div class="footer-nav">
+            <a href="../03-inference/12-statistical-power-and-sample-size.html">← 上一章</a>
+            <a href="../../index.html">📖 返回目录</a>
+            <a href="14-simple-linear-regression.html">下一章 →</a>
+        </div>
+    </div>
+</article><footer class="site-footer">统计学 · 从数据中理解不确定性</footer></main></div><script src="../../assets/js/course-data.js" defer></script><script src="../../assets/js/course.js" defer></script></body></html>
