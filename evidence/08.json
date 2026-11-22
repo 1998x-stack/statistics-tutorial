@@ -1,0 +1,52 @@
+{
+  "chapter": "08",
+  "version": "2026-11-22",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "iid",
+      "claim": "Mean of iid random sample has E=mu and variance sigma squared over n, standard error sigma/sqrt(n)",
+      "kind": "textbook",
+      "source_url": "https://openstax.org/books/introductory-statistics-2e/pages/7-1-the-central-limit-theorem-for-sample-means-averages",
+      "locator": "§7.1",
+      "status": "verified",
+      "notes": "Assumes finite variance, independent identically distributed sampling"
+    },
+    {
+      "id": "fpc",
+      "claim": "Without replacement SRS finite population variance correction",
+      "kind": "course",
+      "source_url": "https://online.stat.psu.edu/stat506/Lesson01",
+      "locator": "SRS variance estimation",
+      "status": "verified",
+      "notes": "Uses sigma² denominator N; equivalent S² denominator N-1 shown"
+    },
+    {
+      "id": "se",
+      "claim": "Finite population without replacement SE differs from iid/with replacement SE",
+      "kind": "reference",
+      "source_url": "https://www.stat.berkeley.edu/~stark/SticiGui/Text/standardError.htm",
+      "locator": "Standard Error finite population correction",
+      "status": "verified",
+      "notes": "Not extrapolated to cluster sampling"
+    },
+    {
+      "id": "enumeration",
+      "claim": "For population [0,2,4,6], replacement ordered n2 sample means frequencies [1,2,3,4,3,2,1], variance 2.5; nonreplacement ordered n2 variance5/3",
+      "kind": "example",
+      "source_url": null,
+      "locator": "fig1, section finite population and Python enumeration",
+      "status": "derived",
+      "notes": "Complete finite enumeration"
+    },
+    {
+      "id": "gamma",
+      "claim": "If Xi are iid Exp(1), sample mean has Gamma(shape=n,rate=n) density",
+      "kind": "model",
+      "source_url": null,
+      "locator": "figure 3",
+      "status": "derived",
+      "notes": "Exact gamma transform; not simulation; finite n not normal"
+    }
+  ]
+}
