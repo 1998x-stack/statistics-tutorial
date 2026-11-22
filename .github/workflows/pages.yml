@@ -1,0 +1,50 @@
+name: Publish statistics tutorial to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: statistics-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Assemble minimal static Pages artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          cp index.html .nojekyll _site/
+          cp -R chapters assets data _site/
+          for file in [0-9][0-9].html; do
+            test -f "$file"
+            cp "$file" _site/
+          done
+          test -f _site/chapters/01.html
+          test -f _site/chapters/28.html
+          test -f _site/assets/css/article.css
+          test -f _site/assets/svg/03-outlier-centers.svg
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - name: Deploy to Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
