@@ -1,0 +1,79 @@
+{
+  "chapter": "10",
+  "version": "2026-11-22",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "tea-design",
+      "claim": "In Fisher's tea experiment 8 cups contain 4 milk-first, giving C(8,4)=70 equally likely guesses and 1/70 for all-correct",
+      "kind": "history",
+      "source_url": "https://en.wikipedia.org/wiki/Lady_tasting_tea",
+      "locator": "Lady tasting tea, experimental design",
+      "status": "verified",
+      "notes": "Combinatorics is exact; the all-correct outcome is Fisher's own later account"
+    },
+    {
+      "id": "tea-tail",
+      "claim": "Null distribution of guessed cups is 1/70, 16/70, 36/70, 16/70, 1/70 for 0-4 correct",
+      "kind": "derived",
+      "source_url": null,
+      "locator": "figure 1",
+      "status": "derived",
+      "notes": "Hypergeometric counts C(4,k)C(4,4-k)"
+    },
+    {
+      "id": "h0-h1",
+      "claim": "Null and alternative hypotheses are the two competing statements a test chooses between",
+      "kind": "textbook",
+      "source_url": "https://openstax.org/books/introductory-statistics-2e/pages/9-1-null-and-alternative-hypotheses",
+      "locator": "§9.1",
+      "status": "verified",
+      "notes": "Direction must be fixed before seeing data"
+    },
+    {
+      "id": "p-value",
+      "claim": "The p-value is the probability, assuming H0 is true, of a test statistic at least as extreme as the observed one",
+      "kind": "textbook",
+      "source_url": "https://openstax.org/books/introductory-statistics-2e/pages/9-1-null-and-alternative-hypotheses",
+      "locator": "§9.1",
+      "status": "verified",
+      "notes": "Conditional on H0; not P(H0 | data)"
+    },
+    {
+      "id": "alpha-origin",
+      "claim": "The 0.05 significance convention traces to Fisher's 1925 recommendation of a 1-in-20 standard",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1080/00031305.2016.1154108",
+      "locator": "ASA statement on p-values, historical context",
+      "status": "verified",
+      "notes": "Convention, not a law; level should depend on context"
+    },
+    {
+      "id": "type-errors",
+      "claim": "Type I error (rejecting a true H0) has probability alpha; type II error (not rejecting a false H0) has probability beta; power is 1-beta",
+      "kind": "reference",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/prc/section1/prc13.htm",
+      "locator": "NIST/SEMATECH, Type I and II errors",
+      "status": "verified",
+      "notes": "Power increases with sample size; alpha and beta trade off"
+    },
+    {
+      "id": "asa-caution",
+      "claim": "The ASA statement cautions against using p < 0.05 as an automatic decision rule and stresses effect size and context",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1080/00031305.2016.1154108",
+      "locator": "Wasserstein & Lazar (2016) principles",
+      "status": "verified",
+      "notes": "Optional stopping inflates the Type I error rate"
+    },
+    {
+      "id": "demo-pvalue",
+      "claim": "Two-sided normal p-value for a z statistic shown interactively",
+      "kind": "model",
+      "source_url": null,
+      "locator": "section 06 widget",
+      "status": "derived",
+      "notes": "Normal approximation via an erf series; small samples should use t"
+    }
+  ]
+}

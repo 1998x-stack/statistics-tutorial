@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="380" viewBox="0 0 900 380" role="img" aria-labelledby="t d">
+<title id="t">零假设下的抽样分布与拒绝域</title>
+<desc id="d">钟形曲线表示零假设为真时检验统计量的抽样分布，曲线右尾被竖直虚线切出一块阴影区域，其面积等于显著性水平 α；一个陶土色圆点表示观察到的统计量落入该区域，因此 p 值小于 α。</desc>
+<rect width="900" height="380" rx="15" fill="#fff"/>
+<g font-family="system-ui,sans-serif">
+<text x="36" y="42" font-size="20" font-weight="750" fill="#294b50">α 是尾部面积，p 值是观察点之外的尾部面积</text>
+<text x="37" y="72" font-size="14" fill="#587174">曲线是“H₀ 为真时”统计量的分布；阴影面积等于 α</text>
+<path d="M90 300H830M90 300V110" stroke="#92acaa" stroke-width="2"/>
+<rect x="560" y="110" width="150" height="190" fill="#147f80" opacity="0.18"/>
+<path d="M220 300C290 300 330 120 460 120C590 120 630 300 700 300" fill="none" stroke="#147f80" stroke-width="3"/>
+<path d="M560 300V120" stroke="#294b50" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="560" y="330" text-anchor="middle" font-size="13" font-weight="700" fill="#294b50">临界值</text>
+<text x="636" y="150" text-anchor="middle" font-size="13" font-weight="700" fill="#147f80">拒绝域</text>
+<text x="636" y="170" text-anchor="middle" font-size="12" fill="#147f80">面积 = α</text>
+<circle cx="648" cy="300" r="7" fill="#c06d4c"/>
+<text x="648" y="332" text-anchor="middle" font-size="12" font-weight="700" fill="#c06d4c">观察到的统计量</text>
+<text x="210" y="150" font-size="13" font-weight="700" fill="#147f80">不拒绝 H₀</text>
+<text x="36" y="362" font-size="12" fill="#597477">示意用平滑曲线；真实分布形状取决于检验统计量与样本量。</text>
+</g></svg>

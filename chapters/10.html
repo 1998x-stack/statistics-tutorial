@@ -1,199 +1,53 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>第10章 假设检验入门</title>
-    <link rel="stylesheet" href="theme.css">
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { background: linear-gradient(135deg, #f5f3ff 0%, #e8f5f0 100%); font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', Roboto, 'Helvetica Neue', sans-serif; padding: 20px; }
-        .double-border { max-width: 1400px; margin: 0 auto; background: #ffffff; border: 2px solid #8b5cf6; border-radius: 24px; box-shadow: 0 20px 30px -15px rgba(0,0,0,0.2), inset 0 1px 0 0 #f5f3ff; overflow: hidden; }
-        .container { display: grid; grid-template-columns: 260px 1fr; gap: 0; }
-        .sidebar { background: #faf8ff; border-right: 2px solid #c4b5fd; padding: 24px 16px; }
-        .sidebar h3 { font-size: 1.4rem; color: #6d28d9; border-left: 5px solid #8b5cf6; padding-left: 15px; margin-bottom: 25px; }
-        .chapter-list { list-style: none; }
-        .chapter-list li { margin-bottom: 6px; }
-        .chapter-list a { display: block; padding: 8px 12px; text-decoration: none; color: #334155; border-radius: 12px; transition: all 0.2s; font-weight: 500; font-size: 0.92rem; }
-        .chapter-list a:hover { background: #ede9fe; transform: translateX(3px); }
-        .chapter-list .active { background: #7c3aed; color: white; box-shadow: 0 2px 5px rgba(124,58,237,0.3); }
-        .main-content { padding: 30px 35px; background: white; }
-        .footer-nav { margin-top: 45px; padding-top: 20px; border-top: 2px solid #c4b5fd; display: flex; justify-content: space-between; }
-        .footer-nav a { padding: 8px 24px; background: #f1f5f9; text-decoration: none; color: #5b21b6; border-radius: 40px; font-weight: 500; transition: 0.2s; }
-        .footer-nav a:hover { background: #ede9fe; transform: translateY(-2px); }
-        footer { text-align: center; margin-top: 30px; padding: 15px; color: #64748b; border-top: 1px dashed #c4b5fd; font-size: 0.9rem; }
-        h2 { color: #4c1d95; border-left: 6px solid #8b5cf6; padding-left: 15px; margin: 20px 0 15px; font-size: 1.5rem; }
-        h3 { color: #5b21b6; margin: 20px 0 10px; font-size: 1.2rem; }
-        h4 { color: #6d28d9; margin: 15px 0 8px; font-size: 1.05rem; }
-        p { line-height: 1.85; margin: 10px 0; color: #1e293b; }
-        ul, ol { margin: 10px 0 10px 20px; line-height: 1.8; }
-        li { color: #1e293b; margin-bottom: 4px; }
-        pre { background: #1e1035; color: #e8e8f0; padding: 15px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', monospace; margin: 15px 0; font-size: 0.9rem; line-height: 1.5; }
-        code { background: #f5f3ff; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
-        pre code { background: none; padding: 0; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: #fafafe; }
-        th, td { border: 1px solid #c4b5fd; padding: 10px; text-align: left; }
-        th { background: #f5f3ff; color: #5b21b6; font-weight: 600; }
-        .tip, .warning, .highlight { padding: 12px 18px; border-radius: 16px; margin: 15px 0; line-height: 1.7; }
-        .tip { background: #e0f2fe; border-left: 6px solid #0ea5e9; }
-        .warning { background: #fee2e2; border-left: 6px solid #ef4444; }
-        .highlight { background: #fef9c3; border: 1px solid #facc15; }
-        strong { color: #1e1b4b; }
-        @media (max-width: 768px) { .container { grid-template-columns: 1fr; } .sidebar { border-right: none; border-bottom: 2px solid #c4b5fd; } body { padding: 10px; } .main-content { padding: 20px; } }
-    </style>
-</head>
-<body>
-<div class="double-border">
-<div class="container">
-    <div class="sidebar">
-        <h3>📊 课程目录</h3>
-        <ul class="chapter-list">
-            <li><a href="01.html">第1章 什么是统计学</a></li>
-            <li><a href="02.html">第2章 数据的类型与来源</a></li>
-            <li><a href="03.html">第3章 描述统计（一）</a></li>
-            <li><a href="04.html">第4章 描述统计（二）</a></li>
-            <li><a href="05.html">第5章 数据可视化基础</a></li>
-            <li><a href="06.html">第6章 概率基础</a></li>
-            <li><a href="07.html">第7章 常见概率分布</a></li>
-            <li><a href="08.html">第8章 抽样与抽样分布</a></li>
-            <li><a href="09.html">第9章 点估计与区间估计</a></li>
-            <li><a href="10.html" class="active">第10章 假设检验入门</a></li>
-            <li><a href="11.html">第11章 常见假设检验</a></li>
-            <li><a href="12.html">第12章 统计功效与样本量</a></li>
-            <li><a href="13.html">第13章 相关分析</a></li>
-            <li><a href="14.html">第14章 简单线性回归</a></li>
-            <li><a href="15.html">第15章 p值与统计显著性危机</a></li>
-            <li><a href="16.html">第16章 多重比较与谬误</a></li>
-            <li><a href="17.html">第17章 因果推断基础</a></li>
-            <li><a href="18.html">第18章 统计伦理与最佳实践</a></li>
-            <li><a href="19.html">第19章 多元线性回归</a></li>
-            <li><a href="20.html">第20章 逻辑回归</a></li>
-            <li><a href="21.html">第21章 方差分析（ANOVA）</a></li>
-            <li><a href="22.html">第22章 贝叶斯统计入门</a></li>
-            <li><a href="23.html">第23章 统计学工具链</a></li>
-            <li><a href="24.html">第24章 真实数据分析实战</a></li>
-            <li><a href="25.html">第25章 A/B测试实战</a></li>
-            <li><a href="26.html">第26章 机器学习中的统计学</a></li>
-            <li><a href="27.html">第27章 现代因果推断</a></li>
-            <li><a href="28.html">第28章 综合项目：从问题到结论</a></li>
-        </ul>
-    </div>
-    <div class="main-content">
-        <h2>第10章：假设检验入门</h2>
-
-        <p>大家好，我是你们的讲师。假设检验可能是统计学中最重要、也最容易被误解的概念。它在科学发现、医学研究、产品优化中无处不在——几乎每一个"这个药有效吗"、"这个新功能更好吗"的问题，背后都是假设检验在提供答案。</p>
-
-        <p>但我想先讲一个故事。20世纪20年代，英国剑桥一个午后，一群学者在喝下午茶。一位女士声称：她能分辨出茶是先加奶还是先加茶。在场的大多数人不以为然——这怎么可能？但一位略显消瘦的绅士不这么想。他说："我们来做个实验证明一下吧。"</p>
-
-        <p>这位绅士就是罗纳德·费歇尔（Ronald Fisher），统计学的泰斗级人物。而这场"品茶实验"后来被称为"Lady Tasting Tea"，被认为是现代假设检验的思想起源。</p>
-
-        <h3>10.1 费歇尔的奶茶实验</h3>
-
-        <p>费歇尔是怎么设计的呢？他准备了8杯茶，其中4杯是先加奶后加茶，另外4杯是先加茶后加奶。然后让这位女士品尝并判断每一杯的冲泡顺序。关键问题是：如果这位女士只是瞎猜，她答对的概率是多少？</p>
-
-        <p>费歇尔用了一个很聪明的办法——他算出了"纯靠运气猜对所有结果"的概率。假设她完全在猜，那么从8杯中选出4杯"先奶后茶"的杯子的组合方式有 C(8,4) = 70 种。全部猜对的概率只有 1/70 ≈ 0.014。这个概率很小，所以如果她真的全部猜对了，我们就有理由相信她不是靠运气——而是真的有这个能力。</p>
-
-        <p>这个思考框架后来演变成了我们今天所说的<strong>零假设显著性检验（Null Hypothesis Significance Testing, NHST）</strong>。</p>
-
-        <div class="highlight">
-            <strong>有趣的事实：</strong>根据史料记载，那位女士真的全部答对了！而且她叫 Muriel Bristol，是一位植物学家。不过后来有人质疑这个故事的细节——但不管怎样，它完美地展示了假设检验的核心逻辑：先假设对方没有超能力（零假设），然后看数据在零假设成立时出现的概率有多小。
-        </div>
-
-        <h3>10.2 零假设（H₀）与备择假设（H₁）</h3>
-
-        <p>每一个假设检验都包含两个对立的假设：</p>
-
-        <ul>
-            <li><strong>零假设（H₀, null hypothesis）：</strong>通常是"没有效果"、"没有差异"、"没有关系"。它是我们试图推翻的假设。</li>
-            <li><strong>备择假设（H₁, alternative hypothesis）：</strong>通常是"有效果"、"有差异"、"有关系"。它是我们试图证明的假设。</li>
-        </ul>
-
-        <p>为什么叫"零假设"？因为费歇尔认为科学中的默认立场应该是"什么都不发生"，如果有证据表明发生了什么事，那才能推翻这种默认立场。这个逻辑很像法律上的"无罪推定"——被告在未被证明有罪之前都是清白的。零假设就是"无辜"的假设，而我们手上的数据就是"证据"。</p>
-
-        <div class="tip">
-            <strong>记忆技巧：</strong>零假设中的"零"代表"零效果"、"零差异"。每当你要做假设检验时，先问自己："我想证明什么效果？"然后它的反面就是 H₀，它的正面就是 H₁。比如想证明新药更有效，H₀就是"新药效果 ≤ 旧药"，H₁就是"新药效果 > 旧药"。
-        </div>
-
-        <h3>10.3 p值的含义（它不是概率！）</h3>
-
-        <p>p值（p-value）恐怕是统计学中被误解最深的概念。它的正式定义是：<strong>在零假设为真的前提下，观察到当前数据（或更极端数据）的概率</strong>。</p>
-
-        <p>请注意：p值<strong>不是</strong>"零假设为真的概率"，也不是"我们犯错的概率"。它只是一个条件概率——假设H₀是真的，那我们的数据"有多离谱"。p值越小，说明数据在H₀为真的框架下越"不可能"出现，于是我们就倾向于拒绝H₀。</p>
-
-        <p>回到奶茶实验：她全猜对的概率是 1/70 ≈ 0.014。这个0.014就是p值。p值很小，所以我们可以说："如果她是瞎猜的，那么我们看到全猜对这种情况的概率只有1.4%。这个概率太小了，我选择不相信她是瞎猜的。"</p>
-
-        <div class="warning">
-            <strong>千万注意：</strong>p值不是"效果的概率"！一个常见的谬误是："p = 0.03 意味着新药有效的概率是97%"。完全错误！p值说的是在"没有效果"的前提下，数据出现的概率。你真正想要的是"在数据出现的前提下，有效果的概率"——这是两个相反的条件概率。想知道后者，你需要贝叶斯统计（第22章会讲）。
-        </div>
-
-        <h3>10.4 α = 0.05 的由来与争议</h3>
-
-        <p>为什么大家都用 α = 0.05？为什么不是 0.01 或 0.10？这个传统很大程度上要归功于费歇尔本人。他在1925年的著作《研究工作者的统计方法》中写道："一个在20次中发生不超过1次的事件，可以被认为达到了统计显著水平。"他选择了5%作为经验法则，随着时间推移，这个数字被固化成了"标准"。</p>
-
-        <p>但实际上，α的选择应该是<strong>问题相关的</strong>。如果你的决策会影响到成千上万人的健康（比如一种新药的上市审批），你可能应该用 α = 0.01 甚至更严格。如果只是早期探索性的数据分析，α = 0.10 也可以接受。</p>
-
-        <p>近年来，统计学界对"p < 0.05 = 显著"这种机械化做法提出了强烈批评。2018年，美国统计协会发布了关于p值的声明，警告不要滥用p值。但这并不意味着p值没用——关键在于<strong>正确理解和使用</strong>。</p>
-
-        <p>下面来看一个用 Python 做 t 检验的完整例子：</p>
-
-        <pre><code>import numpy as np
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="从费歇尔奶茶实验理解零假设、备择假设、p 值、显著性水平 alpha、拒绝域与两类错误，并用可复算的代码和交互检验自己的判断。"><title>10 假设检验入门：从一杯奶茶到 p 值 | Statistics Lab</title><link rel="stylesheet" href="../assets/css/article.css"></head><body><a class="skip-link" href="#content">跳转到正文</a><nav class="topbar" aria-label="章节导航"><a href="../index.html">← Statistics Lab / 课程目录</a><span class="trail">10 / 28 · 假设检验</span></nav><div class="article-layout"><nav class="toc" aria-label="本文目录"><h2>本篇路径</h2><a href="#tea">01 · 从一杯奶茶开始</a><a href="#hypotheses">02 · 零假设与备择假设</a><a href="#pvalue">03 · p 值到底是什么</a><a href="#alpha">04 · 显著性水平与拒绝域</a><a href="#errors">05 · 两类错误与 0.05 的争议</a><a href="#demo">06 · 动手：p 与 α 的判定</a><a href="#practice">07 · 自我检查</a><a href="#refs">参考资料与延伸阅读</a></nav><main id="content"><article><header class="article-header"><div class="kicker">Chapter 10 · Hypothesis testing</div><h1>假设检验入门：从一杯奶茶到 p 值</h1><p class="dek">“她说能分清一杯奶茶是先加奶还是先加茶。”直觉说不可能，可直觉不是证据。假设检验给出的是一套把“不可能”翻译成概率、再据此做决定的方法。</p><div class="question"><strong>贯穿案例：</strong>把 8 杯茶交给一位声称能分辨先加奶还是先加茶的品尝者，其中 4 杯先加奶、4 杯先加茶。如果她只是猜，全部答对的可能性有多大？我们该用什么标准来判断她“真的能尝出来”？</div></header>
+<section class="section" id="tea"><h2>01 · 从一杯奶茶开始</h2>
+<p class="lede">20 世纪 20 年代的剑桥，一位女士声称能分辨一杯奶茶是“先加奶”还是“先加茶”。统计学家罗纳德·费歇尔（Ronald Fisher）没有诉诸直觉，而是设计了一个能算出“靠猜会有多难”的实验，这后来被视为假设检验的思想起点。</p>
+<p>实验安排：8 杯茶中 4 杯先加奶、4 杯先加茶，品尝者需要挑出先加奶的那 4 杯。如果她完全在猜，那么“从 8 杯中选 4 杯”共有 C(8,4) 种同样可能的选法，而只有其中 1 种是全对。于是纯猜命中的概率是：</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="纯靠猜测全部答对的概率等于一除以八选四的组合数，即七十分之一，约零点零一四，可横向滚动"><math display="block" aria-label="纯靠猜测全部答对的概率等于一除以八选四的组合数，即七十分之一，约零点零一四"><mrow><mi>P</mi><mo>=</mo><mfrac><mn>1</mn><mrow><mo>(</mo><mfrac linethickness="0"><mn>8</mn><mn>4</mn></mfrac><mo>)</mo></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><mn>70</mn></mfrac><mo>≈</mo><mn>0.014</mn></mrow></math></div><div class="eq-caption">式 1</div></div>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="400" viewBox="0 0 900 400" role="img" aria-labelledby="tea-t tea-d"><title id="tea-t">奶茶实验：纯靠猜时猜对杯数的精确零分布</title><desc id="tea-d">横轴为正确猜出先加奶的杯数，纵轴为概率。恰猜对 4 杯的概率只有 70 分之一，约 0.014；猜对 3 杯 16/70，2 杯 36/70，1 杯 16/70，0 杯 1/70。</desc><rect width="900" height="400" rx="15" fill="#fff"/><g font-family="system-ui,sans-serif"><text x="36" y="42" font-size="20" font-weight="750" fill="#294b50">纯靠猜时，全部猜对只有 1/70 ≈ 0.014</text><text x="37" y="72" font-size="14" fill="#587174">8 杯选 4 杯共有 C(8,4)=70 种等可能结果</text><path d="M110 330H840M110 330V100" stroke="#92acaa" stroke-width="2"/><text x="46" y="104" font-size="12" fill="#5a7476">概率</text><text x="826" y="356" text-anchor="end" font-size="12" fill="#5a7476">正确杯数</text><rect x="150" y="325" width="90" height="5" rx="2" fill="#147f80"/><text x="195" y="318" text-anchor="middle" font-size="12" fill="#5a7476">1/70</text><text x="195" y="352" text-anchor="middle" font-size="13" fill="#31555a">0</text><rect x="290" y="250" width="90" height="80" rx="2" fill="#147f80"/><text x="335" y="243" text-anchor="middle" font-size="12" fill="#5a7476">16/70</text><text x="335" y="352" text-anchor="middle" font-size="13" fill="#31555a">1</text><rect x="430" y="130" width="90" height="200" rx="2" fill="#147f80"/><text x="475" y="123" text-anchor="middle" font-size="12" fill="#5a7476">36/70</text><text x="475" y="352" text-anchor="middle" font-size="13" fill="#31555a">2</text><rect x="570" y="250" width="90" height="80" rx="2" fill="#147f80"/><text x="615" y="243" text-anchor="middle" font-size="12" fill="#5a7476">16/70</text><text x="615" y="352" text-anchor="middle" font-size="13" fill="#31555a">3</text><rect x="710" y="325" width="90" height="5" rx="2" fill="#c06d4c"/><text x="755" y="318" text-anchor="middle" font-size="12" font-weight="700" fill="#c06d4c">1/70</text><text x="755" y="352" text-anchor="middle" font-size="13" fill="#31555a">4</text><text x="36" y="385" font-size="12" fill="#597477">p 值就是“猜对 4 杯”的尾部概率，此处正好等于 1/70。</text></g></svg><figcaption><strong>图 1 · 猜对杯数有自己的分布。</strong>即使品尝者完全在猜，猜对 2 杯也相当常见（36/70）。真正能说明问题的，是“全对”这个尾巴：1/70 ≈ 0.014。青色柱是常见的中间结果，陶土色柱是被当作证据的极端结果。</figcaption></figure>
+<p class="subtle">“她全部答对”的说法来自费歇尔本人后来的叙述（Fisher, 1935），属于史料转述；本页的 C(8,4)=70 与尾部概率是可由数学严格确定的。</p></section>
+<section class="section" id="hypotheses"><h2>02 · 零假设与备择假设</h2>
+<p>要从“1/70 很小”走到“她真的能尝出来”，需要先规定两个对立的假设：</p>
+<div class="grid-two"><div class="panel"><h3>零假设 H₀</h3><p>默认立场，通常是“没有效果、没有差异、只是运气”。奶茶例中 H₀ 是“她只能靠猜”。H₀ 是检验试图推翻的对象，也是计算 p 值时的前提。</p></div><div class="panel"><h3>备择假设 H₁</h3><p>研究者希望用数据支持的方向。奶茶例中 H₁ 是“她的判断优于随机猜测”。H₁ 往往带有方向：更好、更大或更小。</p></div></div>
+<p>“零”来自“零差异、零效果”，也来自费歇尔“科学中默认什么都不发生”的立场。这与法律上的无罪推定相似：先假设被告无罪（H₀），再由证据判断是否足以推翻它——但请注意，无法拒绝 H₀ 并不等于证明 H₀ 为真，这也是本章后面要强调的界限。</p>
+<div class="callout"><h3>单侧与双侧</h3><p>如果只关心“优于随机”，用单侧检验；如果关心“与随机不同”（更好或更差都算），用双侧检验。检验方向必须在看到数据之前就确定，事后按结果挑方向会掏空 p 值的含义。</p></div></section>
+<section class="section" id="pvalue"><h2>03 · p 值到底是什么</h2>
+<p>费歇尔需要一个把“足不足以推翻 H₀”量化的尺度。p 值就是：<strong>在零假设为真的前提下，检验统计量取到当前值或更极端值的概率</strong>。</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="p值是在零假设为真的条件下，检验统计量取到当前值或更极端值的概率，可横向滚动"><math display="block" aria-label="p值是在零假设为真的条件下，检验统计量取到当前值或更极端值的概率"><mrow><mi>p</mi><mo>=</mo><mi>P</mi><mo>(</mo><mi>T</mi><mo>≥</mo><msub><mi>t</mi><mi>obs</mi></msub><mo>∣</mo><msub><mi>H</mi><mn>0</mn></msub><mo>)</mo></mrow></math></div><div class="eq-caption">式 2</div></div>
+<p>奶茶例里，p 值就是图 1 中“猜对 4 杯”这个尾巴：0.014。它的含义是：“若她只能猜，出现这么大的成绩的可能性只有 1.4%。”p 值越小，说明数据在 H₀ 下越不寻常，于是我们越倾向于拒绝 H₀。</p>
+<div class="callout warning"><h3>倒数两个条件概率</h3><p>p 值是 P(数据 | H₀ 真)，不是 P(H₀ 真 | 数据)。把两者混为一谈，就会得出“p = 0.03 意味着新药有效的概率是 97%”这类错误。想知道后一个量，需要先对 H₀ 和 H₁ 设定先验，那才是贝叶斯框架的任务。</p></div>
+<p>另一个常见误区是“p 大就说明 H₀ 为真”。并不是：样本量很小时，真实存在的效应也会因信息不足而给出较大的 p，只能说“目前没有足够证据”。</p></section>
+<section class="section" id="alpha"><h2>04 · 显著性水平与拒绝域</h2>
+<p>决定“p 多小才算小”的阈值叫做显著性水平 α，它必须在看到数据之前就选定。把检验统计量轴上取值最不利于 H₀ 的一段划为拒绝域 R，使它在 H₀ 下出现的概率恰好为 α：</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="在零假设下，检验统计量落入拒绝域R的概率等于显著性水平alpha，可横向滚动"><math display="block" aria-label="在零假设下，检验统计量落入拒绝域R的概率等于显著性水平alpha"><mrow><mi>P</mi><mo>(</mo><mi>T</mi><mo>∈</mo><mi>R</mi><mo>∣</mo><msub><mi>H</mi><mn>0</mn></msub><mo>)</mo><mo>=</mo><mi>α</mi></mrow></math></div><div class="eq-caption">式 3</div></div>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="380" viewBox="0 0 900 380" role="img" aria-labelledby="rr-t rr-d"><title id="rr-t">零假设下的抽样分布与拒绝域</title><desc id="rr-d">钟形曲线表示零假设为真时检验统计量的分布，曲线右尾被竖直虚线切出一块阴影区域，其面积等于显著性水平 alpha；一个陶土色圆点表示观察到的统计量落入该区域。</desc><rect width="900" height="380" rx="15" fill="#fff"/><g font-family="system-ui,sans-serif"><text x="36" y="42" font-size="20" font-weight="750" fill="#294b50">α 是尾部面积，p 值是观察点之外的尾部面积</text><text x="37" y="72" font-size="14" fill="#587174">曲线是“H₀ 为真时”统计量的分布；阴影面积等于 α</text><path d="M90 300H830M90 300V110" stroke="#92acaa" stroke-width="2"/><rect x="560" y="110" width="150" height="190" fill="#147f80" opacity="0.18"/><path d="M220 300C290 300 330 120 460 120C590 120 630 300 700 300" fill="none" stroke="#147f80" stroke-width="3"/><path d="M560 300V120" stroke="#294b50" stroke-width="2" stroke-dasharray="6 5"/><text x="560" y="330" text-anchor="middle" font-size="13" font-weight="700" fill="#294b50">临界值</text><text x="636" y="150" text-anchor="middle" font-size="13" font-weight="700" fill="#147f80">拒绝域</text><text x="636" y="170" text-anchor="middle" font-size="12" fill="#147f80">面积 = α</text><circle cx="648" cy="300" r="7" fill="#c06d4c"/><text x="648" y="332" text-anchor="middle" font-size="12" font-weight="700" fill="#c06d4c">观察到的统计量</text><text x="210" y="150" font-size="13" font-weight="700" fill="#147f80">不拒绝 H₀</text><text x="36" y="362" font-size="12" fill="#597477">示意用平滑曲线；真实分布形状取决于检验统计量与样本量。</text></g></svg><figcaption><strong>图 2 · α 和 p 是两个不同的尾部面积。</strong>α 由你在检验前选定，刻画“误报”的容忍度；p 由数据和 H₀ 算出。当观察点落在临界值右侧（p < α）时拒绝 H₀。</figcaption></figure>
+<p>等价地，可以把观察统计量换算成 p 值再与 α 比较：<strong>p < α 则拒绝 H₀，否则不拒绝</strong>。两者给出的结论一致，但 p 值携带了更多信息（到底有多极端），因此报告时应给出 p 值和置信区间，而不只是“显著/不显著”。</p></section>
+<section class="section" id="errors"><h2>05 · 两类错误与 0.05 的争议</h2>
+<p>任何基于不完整数据的决策都会出错。假设检验把错误分成两类：拒绝了一个为真的 H₀（第一类错误，发生率就是 α），或没有拒绝一个为假的 H₀（第二类错误，其概率记为 β）。</p>
+<table class="data-table"><caption>假设检验的四种结局</caption><thead><tr><th></th><th>H₀ 实际为真</th><th>H₀ 实际为假</th></tr></thead><tbody><tr><td><strong>拒绝 H₀</strong></td><td>第一类错误（概率 α）</td><td>正确（概率 = 功效 1−β）</td></tr><tr><td><strong>不拒绝 H₀</strong></td><td>正确（概率 1−α）</td><td>第二类错误（概率 β）</td></tr></tbody></table>
+<p>α 与 β 此消彼长，而真正能同时改善两者的是增加样本量（第 12 章）。α = 0.05 并不是自然定律：它主要来自费歇尔 1925 年《研究工作者的统计方法》中“20 次里发生不到 1 次可视为显著”的经验建议，后来被当作惯例。影响重大的决策应选用更严格的标准，并把效应量、置信区间与功效一并报告。</p>
+<div class="callout warning"><h3>不可事后挑选方向</h3><p>2016 年，美国统计学会专门发布关于 p 值的声明，提醒不要把“p < 0.05”当作科学结论的自动化开关。声明强调：p 值不能衡量效应大小或结果的现实重要性，单靠一个阈值无法代替完整的推理。一个常见后果是 <strong>p-hacking</strong>：不断追加数据或变换分析口径，直到 p 刚好小于 0.05。</p></div>
+<p class="subtle">本章提到的“产品经理反复跑到 p<0.05”是统计实务中的典型情境描述，不是某次具体实验的记录。</p></section>
+<section class="section" id="demo"><h2>06 · 动手：p 与 α 的判定</h2>
+<p>下面的工具把检验统计量 z 换算成双侧 p 值（基于标准正态分布），再与你选定的 α 比较。拖动 z 看看“多极端”才算拒绝 H₀；改变 α 看看阈值如何移动。</p>
+<div class="demo"><h3>双侧 p 值判定器</h3><label for="z">检验统计量 z：<output id="z-out" for="z">1.96</output></label><input id="z" type="range" min="0" max="4" step="0.01" value="1.96"><label for="alpha-level">显著性水平 α：</label><select id="alpha-level"><option value="0.10">0.10</option><option value="0.05" selected>0.05</option><option value="0.01">0.01</option></select><p class="demo-output" id="p-out" aria-live="polite"></p><p class="subtle">z 在 1.96 附近对应双侧 p≈0.05：正好是 α=0.05 的临界值。</p></div>
+<p>提醒：这里把检验统计量近似为正态。当样本量小、总体标准差未知时，应改用 t 分布（第 11 章）。</p></section>
+<section class="section" id="practice"><h2>07 · 自我检查与可复现计算</h2>
+<pre><code>import numpy as np
 from scipy import stats
 
-# 设定随机种子
-np.random.seed(42)
+rng = np.random.default_rng(1)
+control = rng.normal(70, 10, 50)
+treatment = rng.normal(73, 10, 50)        # 教学构造的微小提升
 
-# 模拟两组数据：对照组的成绩
-control = np.random.normal(loc=70, scale=10, size=50)
-# 实验组的成绩（有一个微小的提升）
-treatment = np.random.normal(loc=73, scale=10, size=50)
-
-# 独立样本 t 检验
-t_stat, p_value = stats.ttest_ind(control, treatment)
-
-print(f"对照组均值: {np.mean(control):.2f}")
-print(f"实验组均值: {np.mean(treatment):.2f}")
-print(f"两组均值差: {np.mean(treatment) - np.mean(control):.2f}")
-print(f"t 统计量: {t_stat:.4f}")
-print(f"p 值: {p_value:.4f}")
-
-alpha = 0.05
-if p_value < alpha:
-    print(f"p = {p_value:.4f} < 0.05，拒绝零假设，两组存在显著差异")
-else:
-    print(f"p = {p_value:.4f} >= 0.05，无法拒绝零假设")
-
-# 置信区间也能帮助我们判断
-ci = (np.mean(treatment) - np.mean(control)) + \
-     stats.t.ppf(0.975, df=98) * np.sqrt(np.var(control, ddof=1)/50 + np.var(treatment, ddof=1)/50) * np.array([-1, 1])
-print(f"均值差的95%置信区间: [{ci[0]:.2f}, {ci[1]:.2f}]")</code></pre>
-
-        <h3>10.5 假设检验的步骤总结</h3>
-
-        <p>每次做假设检验时，可以按以下五个步骤来：</p>
-
-        <ol>
-            <li><strong>设定假设：</strong>明确 H₀ 和 H₁。</li>
-            <li><strong>选择显著性水平 α：</strong>通常选 0.05。</li>
-            <li><strong>选择检验方法并计算检验统计量：</strong>根据数据类型和假设选择合适的检验（t检验、z检验等）。</li>
-            <li><strong>计算 p 值：</strong>或者与临界值比较。</li>
-            <li><strong>做出决策：</strong>如果 p < α，拒绝 H₀；否则无法拒绝 H₀。</li>
-        </ol>
-
-        <div class="warning">
-            <strong>经典踩坑故事：</strong>在真实的A/B测试中，我遇到过一位产品经理，看到 p = 0.051 时说："嗯，这样本量还不够，再跑一周。"结果一周后 p = 0.048 出来了，他说："看吧，新功能确实提升了转化率！"这就是典型的<strong>p-hacking</strong>——不断收集数据直到p值"达标"。实际上，如果结果在 p = 0.051 和 p = 0.049 之间摇摆，最可能的情况是真效应很弱甚至是零。机械地坚持 0.05 这个阈值是很危险的。
-        </div>
-
-        <p>学习假设检验最关键的领悟是：它不是一个自动化的决策机器，而是一种<strong>量化不确定性的思维方式</strong>。p值不应该成为你唯一关注的对象——效应量、置信区间、统计功效同样重要。</p>
-
-        <p>下一章，我们将讨论各种常见的假设检验方法——z检验、t检验、卡方检验、F检验，以及如何在不同场景中选择正确的检验方法。</p>
-
-        <div class="footer-nav">
-            <a href="09.html">← 上一章</a>
-            <a href="index.html">📖 返回目录</a>
-            <a href="11.html">下一章 →</a>
-        </div>
-    </div>
-</div>
-</div>
-</body>
-</html>
+t, p = stats.ttest_ind(control, treatment, equal_var=True)
+diff = treatment.mean() - control.mean()
+se = np.sqrt(control.var(ddof=1)/len(control) + treatment.var(ddof=1)/len(treatment))
+df = len(control) + len(treatment) - 2
+tcrit = stats.t.ppf(0.975, df=df)
+print(f"均值差 = {diff:.2f}，95% CI = [{diff-tcrit*se:.2f}, {diff+tcrit*se:.2f}]")
+print(f"t = {t:.3f}，p = {p:.4f}")
+# 改变种子或均值差，观察 p 如何变化</code></pre>
+<div class="callout"><h3>自我检查</h3><p><strong>问题：</strong>一次 A/B 测试先得到 p = 0.051，继续收集数据后得到 p = 0.048。能不能说“新功能确实提升了转化率”？</p><p><strong>参考答案：</strong>不能这么说。这种“看到不显著就继续收数据”的可选停止会抬高第一类错误率，0.048 不再具有名义上的含义。更稳当的做法是预先固定样本量与停止规则，并同时报告效应量与置信区间。</p></div>
+<div class="callout warning"><h3>失败模式</h3><p>把“不拒绝 H₀”当成“证明 H₀ 为真”，是另一种常见错误。样本量不足时，真实存在的效应也容易落入“不拒绝”区域。要区分“没有证据”与“有证据表明没有”，需要功效分析（第 12 章）与等价性检验。</p></div></section>
+<section class="section" id="refs"><h2>参考资料与延伸阅读</h2><ol class="sources"><li><a href="https://doi.org/10.1080/00031305.2016.1154108">Wasserstein & Lazar (2016), The ASA Statement on p-Values</a>：美国统计学会关于 p 值使用的原则。</li><li><a href="https://openstax.org/books/introductory-statistics-2e/pages/9-1-null-and-alternative-hypotheses">OpenStax, Introductory Statistics (2e)</a>：第 9 章零假设、备择假设与检验步骤。</li><li><a href="https://www.openintro.org/book/os/">OpenIntro Statistics</a>：假设检验与两类错误。</li><li><a href="https://www.itl.nist.gov/div898/handbook/prc/section1/prc13.htm">NIST/SEMATECH e-Handbook of Statistical Methods</a>：第一类与第二类错误、显著性水平。</li><li><a href="https://en.wikipedia.org/wiki/Lady_tasting_tea">Lady tasting tea</a>：费歇尔奶茶实验的史料概览（Fisher, 1935, The Design of Experiments）。</li></ol><p class="subtle">本章身高、成绩与 A/B 情境均为教学构造；C(8,4)=70 与尾部概率 1/70 可由组合数学严格确定。</p></section>
+<nav class="chapter-nav" aria-label="章节切换"><a href="09.html">← 点估计与区间估计</a><a href="../index.html">课程目录</a><a href="11.html">常见假设检验 →</a></nav></article></main></div><script>(()=>{const z=document.getElementById('z'),a=document.getElementById('alpha-level'),zo=document.getElementById('z-out'),out=document.getElementById('p-out');if(!z||!a||!out)return;const erf=x=>{const s=Math.sign(x);x=Math.abs(x);const t=1/(1+0.3275911*x);const y=1-((((1.061405429*t-1.453152027)*t+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);return s*y};const upd=()=>{const Z=Number(z.value),A=Number(a.value);const p=2*(1-0.5*(1+erf(Z/Math.SQRT2)));zo.value=Z.toFixed(2);zo.textContent=Z.toFixed(2);const d=p<A?'拒绝 H₀':'不拒绝 H₀';out.textContent='双侧 p = '+p.toFixed(4)+'；α = '+A+' → '+d};z.addEventListener('input',upd);a.addEventListener('change',upd);upd()})();</script></body></html>
