@@ -27,7 +27,10 @@ const out=path.join(root,'qa/browser');fs.mkdirSync(out,{recursive:true});
      fractions:[...document.querySelectorAll('mfrac')].map(x=>({numerator:x.firstElementChild?.getBoundingClientRect().top,denominator:x.lastElementChild?.getBoundingClientRect().top}))
     }));
     assert.equal(state.h1,1,`${file} ${width}: expected one h1`);
-    assert.ok(state.documentWidth<=state.viewport+1,`${file} ${width}: page overflow ${state.documentWidth} > ${state.viewport}`);
+    if(state.documentWidth>state.viewport+1){
+      const offenders=await page.evaluate(()=>[...document.querySelectorAll('*')].map(x=>({tag:x.tagName,cls:typeof x.className==='string'?x.className:'',id:x.id||'',right:Math.round(x.getBoundingClientRect().right),left:Math.round(x.getBoundingClientRect().left),scroll:x.scrollWidth,client:x.clientWidth})).filter(x=>x.right>innerWidth+1||x.left< -1).sort((a,b)=>b.right-a.right).slice(0,14));
+      assert.fail(`${file} ${width}: page overflow ${state.documentWidth} > ${state.viewport}; offenders=${JSON.stringify(offenders)}`);
+    }
     for(const img of state.images)assert.ok(img.width>0&&img.height>0,`${file} ${width}: missing image ${img.src}`);
     for(const eq of state.equations){assert.equal(eq.namespace,'http://www.w3.org/1998/Math/MathML');assert.ok(eq.width>0&&eq.height>0,`${file} ${width}: invisible math`)}
     for(const frac of state.fractions)assert.ok(frac.numerator<frac.denominator,`${file} ${width}: fraction layout`);
