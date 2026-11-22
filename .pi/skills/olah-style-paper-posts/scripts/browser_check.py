@@ -21,7 +21,10 @@ def main():
             page.on('pageerror',lambda e,log=errors:log.append(str(e)))
             page.on('console',lambda m,log=errors:log.append('console: '+m.text) if m.type=='error' else None)
             page.route('https?://**',lambda route,log=network:(log.append(route.request.url),route.abort()))
-            page.set_content(page_file.read_text(encoding='utf-8'), wait_until='load')
+            # Load the page from disk so relative stylesheets, SVG and image
+            # assets resolve; set_content() would render it unstyled and give
+            # false overflow/broken-image failures on multi-file pages.
+            page.goto(page_file.as_uri(), wait_until='load')
             page.screenshot(path=str(args.output/f'{label}.png'),full_page=False)
             measure=page.evaluate('''() => {
               const math = [...document.querySelectorAll('math')];
