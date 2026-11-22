@@ -1,0 +1,43 @@
+{
+  "chapter": "05",
+  "status": "deep-rewrite",
+  "version": "2026-11-22",
+  "entries": [
+    {
+      "id": "anscombe",
+      "claim": "Four sets of bivariate data can have very similar summary statistics while differing in scatterplot shape",
+      "kind": "paper",
+      "source_url": "https://doi.org/10.1080/00031305.1973.10478966",
+      "locator": "Anscombe 1973, American Statistician 27(1)",
+      "status": "verified",
+      "notes": "Article uses independent toy patterns, not original quartet geometry"
+    },
+    {
+      "id": "nist",
+      "claim": "Histograms summarize distribution shape and depend on binning",
+      "kind": "handbook",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda33e.htm",
+      "locator": "Histogram",
+      "status": "verified",
+      "notes": "Density normalization derived as count/(n times bin width)"
+    },
+    {
+      "id": "axis",
+      "claim": "Truncated bar-chart axes can distort comparisons; impact depends on task",
+      "kind": "paper",
+      "source_url": "https://doi.org/10.1145/3772318.3790617",
+      "locator": "CHI 2026 paper",
+      "status": "verified",
+      "notes": "Example 62,68 illustrative, not reported experimental data"
+    },
+    {
+      "id": "hist-data",
+      "claim": "12 synthetic observations produce width2 counts 2,5,3,0,2 and width5 counts9,3",
+      "kind": "example",
+      "source_url": null,
+      "locator": "Figure 2 / interactive",
+      "status": "derived",
+      "notes": "Left-closed right-open bins starting at zero"
+    }
+  ]
+}
