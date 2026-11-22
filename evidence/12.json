@@ -1,0 +1,70 @@
+{
+  "chapter": "12",
+  "version": "2026-11-22",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "power-def",
+      "claim": "Statistical power is the probability of rejecting a false null, equal to 1 minus the Type II error rate beta",
+      "kind": "textbook",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/prc/section1/prc13.htm",
+      "locator": "NIST/SEMATECH, power and Type II error",
+      "status": "verified",
+      "notes": "Power rises with effect size, sample size and alpha"
+    },
+    {
+      "id": "cohen-conventions",
+      "claim": "Cohen's benchmark conventions are d = 0.2/0.5/0.8 and r = 0.1/0.3/0.5 for small/medium/large effects, with 0.80 power as a common target",
+      "kind": "book",
+      "source_url": "https://doi.org/10.1038/nrn3475",
+      "locator": "Cohen (1988); conventions restated in later reviews",
+      "status": "verified",
+      "notes": "Conventions are reference scales, not universal thresholds"
+    },
+    {
+      "id": "neuroscience-power",
+      "claim": "A review of neuroscience literature estimated median statistical power near 21%",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1038/nrn3475",
+      "locator": "Button et al. (2013), Nat Rev Neurosci",
+      "status": "verified",
+      "notes": "Reported as an estimate for that literature, not all fields"
+    },
+    {
+      "id": "sample-size-formula",
+      "claim": "For a two-sample mean comparison the per-group sample size is approximately 2(z_{1-alpha/2}+z_{1-beta})^2/d^2, about 15.7/d^2 at alpha 0.05 and power 0.80",
+      "kind": "textbook",
+      "source_url": "https://www.statsmodels.org/stable/stats.html#power-and-sample-size-calculations",
+      "locator": "statsmodels power and sample-size documentation",
+      "status": "verified",
+      "notes": "Normal approximation; exact noncentral-t values are slightly larger"
+    },
+    {
+      "id": "sample-size-values",
+      "claim": "Required per-group n at alpha 0.05, two-sided, power 0.80 is about 394, 64 and 26 for d = 0.2, 0.5 and 0.8",
+      "kind": "reference",
+      "source_url": "https://www.statsmodels.org/stable/stats.html#power-and-sample-size-calculations",
+      "locator": "figure 2",
+      "status": "derived",
+      "notes": "Common textbook/power-software values; normal approximation gives 392/63/25"
+    },
+    {
+      "id": "posthoc-power",
+      "claim": "Observed (post-hoc) power is a function of the p-value and sample size and should not replace a priori power analysis",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1038/nrn3475",
+      "locator": "discussion of low power and inflated effects",
+      "status": "verified",
+      "notes": "Winner's curse inflates effect sizes estimated from small samples"
+    },
+    {
+      "id": "demo-power",
+      "claim": "Interactive two-sample power from the normal approximation Phi(lambda - z) + Phi(-lambda - z)",
+      "kind": "model",
+      "source_url": null,
+      "locator": "section 06 widget",
+      "status": "illustrative",
+      "notes": "Slightly overstates power in small samples; teaching use"
+    }
+  ]
+}

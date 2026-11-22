@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="380" viewBox="0 0 900 380" role="img" aria-labelledby="t d">
+<title id="t">零假设与备择假设分布下的 alpha、beta 与统计功效</title>
+<desc id="d">青色曲线为零假设下的分布，陶土色曲线为备择假设下的分布。竖直虚线是临界值：青色的右侧尾部面积是 alpha（假阳性），陶土色左侧尾部面积是 beta（假阴性），陶土色右侧较大面积是统计功效 1 减 beta。</desc>
+<rect width="900" height="380" rx="15" fill="#fff"/>
+<g font-family="system-ui,sans-serif">
+<text x="36" y="42" font-size="20" font-weight="750" fill="#294b50">功效 = 1 − β：真实效应被检出的概率</text>
+<text x="37" y="72" font-size="14" fill="#587174">左峰是 H₀、右峰是 H₁；中间的虚线是检验的临界值</text>
+<path d="M90 300H830M90 300V100" stroke="#92acaa" stroke-width="2"/>
+<path d="M470 240C480 265 505 292 530 300L470 300Z" fill="#147f80" opacity="0.28"/>
+<path d="M390 300C440 290 460 240 470 210L470 300Z" fill="#c06d4c" opacity="0.28"/>
+<path d="M470 210C520 180 610 300 690 300L470 300Z" fill="#7665aa" opacity="0.20"/>
+<path d="M230 300C290 300 330 120 380 120C430 120 470 300 530 300" fill="none" stroke="#147f80" stroke-width="3"/>
+<path d="M390 300C450 300 490 120 540 120C590 120 630 300 690 300" fill="none" stroke="#c06d4c" stroke-width="3"/>
+<path d="M470 300V115" stroke="#294b50" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="470" y="330" text-anchor="middle" font-size="12" font-weight="700" fill="#294b50">临界值</text>
+<text x="512" y="288" text-anchor="middle" font-size="13" font-weight="700" fill="#147f80">α</text>
+<text x="432" y="288" text-anchor="middle" font-size="13" font-weight="700" fill="#c06d4c">β</text>
+<text x="600" y="258" text-anchor="middle" font-size="13" font-weight="700" fill="#7665aa">功效 1−β</text>
+<text x="330" y="112" font-size="13" font-weight="700" fill="#147f80">H₀</text>
+<text x="556" y="112" font-size="13" font-weight="700" fill="#c06d4c">H₁</text>
+<text x="36" y="362" font-size="12" fill="#597477">区域为密度示意；效应量越大、分布越分开，功效越高。</text>
+</g></svg>

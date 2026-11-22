@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="380" viewBox="0 0 900 380" role="img" aria-labelledby="t d">
+<title id="t">达到 80% 功效所需的每组样本量随效应量迅速下降</title>
+<desc id="d">两样本 t 检验在 alpha=0.05、双侧、功效 0.80 时，Cohen's d 为 0.2 时每组约需 394 人，d 为 0.5 时约 64 人，d 为 0.8 时约 26 人。</desc>
+<rect width="900" height="380" rx="15" fill="#fff"/>
+<g font-family="system-ui,sans-serif">
+<text x="36" y="42" font-size="20" font-weight="750" fill="#294b50">效应量越小，所需样本量急剧增大</text>
+<text x="37" y="72" font-size="14" fill="#587174">两样本 t 检验，α=0.05，双侧，目标功效 0.80，每组人数</text>
+<path d="M110 300H840M110 300V90" stroke="#92acaa" stroke-width="2"/>
+<rect x="180" y="80" width="120" height="220" rx="4" fill="#c06d4c"/><text x="240" y="70" text-anchor="middle" font-size="14" font-weight="700" fill="#c06d4c">394</text><text x="240" y="326" text-anchor="middle" font-size="13" fill="#31555a">d = 0.2（小）</text>
+<rect x="400" y="264" width="120" height="36" rx="4" fill="#147f80"/><text x="460" y="254" text-anchor="middle" font-size="14" font-weight="700" fill="#147f80">64</text><text x="460" y="326" text-anchor="middle" font-size="13" fill="#31555a">d = 0.5（中）</text>
+<rect x="620" y="285" width="120" height="15" rx="4" fill="#147f80"/><text x="680" y="275" text-anchor="middle" font-size="14" font-weight="700" fill="#147f80">26</text><text x="680" y="326" text-anchor="middle" font-size="13" fill="#31555a">d = 0.8（大）</text>
+<text x="36" y="362" font-size="12" fill="#597477">数值为常用教科书/功效软件结果（如 Cohen 1988）；正态近似会略低。</text>
+</g></svg>
