@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360" role="img" aria-labelledby="t d">
+<title id="t">无偏估计量与有偏估计量的抽样分布对比</title>
+<desc id="d">同一条水平轴上，无偏估计量（青色曲线）的抽样分布以真实参数μ为中心；有偏估计量（陶土色曲线）的分布整体向右偏移，其均值不等于μ，因此反复抽样也不会命中μ。</desc>
+<rect width="900" height="360" rx="15" fill="#fff"/>
+<g font-family="system-ui,sans-serif">
+<text x="36" y="42" font-size="20" font-weight="750" fill="#294b50">无偏：反复抽样平均命中 μ；有偏：整体偏移</text>
+<text x="37" y="72" font-size="14" fill="#587174">两条曲线是估计量的抽样分布，纵轴表示密度（数值略去）</text>
+<path d="M90 300H830M90 300V96" stroke="#92acaa" stroke-width="2"/>
+<path d="M420 300V108" stroke="#147f80" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="420" y="325" text-anchor="middle" font-size="14" font-weight="700" fill="#147f80">μ</text>
+<path d="M330 300C360 300 375 110 420 110C465 110 480 300 510 300" fill="none" stroke="#147f80" stroke-width="3"/>
+<path d="M510 300C540 300 555 110 600 110C645 110 660 300 690 300" fill="none" stroke="#c06d4c" stroke-width="3"/>
+<text x="420" y="150" text-anchor="middle" font-size="13" font-weight="700" fill="#147f80">无偏：E(θ̂)=μ</text>
+<text x="628" y="92" text-anchor="middle" font-size="13" font-weight="700" fill="#c06d4c">有偏：E(θ̂)≠μ</text>
+<text x="36" y="342" font-size="12" fill="#597477">曲线形状与偏移均为教学示意，不代表某个具体估计量的精确密度。</text>
+</g></svg>

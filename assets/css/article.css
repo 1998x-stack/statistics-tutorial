@@ -7,3 +7,7 @@ a{overflow-wrap:anywhere}figure{overflow-x:auto;scrollbar-color:#80bdb5 #edf5f2}
 .article-layout pre,.article-layout figure,.article-layout .math-equation,.article-layout .demo{min-width:0;width:100%;max-width:100%}
 .article-layout pre{overflow-x:auto}
 .article-layout .math-scroll{display:block;width:100%;max-width:100%;overflow-x:auto}
+
+/* Inline SVG diagrams pan inside the figure, matching image diagrams on narrow screens. */
+figure svg{display:block;height:auto;max-width:none}
+@media(max-width:560px){figure svg{min-width:760px}}

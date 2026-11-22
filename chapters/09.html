@@ -1,198 +1,51 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>第9章 点估计与区间估计</title>
-    <link rel="stylesheet" href="theme.css">
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { background: linear-gradient(135deg, #f5f3ff 0%, #e8f5f0 100%); font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', Roboto, 'Helvetica Neue', sans-serif; padding: 20px; }
-        .double-border { max-width: 1400px; margin: 0 auto; background: #ffffff; border: 2px solid #8b5cf6; border-radius: 24px; box-shadow: 0 20px 30px -15px rgba(0,0,0,0.2), inset 0 1px 0 0 #f5f3ff; overflow: hidden; }
-        .container { display: grid; grid-template-columns: 260px 1fr; gap: 0; }
-        .sidebar { background: #faf8ff; border-right: 2px solid #c4b5fd; padding: 24px 16px; }
-        .sidebar h3 { font-size: 1.4rem; color: #6d28d9; border-left: 5px solid #8b5cf6; padding-left: 15px; margin-bottom: 25px; }
-        .chapter-list { list-style: none; }
-        .chapter-list li { margin-bottom: 6px; }
-        .chapter-list a { display: block; padding: 8px 12px; text-decoration: none; color: #334155; border-radius: 12px; transition: all 0.2s; font-weight: 500; font-size: 0.92rem; }
-        .chapter-list a:hover { background: #ede9fe; transform: translateX(3px); }
-        .chapter-list .active { background: #7c3aed; color: white; box-shadow: 0 2px 5px rgba(124,58,237,0.3); }
-        .main-content { padding: 30px 35px; background: white; }
-        .footer-nav { margin-top: 45px; padding-top: 20px; border-top: 2px solid #c4b5fd; display: flex; justify-content: space-between; }
-        .footer-nav a { padding: 8px 24px; background: #f1f5f9; text-decoration: none; color: #5b21b6; border-radius: 40px; font-weight: 500; transition: 0.2s; }
-        .footer-nav a:hover { background: #ede9fe; transform: translateY(-2px); }
-        footer { text-align: center; margin-top: 30px; padding: 15px; color: #64748b; border-top: 1px dashed #c4b5fd; font-size: 0.9rem; }
-        h2 { color: #4c1d95; border-left: 6px solid #8b5cf6; padding-left: 15px; margin: 20px 0 15px; font-size: 1.5rem; }
-        h3 { color: #5b21b6; margin: 20px 0 10px; font-size: 1.2rem; }
-        h4 { color: #6d28d9; margin: 15px 0 8px; font-size: 1.05rem; }
-        p { line-height: 1.85; margin: 10px 0; color: #1e293b; }
-        ul, ol { margin: 10px 0 10px 20px; line-height: 1.8; }
-        li { color: #1e293b; margin-bottom: 4px; }
-        pre { background: #1e1035; color: #e8e8f0; padding: 15px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', monospace; margin: 15px 0; font-size: 0.9rem; line-height: 1.5; }
-        code { background: #f5f3ff; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
-        pre code { background: none; padding: 0; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: #fafafe; }
-        th, td { border: 1px solid #c4b5fd; padding: 10px; text-align: left; }
-        th { background: #f5f3ff; color: #5b21b6; font-weight: 600; }
-        .tip, .warning, .highlight { padding: 12px 18px; border-radius: 16px; margin: 15px 0; line-height: 1.7; }
-        .tip { background: #e0f2fe; border-left: 6px solid #0ea5e9; }
-        .warning { background: #fee2e2; border-left: 6px solid #ef4444; }
-        .highlight { background: #fef9c3; border: 1px solid #facc15; }
-        strong { color: #1e1b4b; }
-        @media (max-width: 768px) { .container { grid-template-columns: 1fr; } .sidebar { border-right: none; border-bottom: 2px solid #c4b5fd; } body { padding: 10px; } .main-content { padding: 20px; } }
-    </style>
-</head>
-<body>
-<div class="double-border">
-<div class="container">
-    <div class="sidebar">
-        <h3>📊 课程目录</h3>
-        <ul class="chapter-list">
-            <li><a href="01.html">第1章 什么是统计学</a></li>
-            <li><a href="02.html">第2章 数据的类型与来源</a></li>
-            <li><a href="03.html">第3章 描述统计（一）</a></li>
-            <li><a href="04.html">第4章 描述统计（二）</a></li>
-            <li><a href="05.html">第5章 数据可视化基础</a></li>
-            <li><a href="06.html">第6章 概率基础</a></li>
-            <li><a href="07.html">第7章 常见概率分布</a></li>
-            <li><a href="08.html">第8章 抽样与抽样分布</a></li>
-            <li><a href="09.html" class="active">第9章 点估计与区间估计</a></li>
-            <li><a href="10.html">第10章 假设检验入门</a></li>
-            <li><a href="11.html">第11章 常见假设检验</a></li>
-            <li><a href="12.html">第12章 统计功效与样本量</a></li>
-            <li><a href="13.html">第13章 相关分析</a></li>
-            <li><a href="14.html">第14章 简单线性回归</a></li>
-            <li><a href="15.html">第15章 p值与统计显著性危机</a></li>
-            <li><a href="16.html">第16章 多重比较与谬误</a></li>
-            <li><a href="17.html">第17章 因果推断基础</a></li>
-            <li><a href="18.html">第18章 统计伦理与最佳实践</a></li>
-            <li><a href="19.html">第19章 多元线性回归</a></li>
-            <li><a href="20.html">第20章 逻辑回归</a></li>
-            <li><a href="21.html">第21章 方差分析（ANOVA）</a></li>
-            <li><a href="22.html">第22章 贝叶斯统计入门</a></li>
-            <li><a href="23.html">第23章 统计学工具链</a></li>
-            <li><a href="24.html">第24章 真实数据分析实战</a></li>
-            <li><a href="25.html">第25章 A/B测试实战</a></li>
-            <li><a href="26.html">第26章 机器学习中的统计学</a></li>
-            <li><a href="27.html">第27章 现代因果推断</a></li>
-            <li><a href="28.html">第28章 综合项目：从问题到结论</a></li>
-        </ul>
-    </div>
-    <div class="main-content">
-        <h2>第9章：点估计与区间估计</h2>
-
-        <p>大家好，我是你们的讲师。想象一下，你的朋友刚搬到一个陌生城市，问你："那边平均房价是多少？"你不可能知道真正的答案——除非你把全城的每套房都查一遍。但你可以抽几套房看看，然后说："我猜大概5万每平米。"这就是<strong>点估计（point estimation）</strong>——用一个数字猜测总体参数。但如果你稍微谨慎一些，会说："我猜大概在4.5万到5.5万之间。"这就是<strong>区间估计（interval estimation）</strong>。</p>
-
-        <p>用一个数字来猜，听起来就很危险对不对？确实，点估计几乎不可能刚好命中真实参数。但如果我们理解估计的不确定性，并为之"留出余地"，那么区间估计就比点估计实用得多。本章我们从点估计的两种常用方法开始，然后过渡到置信区间——这是每个数据从业者必须掌握的核心工具。</p>
-
-        <h3>9.1 什么是点估计：用样本猜总体</h3>
-
-        <p>点估计的核心思想很直观：用样本中计算出的一个统计量来估计总体中对应的参数。比如用样本均值 x̄ 来估计总体均值 μ，用样本方差 s² 来估计总体方差 σ²。</p>
-
-        <p>好的点估计有两个理想性质：<strong>无偏性（unbiasedness）</strong>，即估计量的期望等于真实参数值；<strong>有效性（efficiency）</strong>，即估计量的方差尽可能小。样本均值 x̄ 是一个无偏估计量，因为 E(x̄) = μ。而且相比中位数，样本均值的方差更小，所以更"有效"。</p>
-
-        <div class="tip">
-            <strong>直觉理解无偏性：</strong>无偏并不是说你的某一次估计很准——而是说如果你反复做同样的实验很多次，你估计值的平均值会无限接近真实值。这就像射箭——无偏意味着你的着箭点平均来说在靶心，虽然每次可能有偏差；有偏则意味着你总是往一个方向偏。
-        </div>
-
-        <h3>9.2 矩估计法（MME）</h3>
-
-        <p>矩估计法（Method of Moments Estimation）是统计史上最古老、最直观的估计方法之一。它的逻辑非常简单：用样本矩（如样本均值、样本方差）来估计总体矩（总体均值、总体方差），然后解出参数。</p>
-
-        <p>假设你怀疑某组数据来自正态分布 N(μ, σ²)，那么矩估计就直接用 x̄ 估计 μ，用 s² 估计 σ²。对于更复杂的分布，比如 Gamma 分布有两个参数需要估计，你就需要用前两阶矩（样本均值和样本方差）来建立两个方程，然后联立求解。</p>
-
-        <div class="highlight">
-            <strong>有趣的历史：</strong>矩估计法是由英国统计学家卡尔·皮尔逊（Karl Pearson）在19世纪末提出的。这位爷也是卡方检验的发明者，还是现代统计学的奠基人之一。不过有趣的是，皮尔逊的矩估计法后来被费歇尔的MLE在许多场景下"击败"了——MLE通常更有效（方差更小）。
-        </div>
-
-        <h3>9.3 最大似然估计（MLE）的直觉</h3>
-
-        <p>最大似然估计（Maximum Likelihood Estimation, MLE）是当代统计学中使用最广泛的估计方法。它的核心思想是：<strong>在众多可能的参数值中，选择那个最可能让我们观测到当前数据的值</strong>。</p>
-
-        <p>举个例子：假设你看到朋友连续投了10次硬币，结果全是正面。现在让你估计这个硬币正面朝上的概率 p。矩估计会算样本均值 = 10/10 = 1，估计 p = 1。MLE呢？对于二项分布，似然函数 L(p) = p¹⁰(1-p)⁰ = p¹⁰。最大化 p¹⁰ 显然也是在 p = 1 时取到。所以两种方法的答案一样。</p>
-
-        <p>但如果数据是"9次正面，1次反面"呢？矩估计给出 p = 0.9。MLE同样给出 p = 0.9——因为在这个简单例子中两种方法等价。但在更复杂的模型中（比如有多个参数或数据分布很特殊），两种方法可能给出不同的结果。MLE通常有更好的大样本性质。</p>
-
-        <p>我们来看一个用 scipy 计算置信区间的完整例子：</p>
-
-        <pre><code>import numpy as np
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="用可复算的例子理解点估计的无偏性与有效性、矩估计与最大似然、标准误、置信区间的构造公式与频率主义解读。"><title>09 点估计与区间估计：从一个数字到有依据的范围 | Statistics Lab</title><link rel="stylesheet" href="../assets/css/article.css"></head><body><a class="skip-link" href="#content">跳转到正文</a><nav class="topbar" aria-label="章节导航"><a href="../index.html">← Statistics Lab / 课程目录</a><span class="trail">09 / 28 · 估计与区间</span></nav><div class="article-layout"><nav class="toc" aria-label="本文目录"><h2>本篇路径</h2><a href="#point">01 · 点估计：一个数字的风险</a><a href="#construct">02 · 构造估计量的两种思路</a><a href="#standard-error">03 · 标准误：估计的抖动有多大</a><a href="#ci">04 · 置信区间的构造</a><a href="#interpret">05 · 置信区间的正确解读</a><a href="#demo">06 · 动手：宽度取决于什么</a><a href="#practice">07 · 自我检查</a><a href="#refs">参考资料与延伸阅读</a></nav><main id="content"><article><header class="article-header"><div class="kicker">Chapter 09 · Estimation</div><h1>点估计与区间估计：从一个数字到有依据的范围</h1><p class="dek">你抽了 30 个人量身高，算出平均 173 cm。这个数字该信多少？本章不保证“命中”，而是教你给估计配上一个能说明不确定性大小的范围。</p><div class="question"><strong>贯穿案例：</strong>某研究想估计本市成年男性的平均身高 μ。抽样得到 30 个观测，样本均值 x̄ = 173.0 cm，样本标准差 s = 6.8 cm。若再抽 30 人，x̄ 会变多少？我们能用什么区间声称“很可能覆盖 μ”？</div></header>
+<section class="section" id="point"><h2>01 · 点估计：一个数字的风险</h2>
+<p class="lede">点估计（point estimation）用一个样本统计量去估计对应的总体参数：用样本均值 x̄ 估计总体均值 μ，用样本方差 s² 估计总体方差 σ²。它给出“最佳猜测”，却不说明这个猜测可能偏多远。</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360" role="img" aria-labelledby="bias-t bias-d"><title id="bias-t">无偏估计量与有偏估计量的抽样分布对比</title><desc id="bias-d">无偏估计量（青色曲线）的抽样分布以真实参数 μ 为中心；有偏估计量（陶土色曲线）的分布整体向右偏移，反复抽样也不会命中 μ。</desc><rect width="900" height="360" rx="15" fill="#fff"/><g font-family="system-ui,sans-serif"><text x="36" y="42" font-size="20" font-weight="750" fill="#294b50">无偏：反复抽样平均命中 μ；有偏：整体偏移</text><text x="37" y="72" font-size="14" fill="#587174">两条曲线是估计量的抽样分布，纵轴表示密度（数值略去）</text><path d="M90 300H830M90 300V96" stroke="#92acaa" stroke-width="2"/><path d="M420 300V108" stroke="#147f80" stroke-width="2" stroke-dasharray="6 5"/><text x="420" y="325" text-anchor="middle" font-size="14" font-weight="700" fill="#147f80">μ</text><path d="M330 300C360 300 375 110 420 110C465 110 480 300 510 300" fill="none" stroke="#147f80" stroke-width="3"/><path d="M510 300C540 300 555 110 600 110C645 110 660 300 690 300" fill="none" stroke="#c06d4c" stroke-width="3"/><text x="420" y="150" text-anchor="middle" font-size="13" font-weight="700" fill="#147f80">无偏：E(θ̂)=μ</text><text x="628" y="92" text-anchor="middle" font-size="13" font-weight="700" fill="#c06d4c">有偏：E(θ̂)≠μ</text><text x="36" y="342" font-size="12" fill="#597477">曲线形状与偏移均为教学示意，不代表某个具体估计量的精确密度。</text></g></svg><figcaption><strong>图 1 · 看的是抽样分布，不是单次结果。</strong>把“同一个估计方法”在无数次独立样本上重复，会得到一条分布。青色分布的均值正好等于 μ，称为无偏；陶土色分布整体右移，即使重复无数次也不会命中 μ，称为有偏。</figcaption></figure>
+<div class="grid-two"><div class="panel"><h3>无偏性 unbiasedness</h3><p>估计量的期望等于真实参数：E(θ̂) = θ。它说的是“长期平均”对，不是“这一次”对。样本均值对 μ 无偏。</p></div><div class="panel"><h3>有效性 efficiency</h3><p>在都无偏的前提下，方差越小越有效。对同一总体，样本均值的方差通常小于样本中位数，因此更有效。</p></div></div>
+<div class="callout warning"><h3>无偏 ≠ 准确</h3><p>无偏只保证“平均起来对”。某一次抽样的 x̄ 仍可能离 μ 很远，衡量这种抖动的是标准误（第 3 节）。另外，用分母 n 的样本方差对 σ² 有偏，改成分母 n−1 才无偏——这正是方差约定必须写清楚的后果。</p></div></section>
+<section class="section" id="construct"><h2>02 · 构造估计量的两种思路</h2>
+<p>无偏性并不能凭空造出估计量。常见的两条路线是矩估计与最大似然。</p>
+<div class="grid-two"><div class="panel"><h3>矩估计（MME）</h3><p>让样本矩等于总体矩，再解出参数。例如假定数据来自 N(μ, σ²)，令样本均值等于 μ、样本二阶中心矩等于 σ²，就得到 μ̂ = x̄、σ̂² = (1/n)Σ(xᵢ−x̄)²。</p></div><div class="panel"><h3>最大似然（MLE）</h3><p>在所有可能的参数值中，选出让“当前数据出现概率最大”的那个。对伯努利数据，MLE 的 p̂ 恰好等于成功次数除以样本量。</p></div></div>
+<div class="callout"><h3>一个能自己算的例子</h3><p>抛 10 次硬币出现 9 次正面。矩估计给出 p̂ = 9/10 = 0.9；MLE 对伯努利模型同样给出 p̂ = 0.9。若 10 次全正面，两种方法都会给出 p̂ = 1，这提醒我们：不同方法在小样本、极端数据上会一起失灵。</p></div>
+<p>注意矩估计给出的 σ̂² 用分母 n，因此对 σ² 有偏；而 MLE 也不是天然无偏（正态方差参数的 MLE 同样偏小）。选择估计量要同时看无偏性、方差、稳健性和可解释性，而不是只看“哪个更有名”。</p>
+<p class="subtle">本节的 10 次抛硬币为教学示意，不是实验数据；矩估计与 MLE 的一般定义可参见下方参考资料。</p></section>
+<section class="section" id="standard-error"><h2>03 · 标准误：估计的抖动有多大</h2>
+<p>点估计本身不含“误差大小”的信息。衡量它在重复抽样下彭动多少的，是标准误（standard error）。若观测独立同分布、总体标准差为 σ，则样本均值的标准误为：</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="样本均值的标准误等于总体标准差除以样本量的平方根，可用样本标准差估计，可横向滚动"><math display="block" aria-label="样本均值的标准误等于总体标准差除以样本量的平方根，可用样本标准差估计"><mrow><msub><mi>SE</mi><mover><mi>x</mi><mo>¯</mo></mover></msub><mo>=</mo><mfrac><mi>σ</mi><msqrt><mi>n</mi></msqrt></mfrac><mo>≈</mo><mfrac><mi>s</mi><msqrt><mi>n</mi></msqrt></mfrac></mrow></math></div><div class="eq-caption">式 1</div></div>
+<p>教材常把 σ/√n 叫理论标准误（σ 未知时不可算），把 s/√n 叫估计标准误（可在样本上算）。当样本服从近似正态的抽样分布时，x̄ 大约以 μ 为中心、标准差为 SE 波动——这正是下一节构造区间的基石。</p>
+<div class="callout"><h3>别和标准差混为一谈</h3><p>标准差 s 描述“个体之间”的分散程度，几乎不随 n 变小；标准误 s/√n 描述“样本均值”的分散程度，随 n 增大而缩小。样本量翻 4 倍，标准误才减半。</p></div></section>
+<section class="section" id="ci"><h2>04 · 置信区间的构造</h2>
+<p>既然 x̄ 会随着抽样而变，就可以在它周围画一个足够宽的范围，使这个“重复一次安一次”的区间在长期内有给定比例盖住 μ。当 σ 未知、用 s 代替时，用 t 分布而不是正态：</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="总体均值的置信区间等于样本均值加减t临界值乘以标准误，可横向滚动"><math display="block" aria-label="总体均值的置信区间等于样本均值加减t临界值乘以标准误"><mrow><mover><mi>x</mi><mo>¯</mo></mover><mo>±</mo><msub><mi>t</mi><mrow><mn>1</mn><mo>−</mo><mi>α</mi><mo>/</mo><mn>2</mn><mo>,</mo><mspace width="0.2em"></mspace><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>⋅</mo><mfrac><mi>s</mi><msqrt><mi>n</mi></msqrt></mfrac></mrow></math></div><div class="eq-caption">式 2</div></div>
+<p>其中 t 临界值由置信水平（1−α）和自由度 df = n−1 共同决定。把贯穿案例的数字代进去：s = 6.8，n = 30，所以标准误为 6.8/√30 ≈ 1.24；95% 水平的 t 临界值为 t₀.₉₇₅,₂₉ ≈ 2.045。于是误差边际 ≈ 2.045 × 1.24 ≈ 2.54，区间约为 [170.5, 175.5] cm。</p>
+<div class="callout warning"><h3>前提不能被省略</h3><p>上面的 t 区间假定了观测独立、来自近似正态的总体（或样本量足够大以致抽样分布近似正态）。若抽样设计不是独立样本（如整群、分层），标准误公式必须换成对应的设计公式，否则区间会过窄。</p></div>
+<p class="subtle">区间端点由 s = 6.8 cm、n = 30、x̄ = 173.0 cm 这些教学设定值计算得出，用于演示公式，不是实际测量的身高数据。</p></section>
+<section class="section" id="interpret"><h2>05 · 置信区间的正确解读</h2>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="465" viewBox="0 0 900 465" role="img" aria-labelledby="cov-t cov-d"><title id="cov-t">重复抽样下 95% 置信区间的长期覆盖率</title><desc id="cov-d">20 次独立抽样各给出一个 95% 置信区间，用水平线段表示；其中 19 条与真实参数 μ 所在的竖直虚线相交，第 11 条完全落在 μ 的左侧而未覆盖。</desc><rect width="900" height="465" rx="15" fill="#fff"/><g font-family="system-ui,sans-serif"><text x="36" y="42" font-size="20" font-weight="750" fill="#294b50">95% 置信区间：长期约有 95% 的区间覆盖 μ</text><text x="37" y="72" font-size="14" fill="#587174">每条线段是“同一方法”在一次次独立样本上算出的区间；μ 固定不动</text><path d="M470 78V412" stroke="#147f80" stroke-width="2" stroke-dasharray="6 5"/><text x="470" y="443" text-anchor="middle" font-size="13" font-weight="700" fill="#147f80">μ</text><g stroke="#147f80" stroke-width="6"><line x1="368" y1="95" x2="512" y2="95"/><line x1="428" y1="112" x2="572" y2="112"/><line x1="398" y1="129" x2="542" y2="129"/><line x1="448" y1="146" x2="592" y2="146"/><line x1="378" y1="163" x2="522" y2="163"/><line x1="358" y1="180" x2="502" y2="180"/><line x1="418" y1="197" x2="562" y2="197"/><line x1="388" y1="214" x2="532" y2="214"/><line x1="408" y1="231" x2="552" y2="231"/><line x1="373" y1="248" x2="517" y2="248"/><line x1="398" y1="282" x2="542" y2="282"/><line x1="438" y1="299" x2="582" y2="299"/><line x1="368" y1="316" x2="512" y2="316"/><line x1="393" y1="333" x2="537" y2="333"/><line x1="413" y1="350" x2="557" y2="350"/><line x1="383" y1="367" x2="527" y2="367"/><line x1="353" y1="384" x2="497" y2="384"/><line x1="428" y1="401" x2="572" y2="401"/><line x1="388" y1="418" x2="532" y2="418"/></g><line x1="228" y1="265" x2="372" y2="265" stroke="#c06d4c" stroke-width="6"/><text x="228" y="260" text-anchor="start" font-size="12" font-weight="700" fill="#c06d4c">未覆盖</text><text x="36" y="458" font-size="12" fill="#597477">线段位置与宽度均为教学示意；若覆盖率真为 95%，20 条中出现 1 条未覆盖完全正常。</text></g></svg><figcaption><strong>图 2 · 置信水平是“方法”的长期性质。</strong>同一个构造方法在无数次样本上重复，会得到无数个区间，它们中大约 95% 会盖住固定的 μ。图中 20 次里恰好有 1 次没盖住，这完全正常。</figcaption></figure>
+<div class="callout warning"><h3>两种常见误读</h3><p><strong>误读一：</strong>“μ 有 95% 的概率落在这个具体区间里。”在频率主义框架下 μ 是固定常数，不是随机变量；对这一个已算出的区间，只能说它要么盖住、要么没盖住。<strong>误读二：</strong>把 95% 当成“先验概率”。它既不是先验，也不是后验，而是覆盖频率——置信水平的定义正是“该方法长期覆盖真实参数的比例”。</p></div>
+<p>下表是构造区间常用的临界值。当 σ 未知、需用 t 分布时，临界值会略大于下表，且随自由度变化（n 越大越接近下表）。</p>
+<table class="data-table"><caption>常用置信水平与正态临界值 z＊（大样本、σ 已知时的参考值）</caption><thead><tr><th>置信水平</th><th>α</th><th>z＊</th><th>说明</th></tr></thead><tbody><tr><td>90%</td><td>0.10</td><td>1.645</td><td>区间较窄</td></tr><tr><td>95%</td><td>0.05</td><td>1.960</td><td>最常用</td></tr><tr><td>99%</td><td>0.01</td><td>2.576</td><td>区间较宽、更保守</td></tr></tbody></table>
+<p>置信水平越高，需要的范围越宽；样本量越大，同样的置信水平下范围越窄。两者不能互相替代：提高置信水平并不增加信息，只是把区间拉长。</p></section>
+<section class="section" id="demo"><h2>06 · 动手：宽度取决于什么</h2>
+<p>下面的演示固定 x̄ = 173.0 cm、s = 6.8 cm，只让你改变样本量 n 与置信水平。为便于教学，这里用大样本下的 z 临界值近似计算半宽，因此结果是教学插图而不是对真实身高数据的推断。</p>
+<div class="demo"><h3>区间宽度计算器</h3><label for="n">样本量 n：<output id="n-out" for="n">30</output></label><input id="n" type="range" min="10" max="200" step="5" value="30"><label for="level">置信水平：</label><select id="level"><option value="90">90%</option><option value="95" selected>95%</option><option value="99">99%</option></select><p class="demo-output" id="ci-out" aria-live="polite"></p><p class="subtle">把 n 从 30 拉到 120，看半宽如何缩小；把置信水平换成 99%，看区间如何变宽。</p></div>
+<p>一个通过实验可发现的事实：n 每变大 4 倍，标准误才减半，因此想靠加样本量把区间“磨窄一半”往往需要四倍的成本。而当抽样本身有偏差（样本不代表总体）时，即使用 n = 100000，区间也只会把错误的值包围得更紧。</p></section>
+<section class="section" id="practice"><h2>07 · 自我检查与可复现计算</h2>
+<p>下面这段代码在合成样本上同时算出点估计、标准误与 95% t 区间，可直接运行。它展示的是一次计算，不保证这次区间盖住 μ。</p>
+<pre><code>import numpy as np
 from scipy import stats
 
-# 假设我们测量了30名成年男性的身高（cm）
-np.random.seed(42)
-heights = np.random.normal(loc=172, scale=6, size=30)
-
-# 计算样本均值和样本标准差
-x_bar = np.mean(heights)
-s = np.std(heights, ddof=1)  # 注意：ddof=1 使用n-1
-n = len(heights)
-
-# 计算95%置信区间（使用t分布，因为σ未知）
-confidence = 0.95
-alpha = 1 - confidence
-t_critical = stats.t.ppf(1 - alpha/2, df=n-1)
-margin_error = t_critical * s / np.sqrt(n)
-ci_low = x_bar - margin_error
-ci_high = x_bar + margin_error
-
-print(f"样本均值: {x_bar:.2f}")
-print(f"样本标准差: {s:.2f}")
-print(f"t临界值（df={n-1}）: {t_critical:.4f}")
-print(f"标准误: {s/np.sqrt(n):.2f}")
-print(f"误差边际: {margin_error:.2f}")
-print(f"95% 置信区间: [{ci_low:.2f}, {ci_high:.2f}]")
-
-# 也可以直接用 scipy 一步到位
-ci = stats.t.interval(0.95, df=n-1, loc=x_bar, scale=s/np.sqrt(n))
-print(f"直接用 scipy: [{ci[0]:.2f}, {ci[1]:.2f}]")</code></pre>
-
-        <h3>9.4 置信区间：给估计留余地</h3>
-
-        <p>置信区间（confidence interval, CI）的核心公式是：</p>
-
-        <p style="text-align:center; font-size:1.1rem;"><strong>点估计 ± (临界值 × 标准误)</strong></p>
-
-        <p>其中"临界值 × 标准误"就是<strong>误差边际（margin of error）</strong>。从公式可以看出，置信区间的宽度取决于三个因素：</p>
-
-        <ul>
-            <li><strong>置信水平：</strong>置信水平越高（如99% vs 95%），临界值越大，区间越宽。</li>
-            <li><strong>样本变异性：</strong>数据越分散（s越大），区间越宽。</li>
-            <li><strong>样本量：</strong>样本量越大（n越大），标准误越小，区间越窄。</li>
-        </ul>
-
-        <p>在实践中，我们最常用的就是95%置信区间。但请注意：95%是一个<strong>先验概率</strong>，而不是对某个具体区间的概率声明。</p>
-
-        <h3>9.5 置信区间的正确解读</h3>
-
-        <div class="warning">
-            <strong>最常见的误解：</strong>许多人认为"95%置信区间意味着真实参数有95%的概率落在这个区间内。"——这是<strong>错的</strong>！真实参数是固定不变的（虽然我们不知道它在哪里），区间则是随机的。正确的解读是：如果我们重复抽样很多次，每次计算一个95%置信区间，那么这些区间中大约有95%会包含真实参数。<br><br>
-            再强调一遍：对于一个具体的区间，真实参数要么在里面（100%），要么不在（0%），不存在"95%概率在里面"这种说法。这个误解非常普遍，甚至连一些统计学家写的教材都有过这种不严谨的表述。
-        </div>
-
-        <p>让我用一个类比来帮助理解。想象你在玩飞镖，靶心是真实参数。你的每次飞镖投中的位置就是一次点估计。而置信区间就像你在着靶点周围画的一个圈——圈的大小取决于你的水平（置信水平）和你的稳定度（标准误）。如果你水平稳定（标准误小），圈就画得小。如果你想要95%的信心，圈就比90%的信心更大——但不管怎样，对于一次具体的投掷，靶心要么在圈里，要么不在。</p>
-
-        <p>下表总结了不同置信水平对应的临界值：</p>
-
-        <table>
-            <tr><th>置信水平</th><th>α</th><th>z临界值（σ已知）</th><th>备注</th></tr>
-            <tr><td>90%</td><td>0.10</td><td>1.645</td><td>较窄，但不那么"可靠"</td></tr>
-            <tr><td>95%</td><td>0.05</td><td>1.960</td><td>最常用，黄金标准</td></tr>
-            <tr><td>99%</td><td>0.01</td><td>2.576</td><td>较宽，更保守</td></tr>
-        </table>
-
-        <div class="tip">
-            <strong>小技巧：</strong>很多人记不住 z = 1.96 这个数，其实你可以近似为 z ≈ 2。对于95%置信区间，粗略地讲就是"点估计 ± 2×标准误"。这个近似在样本量较大时很好用。我经常在头脑风暴或快速估算时用这个心算规则。
-        </div>
-
-        <p>点估计和区间估计为我们提供了从样本推断总体的两个层次：一个"最佳猜测"和一个"合理范围"。但这就够了吗？很多时候我们想要的不仅仅是估计——我们想判断某个假设是否成立。下一章我们将进入统计推断的另一个核心话题：假设检验。</p>
-
-        <div class="footer-nav">
-            <a href="08.html">← 上一章</a>
-            <a href="index.html">📖 返回目录</a>
-            <a href="10.html">下一章 →</a>
-        </div>
-    </div>
-</div>
-</div>
-</body>
-</html>
+rng = np.random.default_rng(0)
+x = rng.normal(172, 7, size=30)      # 教学用合成样本
+n = len(x)
+xbar, s = x.mean(), x.std(ddof=1)     # ddof=1 → 分母 n-1
+se = s / np.sqrt(n)
+tcrit = stats.t.ppf(0.975, df=n-1)     # 95% 双侧
+print(f"x̄={xbar:.2f}  s={s:.2f}  SE={se:.2f}  t*={tcrit:.3f}")
+print(f"95% CI = [{xbar-tcrit*se:.2f}, {xbar+tcrit*se:.2f}]")
+# 把 rng 的种子换个值，区间就会移动</code></pre>
+<div class="callout"><h3>自我检查</h3><p><strong>问题：</strong>某 95% 置信区间为 [170.5, 175.5]。“总体均值 μ 有 95% 的概率落在这个区间里”对吗？</p><p><strong>参考答案：</strong>不对。95% 是方法在重复抽样下的覆盖频率。对这一个区间，μ 要么在里面、要么不在。“95% 概率”的说法需要引入对 μ 的先验分布，那是贝叶斯区间（可信区间）的语义，不是频率主义置信区间。</p></div>
+<div class="callout warning"><h3>失败模式</h3><p>若样本不是随机的（例如只在健身房门口调查），x̄ 就不是对全市均值的无偏估计。此时区间会给出一个非常确信、但系统性错误的答案——置信区间只能量化随机误差，不能修正选择偏差。</p></div></section>
+<section class="section" id="refs"><h2>参考资料与延伸阅读</h2><ol class="sources"><li><a href="https://openstax.org/books/introductory-statistics-2e/pages/8-1-a-single-population-mean-using-the-normal-distribution">OpenStax, Introductory Statistics (2e)</a>：第 8 章总体均值的点估计与置信区间。</li><li><a href="https://www.openintro.org/book/os/">OpenIntro Statistics</a>：点估计、无偏性与有效性的入门讨论。</li><li><a href="https://www.itl.nist.gov/div898/handbook/eda/section3/eda352.htm">NIST/SEMATECH e-Handbook of Statistical Methods</a>：置信区间的构造与频率主义解读。</li><li><a href="https://online.stat.psu.edu/stat415/lesson/1/1.2">Penn State STAT 415</a>：最大似然估计（MLE）的定义与性质。</li></ol><p class="subtle">本章身高、硬币与区间宽度均为教学构造的例子，用来演示公式与解释；图中曲线与线段位置不代表任何真实调查结果。</p></section>
+<nav class="chapter-nav" aria-label="章节切换"><a href="08.html">← 抽样与抽样分布</a><a href="../index.html">课程目录</a><a href="10.html">假设检验入门 →</a></nav></article></main></div><script>(()=>{const n=document.getElementById('n'),lv=document.getElementById('level'),no=document.getElementById('n-out'),out=document.getElementById('ci-out');if(!n||!lv||!out)return;const z={90:1.645,95:1.96,99:2.576},s=6.8,mean=173;const upd=()=>{const N=Number(n.value),Z=z[lv.value],me=Z*s/Math.sqrt(N);no.value=String(N);no.textContent=String(N);out.textContent='点估计 x̄ = 173.0 cm；半宽 ± '+me.toFixed(2)+' cm；'+lv.value+'% 区间 ≈ ['+(mean-me).toFixed(1)+', '+(mean+me).toFixed(1)+'] cm';};n.addEventListener('input',upd);lv.addEventListener('change',upd);upd()})();</script></body></html>

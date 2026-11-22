@@ -1,0 +1,79 @@
+{
+  "chapter": "09",
+  "version": "2026-11-22",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "unbiased-efficiency",
+      "claim": "An estimator is unbiased when its expectation equals the parameter; among unbiased estimators, smaller variance means greater efficiency",
+      "kind": "textbook",
+      "source_url": "https://www.openintro.org/book/os/",
+      "locator": "OpenIntro Statistics, point estimation",
+      "status": "verified",
+      "notes": "Sample mean cited as unbiased for the population mean"
+    },
+    {
+      "id": "se-mean",
+      "claim": "Standard error of the sample mean is sigma/sqrt(n), estimated by s/sqrt(n) when sigma is unknown",
+      "kind": "textbook",
+      "source_url": "https://openstax.org/books/introductory-statistics-2e/pages/8-1-a-single-population-mean-using-the-normal-distribution",
+      "locator": "§8.1",
+      "status": "verified",
+      "notes": "Assumes independent observations; s uses denominator n-1"
+    },
+    {
+      "id": "t-interval",
+      "claim": "When sigma is unknown the population-mean confidence interval is x-bar plus or minus t_(1-alpha/2, n-1) times s/sqrt(n)",
+      "kind": "textbook",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda352.htm",
+      "locator": "NIST/SEMATECH e-Handbook, confidence intervals",
+      "status": "verified",
+      "notes": "Student-t critical value with n-1 degrees of freedom"
+    },
+    {
+      "id": "z-critical",
+      "claim": "Two-sided normal critical values are 1.645 (90%), 1.960 (95%) and 2.576 (99%)",
+      "kind": "reference",
+      "source_url": "https://openstax.org/books/introductory-statistics-2e/pages/8-1-a-single-population-mean-using-the-normal-distribution",
+      "locator": "§8.1 z-table values",
+      "status": "verified",
+      "notes": "Values used only in the large-sample teaching approximation"
+    },
+    {
+      "id": "coverage-interpretation",
+      "claim": "The confidence level is the long-run coverage frequency of the procedure, not the probability that a fixed parameter lies in one computed interval",
+      "kind": "reference",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda352.htm",
+      "locator": "NIST/SEMATECH, interpretation of confidence intervals",
+      "status": "verified",
+      "notes": "Frequentist interpretation; Bayesian credible intervals are a different object"
+    },
+    {
+      "id": "mme-mle",
+      "claim": "Method of moments matches sample and population moments; maximum likelihood maximizes the likelihood of the observed data, and neither is universally unbiased",
+      "kind": "course",
+      "source_url": "https://online.stat.psu.edu/stat415/lesson/1/1.2",
+      "locator": "Penn State STAT 415, likelihood",
+      "status": "verified",
+      "notes": "Normal-variance MLE uses denominator n and is biased"
+    },
+    {
+      "id": "height-example",
+      "claim": "With x-bar=173.0, s=6.8, n=30 the 95% t interval is about [170.5, 175.5]",
+      "kind": "example",
+      "source_url": null,
+      "locator": "section 04 worked computation",
+      "status": "derived",
+      "notes": "Synthetic teaching values; t_(0.975,29)=2.045, 6.8/sqrt(30)=1.24"
+    },
+    {
+      "id": "coverage-figure",
+      "claim": "Among 20 illustrative 95% intervals, 19 cover mu and 1 misses",
+      "kind": "figure",
+      "source_url": null,
+      "locator": "figure 2",
+      "status": "illustrative",
+      "notes": "Hand-placed segments; only the 95% coverage idea is claimed, not exact widths"
+    }
+  ]
+}
