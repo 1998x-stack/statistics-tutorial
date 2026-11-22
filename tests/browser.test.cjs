@@ -11,7 +11,7 @@ const out=path.join(root,'qa/browser');fs.mkdirSync(out,{recursive:true});
  const browser=await chromium.launch({headless:true});
  const report=[];
  try{
-  for(const file of ['index.html',...Array.from({length:8},(_,i)=>`chapters/${String(i+1).padStart(2,'0')}.html`)]){
+  for(const file of ['index.html',...Array.from({length:13},(_,i)=>`chapters/${String(i+1).padStart(2,'0')}.html`)]){
    for(const width of [1440,768,390,360]){
     const context=await browser.newContext({viewport:{width,height:900},deviceScaleFactor:1,reducedMotion:'reduce'});
     await context.route(/^https?:/,route=>route.abort());
@@ -57,11 +57,23 @@ const out=path.join(root,'qa/browser');fs.mkdirSync(out,{recursive:true});
      'chapters/05.html':['#bin-width','5','#bin-counts',/\[5,10\): 3/],
      'chapters/06.html':['#prevalence','10','#ppv',/66.67%/],
      'chapters/07.html':['#success','100','#bin-tail',/100.000%/],
-     'chapters/08.html':['#sample-n','100','#se-out',/0.500/]
+     'chapters/08.html':['#sample-n','100','#se-out',/0.500/],
+     'chapters/09.html':['#n','120','#ci-out',/171\.8, 174\.2/],
+     'chapters/10.html':['#z','1.96','#p-out',/0\.0500/],
+     'chapters/11.html':['#k','3','#k-p',/14\.3%/],
+     'chapters/12.html':['#pn','64','#power-out',/80\.7%/],
+     'chapters/13.html':['#py','12','#r-out',/0\.871/]
     }[file];
     if(exercise){const [selector,value,output,re]=exercise;
       await page.locator(selector).evaluate((element,newValue)=>{element.value=newValue;element.dispatchEvent(new Event('input',{bubbles:true}))},value);
       assert.match(await page.locator(output).innerText(),re);
+    }
+    if(/^chapters\/1[0-3]\.html$/.test(file)||file==='chapters/09.html'){
+      const range=page.locator('input[type=range]').first();
+      await range.focus();
+      const before=await range.inputValue();
+      await range.press('ArrowLeft');
+      assert.notEqual(await range.inputValue(),before,`${file} ${width}: range responds to keyboard`);
     }
     await page.screenshot({path:path.join(out,`${file.replaceAll('/','-').replace('.html','')}-${width}.png`),fullPage:true});
     if(width===1440){await page.emulateMedia({media:'print'});let fig=await page.locator('figure').count();if(fig)assert.ok(await page.locator('figure').first().isVisible());await page.emulateMedia({media:'screen'})}
