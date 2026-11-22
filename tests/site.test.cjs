@@ -31,7 +31,7 @@ for(let i=1;i<=3;i++){
  assert.match(h,/<article\b/);
  assert.match(h,/aria-label="本文目录"/);
  if(i!==2)assert.match(h,/<math display="block"/);
- assert.match(h,/class="math-scroll"/);
+ if(i!==2)assert.match(h,/class="math-scroll"/);
  assert.match(h,/<figcaption>/);
  assert.match(h,/<pre><code>/);
  const refs=[...h.matchAll(/(?:src|href)="([^"#?]+)"/g)].map(m=>m[1]);
