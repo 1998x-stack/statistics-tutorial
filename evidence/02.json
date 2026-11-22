@@ -1,0 +1,42 @@
+{
+  "chapter": "02",
+  "version": "2026-11-22",
+  "entries": [
+    {
+      "id": "scale",
+      "claim": "名义、顺序、等距、比率四级的可解释运算差异",
+      "kind": "textbook",
+      "source_url": "https://openstax.org/books/introductory-statistics-2e/pages/1-3-frequency-frequency-tables-and-levels-of-measurement",
+      "locator": "§1.3",
+      "status": "verified",
+      "notes": "Wording and graphics independently created"
+    },
+    {
+      "id": "sampling",
+      "claim": "抽样策略及样本选择机制",
+      "kind": "textbook",
+      "source_url": "https://www.openintro.org/book/os/",
+      "locator": "Chapter 1, sampling principles",
+      "status": "verified",
+      "notes": "Diagram simplified; not sampling execution algorithm"
+    },
+    {
+      "id": "aapor",
+      "claim": "报告调查应披露目标总体、方法、问卷措辞与参与信息",
+      "kind": "standard",
+      "source_url": "https://aapor.org/standards-and-ethics/best-practices/",
+      "locator": "Best Practices for Survey Research",
+      "status": "verified",
+      "notes": "Disclosure guidance"
+    },
+    {
+      "id": "toy",
+      "claim": "四位学生通勤时间12、35、20、25，均值23分钟；公交出现2次",
+      "kind": "example",
+      "source_url": null,
+      "locator": "data table and code",
+      "status": "illustrative",
+      "notes": "Synthetic data; independently calculated"
+    }
+  ]
+}

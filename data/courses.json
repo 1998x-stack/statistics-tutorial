@@ -1,7 +1,7 @@
 {
   "title": "统计学 · 从入门到精通",
   "emoji": "📊",
-  "subtitle": "📘 28章 实战体系",
+  "subtitle": "从数据、抽样到推断与建模的可视化学习路径",
   "chapterCount": 28,
   "chapters": [
     {
@@ -13,7 +13,8 @@
         "总体与样本",
         "变量类型"
       ],
-      "file": "01.html"
+      "file": "chapters/01.html",
+      "stage": "基础与数据"
     },
     {
       "num": "02",
@@ -24,7 +25,8 @@
         "横截面vs时间序列",
         "抽样方法"
       ],
-      "file": "02.html"
+      "file": "chapters/02.html",
+      "stage": "基础与数据"
     },
     {
       "num": "03",
@@ -35,7 +37,8 @@
         "众数",
         "方差与标准差"
       ],
-      "file": "03.html"
+      "file": "chapters/03.html",
+      "stage": "基础与数据"
     },
     {
       "num": "04",
@@ -46,7 +49,8 @@
         "偏度与峰度",
         "数据标准化"
       ],
-      "file": "04.html"
+      "file": "chapters/04.html",
+      "stage": "基础与数据"
     },
     {
       "num": "05",
@@ -57,7 +61,8 @@
         "条形图",
         "可视化误区"
       ],
-      "file": "05.html"
+      "file": "chapters/05.html",
+      "stage": "基础与数据"
     },
     {
       "num": "06",
@@ -68,7 +73,8 @@
         "贝叶斯公式",
         "随机变量"
       ],
-      "file": "06.html"
+      "file": "chapters/06.html",
+      "stage": "概率与推断"
     },
     {
       "num": "07",
@@ -79,7 +85,8 @@
         "正态分布",
         "中心极限定理"
       ],
-      "file": "07.html"
+      "file": "chapters/07.html",
+      "stage": "概率与推断"
     },
     {
       "num": "08",
@@ -90,7 +97,8 @@
         "抽样分布",
         "标准误"
       ],
-      "file": "08.html"
+      "file": "chapters/08.html",
+      "stage": "概率与推断"
     },
     {
       "num": "09",
@@ -101,7 +109,8 @@
         "置信区间",
         "误差边界"
       ],
-      "file": "09.html"
+      "file": "chapters/09.html",
+      "stage": "概率与推断"
     },
     {
       "num": "10",
@@ -112,7 +121,8 @@
         "p值",
         "显著性水平"
       ],
-      "file": "10.html"
+      "file": "chapters/10.html",
+      "stage": "概率与推断"
     },
     {
       "num": "11",
@@ -123,7 +133,8 @@
         "卡方检验",
         "F检验"
       ],
-      "file": "11.html"
+      "file": "chapters/11.html",
+      "stage": "概率与推断"
     },
     {
       "num": "12",
@@ -134,7 +145,8 @@
         "效应量",
         "样本量计算"
       ],
-      "file": "12.html"
+      "file": "chapters/12.html",
+      "stage": "概率与推断"
     },
     {
       "num": "13",
@@ -145,7 +157,8 @@
         "相关矩阵",
         "相关≠因果"
       ],
-      "file": "13.html"
+      "file": "chapters/13.html",
+      "stage": "关联、因果与规范"
     },
     {
       "num": "14",
@@ -156,7 +169,8 @@
         "残差分析",
         "回归诊断"
       ],
-      "file": "14.html"
+      "file": "chapters/14.html",
+      "stage": "关联、因果与规范"
     },
     {
       "num": "15",
@@ -167,7 +181,8 @@
         "文件抽屉问题",
         "可重复性危机"
       ],
-      "file": "15.html"
+      "file": "chapters/15.html",
+      "stage": "关联、因果与规范"
     },
     {
       "num": "16",
@@ -178,7 +193,8 @@
         "辛普森悖论",
         "幸存者偏差"
       ],
-      "file": "16.html"
+      "file": "chapters/16.html",
+      "stage": "关联、因果与规范"
     },
     {
       "num": "17",
@@ -189,7 +205,8 @@
         "DAG",
         "RCT"
       ],
-      "file": "17.html"
+      "file": "chapters/17.html",
+      "stage": "关联、因果与规范"
     },
     {
       "num": "18",
@@ -200,7 +217,8 @@
         "预注册",
         "开放科学"
       ],
-      "file": "18.html"
+      "file": "chapters/18.html",
+      "stage": "关联、因果与规范"
     },
     {
       "num": "19",
@@ -211,7 +229,8 @@
         "交互项",
         "AIC/BIC"
       ],
-      "file": "19.html"
+      "file": "chapters/19.html",
+      "stage": "统计模型"
     },
     {
       "num": "20",
@@ -222,7 +241,8 @@
         "ROC曲线",
         "混淆矩阵"
       ],
-      "file": "20.html"
+      "file": "chapters/20.html",
+      "stage": "统计模型"
     },
     {
       "num": "21",
@@ -233,7 +253,8 @@
         "交互效应",
         "事后检验"
       ],
-      "file": "21.html"
+      "file": "chapters/21.html",
+      "stage": "统计模型"
     },
     {
       "num": "22",
@@ -244,7 +265,8 @@
         "贝叶斯vs频率学派",
         "AI时代的贝叶斯"
       ],
-      "file": "22.html"
+      "file": "chapters/22.html",
+      "stage": "统计模型"
     },
     {
       "num": "23",
@@ -255,7 +277,8 @@
         "R基础",
         "Jupyter"
       ],
-      "file": "23.html"
+      "file": "chapters/23.html",
+      "stage": "实战与拓展"
     },
     {
       "num": "24",
@@ -266,7 +289,8 @@
         "建模",
         "报告全流程"
       ],
-      "file": "24.html"
+      "file": "chapters/24.html",
+      "stage": "实战与拓展"
     },
     {
       "num": "25",
@@ -277,7 +301,8 @@
         "显著性检验",
         "决策规则"
       ],
-      "file": "25.html"
+      "file": "chapters/25.html",
+      "stage": "实战与拓展"
     },
     {
       "num": "26",
@@ -288,7 +313,8 @@
         "交叉验证",
         "贝叶斯优化"
       ],
-      "file": "26.html"
+      "file": "chapters/26.html",
+      "stage": "实战与拓展"
     },
     {
       "num": "27",
@@ -299,7 +325,8 @@
         "断点回归",
         "工具变量"
       ],
-      "file": "27.html"
+      "file": "chapters/27.html",
+      "stage": "实战与拓展"
     },
     {
       "num": "28",
@@ -310,7 +337,8 @@
         "数据分析",
         "报告撰写"
       ],
-      "file": "28.html"
+      "file": "chapters/28.html",
+      "stage": "实战与拓展"
     }
   ]
 }

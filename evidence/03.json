@@ -1,0 +1,51 @@
+{
+  "chapter": "03",
+  "version": "2026-11-22",
+  "entries": [
+    {
+      "id": "center",
+      "claim": "均值使用全部数值，中位数对个别极端值较稳健",
+      "kind": "textbook",
+      "source_url": "https://openstax.org/books/introductory-statistics-2e/pages/2-5-measures-of-the-center-of-the-data",
+      "locator": "§2.5",
+      "status": "verified",
+      "notes": "General concept; no source quote"
+    },
+    {
+      "id": "spread",
+      "claim": "样本方差通常用n-1，标准差恢复到原始单位",
+      "kind": "handbook",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm",
+      "locator": "Measures of Scale",
+      "status": "verified",
+      "notes": "Assumes ordinary iid sampling for unbiased sample variance"
+    },
+    {
+      "id": "toy",
+      "claim": "样本2,3,3,4,8: mean4,median3,mode3,sum squares22,sample variance5.5,population variance4.4",
+      "kind": "example",
+      "source_url": null,
+      "locator": "sections 01–04",
+      "status": "derived",
+      "notes": "Exact arithmetic: 2+3+3+4+8=20; squared deviations sum=22"
+    },
+    {
+      "id": "outlier",
+      "claim": "替换8为18: mean6,median3,sum squares182,sample variance45.5",
+      "kind": "example",
+      "source_url": null,
+      "locator": "figure 2 and section 05",
+      "status": "derived",
+      "notes": "Squared deviations (16+9+9+4+144)=182"
+    },
+    {
+      "id": "quartile",
+      "claim": "排除中位数的median-of-halves给出Q1=2.5,Q3=6,IQR=3.5",
+      "kind": "convention",
+      "source_url": null,
+      "locator": "section 03",
+      "status": "derived",
+      "notes": "Different quantile definitions yield different answers; explicitly disclaimed"
+    }
+  ]
+}
