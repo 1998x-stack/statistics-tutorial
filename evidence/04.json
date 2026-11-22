@@ -1,0 +1,43 @@
+{
+  "chapter": "04",
+  "status": "deep-rewrite",
+  "version": "2026-11-22",
+  "entries": [
+    {
+      "id": "quartile",
+      "claim": "Percentile calculation conventions differ for finite samples",
+      "kind": "textbook",
+      "source_url": "https://openstax.org/books/introductory-statistics-2e/pages/2-3-measures-of-the-location-of-the-data",
+      "locator": "§2.3",
+      "status": "verified",
+      "notes": "Two explicit conventions; both results recomputed"
+    },
+    {
+      "id": "boxplot",
+      "claim": "Modified Tukey boxplot whiskers stop at most extreme non-outlier, not at fence",
+      "kind": "reference",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/eda/section3/boxplot.htm",
+      "locator": "Box plot definition",
+      "status": "verified",
+      "notes": "Uses 1.5 IQR convention"
+    },
+    {
+      "id": "kurtosis",
+      "claim": "Moment skewness and excess kurtosis have multiple conventions; g2=m4/m2^2-3",
+      "kind": "handbook",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda35b.htm",
+      "locator": "Skewness and Kurtosis",
+      "status": "verified",
+      "notes": "Labels chosen uncorrected moment forms"
+    },
+    {
+      "id": "toy",
+      "claim": "Synthetic nine values 1,2,3,3,4,5,6,7,18 yield Q1 2.5,Q3 6.5,IQR 4, upper fence 12.5,mean 49/9",
+      "kind": "example",
+      "source_url": null,
+      "locator": "Article demo and figures",
+      "status": "derived",
+      "notes": "Explicit median-of-halves convention"
+    }
+  ]
+}

@@ -23,7 +23,7 @@ for(let i=0;i<28;i++){
  const redirect=read(`${n}.html`);
  assert.match(redirect,/chapters\//);
 }
-for(let i=1;i<=3;i++){
+for(let i=1;i<=8;i++){
  const n=String(i).padStart(2,'0');
  const h=read(`chapters/${n}.html`);
  assert.equal((h.match(/<h1\b/g)||[]).length,1,`one H1 ${n}`);
@@ -33,13 +33,15 @@ for(let i=1;i<=3;i++){
  if(i!==2)assert.match(h,/<math display="block"/);
  if(i!==2)assert.match(h,/class="math-scroll"/);
  assert.match(h,/<figcaption>/);
+ if(i>=4)assert.ok((h.match(/<figure\b/g)||[]).length>=2,`expected multiple figures in ${n}`);
  assert.match(h,/<pre><code>/);
  const refs=[...h.matchAll(/(?:src|href)="([^"#?]+)"/g)].map(m=>m[1]);
  for(const link of refs){if(/^(?:https?:|mailto:|javascript:|\/)/.test(link))continue;const target=path.resolve(root,'chapters',link);assert.ok(fs.existsSync(target),`broken ${n} local ref: ${link}`)}
  const ledger=JSON.parse(read(`evidence/${n}.json`));
  assert.equal(ledger.chapter,n);
  assert.ok(ledger.entries.length>=4);
+ assert.ok(ledger.entries.filter(e=>e.status==='verified').every(e=>e.source_url),`verified claims must cite source in ${n}`);
  assert.ok(ledger.entries.some(e=>e.status==='illustrative'||e.status==='derived'));
 }
 assert.ok(fs.existsSync(path.join(root,'chapters/theme.css')),'legacy CSS missing');
-console.log('site integrity: 28 chapters, 28 redirects, 3 deep lessons, local links and source ledgers passed');
+console.log('site integrity: 28 chapters, 28 redirects, 8 deep lessons, local links and source ledgers passed');

@@ -1,0 +1,52 @@
+{
+  "chapter": "07",
+  "version": "2026-11-22",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "binomial",
+      "claim": "Binomial assumptions and PMF E=np Var=np(1-p)",
+      "kind": "textbook",
+      "source_url": "https://openstax.org/books/introductory-statistics-2e/pages/4-3-binomial-distribution",
+      "locator": "§4.3",
+      "status": "verified",
+      "notes": "n=5,p=.4 derived probabilities independently"
+    },
+    {
+      "id": "poisson",
+      "claim": "Poisson counts with mean lambda, probability e^-lambda lambda^k / k!",
+      "kind": "textbook",
+      "source_url": "https://openstax.org/books/introductory-statistics-2e/pages/4-6-poisson-distribution",
+      "locator": "§4.6",
+      "status": "verified",
+      "notes": "lambda=2 synthetic"
+    },
+    {
+      "id": "exponential",
+      "claim": "Exponential waiting times and memorylessness under constant rate process",
+      "kind": "textbook",
+      "source_url": "https://openstax.org/books/introductory-statistics-2e/pages/5-3-the-exponential-distribution",
+      "locator": "§5.3",
+      "status": "verified",
+      "notes": "Only applies if model assumptions hold"
+    },
+    {
+      "id": "normal",
+      "claim": "Standard normal central mass within one standard deviation ~0.6827",
+      "kind": "textbook",
+      "source_url": "https://openstax.org/books/introductory-statistics-2e/pages/6-1-the-standard-normal-distribution",
+      "locator": "§6.1",
+      "status": "verified",
+      "notes": "Original computed SVG illustration, not textbook figure"
+    },
+    {
+      "id": "toy",
+      "claim": "Binomial P(X>=3)=.31744, Poisson lambda=2 P(X=2) about .27067",
+      "kind": "example",
+      "source_url": null,
+      "locator": "code and interactive",
+      "status": "derived",
+      "notes": "Exact binomial sum and e^-2*2^2/2!"
+    }
+  ]
+}

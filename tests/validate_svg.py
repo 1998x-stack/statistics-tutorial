@@ -4,7 +4,7 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 root = Path(__file__).resolve().parents[1]
 files = sorted((root/'assets'/'svg').glob('*.svg'))
-assert len(files) >= 7, f'expected 7 or more diagrams, found {len(files)}'
+assert len(files) >= 22, f'expected 22 or more diagrams, found {len(files)}'
 for file in files:
     tree = ET.parse(file)
     svg = tree.getroot()

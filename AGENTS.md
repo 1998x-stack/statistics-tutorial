@@ -8,7 +8,7 @@ Use `https://github.com/1998x-stack/Olah-style-posts/tree/main/skills/olah-style
 
 ## Repository contract
 - Homepage: `index.html`; current canonical chapter paths: `chapters/NN.html` (01–28). Never break legacy `NN.html` redirects without a migration plan.
-- Shared styles: `assets/css/site.css` (homepage), `assets/css/article.css` (new articles), `chapters/theme.css` (legacy chapters pending migration). Do not restyle the 25 legacy chapters incidentally.
+- Shared styles: `assets/css/site.css` (homepage), `assets/css/article.css` (new articles), `chapters/theme.css` (legacy chapters pending migration). Do not restyle the 20 legacy chapters incidentally.
 - Original topic map: `data/courses.json`. Keep 28 chapters, ordered with stable two-digit IDs and unique canonical paths. Update the homepage, README and tests when changing metadata.
 - Original SVGs: `assets/svg/`; filenames should describe concept, not tool/version. Use SVG `xmlns`, `viewBox`, `title`, `desc`, readable labels and captions. Colors: teal=population/estimate, terracotta=sample or bias, violet=uncertainty.
 - Numerical sources and assumptions: `evidence/NN.json`; quantitative examples must be labeled `illustrative` unless traceable to an actual dataset. Historical stories require traceable sources; otherwise replace with explicitly synthetic examples.
@@ -25,4 +25,4 @@ Use `https://github.com/1998x-stack/Olah-style-posts/tree/main/skills/olah-style
 7. Publish in a scoped PR; review changed files and CI; never claim Pages is live before verifying its URL. Retain old links for migrated chapters.
 
 ## CI / publishing
-Run `node tests/site.test.cjs` plus `node tests/offline-catalog.test.cjs`. Website is root static GitHub Pages site; static assets are committed as-is. Do not introduce a framework build or change Pages settings without verifying existing deployment source. Keep separate PRs for next batches (04–06, ...).
+Run `node tests/site.test.cjs` plus `node tests/offline-catalog.test.cjs`. Website is root static GitHub Pages site; static assets are committed as-is. Do not introduce a framework build or change Pages settings without verifying existing deployment source. Keep separate PRs for future chapter batches (09–13, ...).

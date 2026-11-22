@@ -11,7 +11,7 @@ const out=path.join(root,'qa/browser');fs.mkdirSync(out,{recursive:true});
  const browser=await chromium.launch({headless:true});
  const report=[];
  try{
-  for(const file of ['index.html','chapters/01.html','chapters/02.html','chapters/03.html']){
+  for(const file of ['index.html',...Array.from({length:8},(_,i)=>`chapters/${String(i+1).padStart(2,'0')}.html`)]){
    for(const width of [1440,768,390,360]){
     const context=await browser.newContext({viewport:{width,height:900},deviceScaleFactor:1,reducedMotion:'reduce'});
     await context.route(/^https?:/,route=>route.abort());
@@ -27,7 +27,10 @@ const out=path.join(root,'qa/browser');fs.mkdirSync(out,{recursive:true});
      fractions:[...document.querySelectorAll('mfrac')].map(x=>({numerator:x.firstElementChild?.getBoundingClientRect().top,denominator:x.lastElementChild?.getBoundingClientRect().top}))
     }));
     assert.equal(state.h1,1,`${file} ${width}: expected one h1`);
-    assert.ok(state.documentWidth<=state.viewport+1,`${file} ${width}: page overflow ${state.documentWidth} > ${state.viewport}`);
+    if(state.documentWidth>state.viewport+1){
+      const offenders=await page.evaluate(()=>[...document.querySelectorAll('*')].map(x=>({tag:x.tagName,cls:typeof x.className==='string'?x.className:'',id:x.id||'',right:Math.round(x.getBoundingClientRect().right),left:Math.round(x.getBoundingClientRect().left),scroll:x.scrollWidth,client:x.clientWidth})).filter(x=>x.right>innerWidth+1||x.left< -1).sort((a,b)=>b.right-a.right).slice(0,14));
+      assert.fail(`${file} ${width}: page overflow ${state.documentWidth} > ${state.viewport}; offenders=${JSON.stringify(offenders)}`);
+    }
     for(const img of state.images)assert.ok(img.width>0&&img.height>0,`${file} ${width}: missing image ${img.src}`);
     for(const eq of state.equations){assert.equal(eq.namespace,'http://www.w3.org/1998/Math/MathML');assert.ok(eq.width>0&&eq.height>0,`${file} ${width}: invisible math`)}
     for(const frac of state.fractions)assert.ok(frac.numerator<frac.denominator,`${file} ${width}: fraction layout`);
@@ -48,6 +51,17 @@ const out=path.join(root,'qa/browser');fs.mkdirSync(out,{recursive:true});
     if(file==='chapters/03.html'){
      await page.locator('#last').evaluate(x=>{x.value='18';x.dispatchEvent(new Event('input',{bubbles:true}))});
      assert.match(await page.locator('#summary').innerText(),/均值：6.00/);
+    }
+    const exercise={
+     'chapters/04.html':['#tail','25','#tail-summary',/均值 6.22/],
+     'chapters/05.html':['#bin-width','5','#bin-counts',/\[5,10\): 3/],
+     'chapters/06.html':['#prevalence','10','#ppv',/66.67%/],
+     'chapters/07.html':['#success','100','#bin-tail',/100.000%/],
+     'chapters/08.html':['#sample-n','100','#se-out',/0.500/]
+    }[file];
+    if(exercise){const [selector,value,output,re]=exercise;
+      await page.locator(selector).evaluate((element,newValue)=>{element.value=newValue;element.dispatchEvent(new Event('input',{bubbles:true}))},value);
+      assert.match(await page.locator(output).innerText(),re);
     }
     await page.screenshot({path:path.join(out,`${file.replaceAll('/','-').replace('.html','')}-${width}.png`),fullPage:true});
     if(width===1440){await page.emulateMedia({media:'print'});let fig=await page.locator('figure').count();if(fig)assert.ok(await page.locator('figure').first().isVisible());await page.emulateMedia({media:'screen'})}
