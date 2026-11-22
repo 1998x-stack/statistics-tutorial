@@ -23,7 +23,7 @@ for(let i=0;i<28;i++){
  const redirect=read(`${n}.html`);
  assert.match(redirect,/chapters\//);
 }
-for(let i=1;i<=10;i++){
+for(let i=1;i<=11;i++){
  const n=String(i).padStart(2,'0');
  const h=read(`chapters/${n}.html`);
  assert.equal((h.match(/<h1\b/g)||[]).length,1,`one H1 ${n}`);
@@ -44,4 +44,4 @@ for(let i=1;i<=10;i++){
  assert.ok(ledger.entries.some(e=>e.status==='illustrative'||e.status==='derived'));
 }
 assert.ok(fs.existsSync(path.join(root,'chapters/theme.css')),'legacy CSS missing');
-console.log('site integrity: 28 chapters, 28 redirects, 10 deep lessons, local links and source ledgers passed');
+console.log('site integrity: 28 chapters, 28 redirects, 11 deep lessons, local links and source ledgers passed');

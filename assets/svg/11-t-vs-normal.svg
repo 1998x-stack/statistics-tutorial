@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="380" viewBox="0 0 900 380" role="img" aria-labelledby="t d">
+<title id="t">t 分布与标准正态分布对比</title>
+<desc id="d">标准正态分布（青色曲线）较高较窄；自由度 5 的 t 分布（陶土色曲线）峰值更低、两尾更厚，说明小样本下用样本标准差 s 代替 sigma 会带来更大的不确定性。</desc>
+<rect width="900" height="380" rx="15" fill="#fff"/>
+<g font-family="system-ui,sans-serif">
+<text x="36" y="42" font-size="20" font-weight="750" fill="#294b50">小样本时用 t 分布：两尾更厚</text>
+<text x="37" y="72" font-size="14" fill="#587174">两条曲线都以 0 为中心；自由度越小，t 的尾部越厚</text>
+<path d="M90 300H830M90 300V100" stroke="#92acaa" stroke-width="2"/>
+<path d="M300 300C365 300 405 115 450 115C495 115 535 300 600 300" fill="none" stroke="#147f80" stroke-width="3"/>
+<path d="M240 300C320 300 385 145 450 145C515 145 580 300 660 300" fill="none" stroke="#c06d4c" stroke-width="3"/>
+<path d="M450 300V120" stroke="#294b50" stroke-width="1.5" stroke-dasharray="5 5"/>
+<text x="450" y="325" text-anchor="middle" font-size="13" font-weight="700" fill="#294b50">0</text>
+<text x="612" y="150" text-anchor="middle" font-size="13" font-weight="700" fill="#147f80">标准正态</text>
+<text x="300" y="185" text-anchor="middle" font-size="13" font-weight="700" fill="#c06d4c">t 分布（df=5）</text>
+<text x="36" y="362" font-size="12" fill="#597477">曲线为密度示意；df 越大，t 分布越接近正态。</text>
+</g></svg>

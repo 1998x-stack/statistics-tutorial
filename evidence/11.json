@@ -1,0 +1,70 @@
+{
+  "chapter": "11",
+  "version": "2026-11-22",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "z-test",
+      "claim": "The z statistic for a mean is (x-bar - mu0)/(sigma/sqrt(n)) and requires a known population sigma",
+      "kind": "textbook",
+      "source_url": "https://openstax.org/books/introductory-statistics-2e/pages/10-1-two-population-means-with-unknown-standard-deviations",
+      "locator": "§10.1",
+      "status": "verified",
+      "notes": "Large-sample z is a close approximation to t"
+    },
+    {
+      "id": "t-test",
+      "claim": "When sigma is unknown the t distribution is used; Gosset published it under the pseudonym Student",
+      "kind": "textbook",
+      "source_url": "https://www.openintro.org/book/os/",
+      "locator": "OpenIntro Statistics, inference for means",
+      "status": "verified",
+      "notes": "t has heavier tails; df depends on design"
+    },
+    {
+      "id": "paired",
+      "claim": "Paired designs analyse within-unit differences rather than two independent groups",
+      "kind": "textbook",
+      "source_url": "https://openstax.org/books/introductory-statistics-2e/pages/10-4-matched-or-paired-samples",
+      "locator": "§10.4",
+      "status": "verified",
+      "notes": "Ignoring pairing loses power and misstates the standard error"
+    },
+    {
+      "id": "chi-square",
+      "claim": "The chi-square statistic sums (observed - expected)^2/expected and requires adequate expected counts",
+      "kind": "reference",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm",
+      "locator": "NIST/SEMATECH, chi-square goodness of fit",
+      "status": "verified",
+      "notes": "Cochran rule of thumb: expected counts about 5 or more"
+    },
+    {
+      "id": "f-levene",
+      "claim": "The F ratio compares sample variances but is sensitive to non-normality; Levene and Browne-Forsythe are more robust",
+      "kind": "reference",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm",
+      "locator": "NIST/SEMATECH, F test and Levene",
+      "status": "verified",
+      "notes": "scipy ttest_ind with equal_var=False uses Welch degrees of freedom"
+    },
+    {
+      "id": "mult-compare",
+      "claim": "With k independent comparisons at level alpha the family-wise error rate is approximately 1-(1-alpha)^k, giving about 14.3% for k=3, alpha=0.05",
+      "kind": "derived",
+      "source_url": null,
+      "locator": "figure 2 and section 06 widget",
+      "status": "derived",
+      "notes": "Exact under independence; positive dependence lowers the true rate"
+    },
+    {
+      "id": "demo-multiply",
+      "claim": "Interactive 1-(1-alpha)^k calculator",
+      "kind": "model",
+      "source_url": null,
+      "locator": "section 06 widget",
+      "status": "illustrative",
+      "notes": "Independence assumed for teaching"
+    }
+  ]
+}

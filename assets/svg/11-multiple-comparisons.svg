@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="380" viewBox="0 0 900 380" role="img" aria-labelledby="t d">
+<title id="t">多重比较下至少犯一次第一类错误的概率</title>
+<desc id="d">横轴为相互独立比较的次数 k，纵轴为在 alpha=0.05 时至少出现一次假阳性的概率 1-(1-alpha)的k次方。k=1 时为 0.05，k=3 时约 14.3%，k=10 时约 40.1%。</desc>
+<rect width="900" height="380" rx="15" fill="#fff"/>
+<g font-family="system-ui,sans-serif">
+<text x="36" y="42" font-size="20" font-weight="750" fill="#294b50">比较次数越多，越容易出现假阳性</text>
+<text x="37" y="72" font-size="14" fill="#587174">假设每次比较独立，α=0.05；纵轴为“至少错一次”的概率</text>
+<path d="M110 300H870M110 300V100" stroke="#92acaa" stroke-width="2"/>
+<rect x="130" y="275" width="55" height="25" rx="3" fill="#147f80"/><text x="157" y="268" text-anchor="middle" font-size="11" fill="#5a7476">5.0%</text><text x="157" y="322" text-anchor="middle" font-size="12" fill="#31555a">1</text>
+<rect x="205" y="251" width="55" height="49" rx="3" fill="#147f80"/><text x="232" y="244" text-anchor="middle" font-size="11" fill="#5a7476">9.8%</text><text x="232" y="322" text-anchor="middle" font-size="12" fill="#31555a">2</text>
+<rect x="280" y="229" width="55" height="71" rx="3" fill="#c06d4c"/><text x="307" y="222" text-anchor="middle" font-size="11" font-weight="700" fill="#c06d4c">14.3%</text><text x="307" y="322" text-anchor="middle" font-size="12" fill="#31555a">3</text>
+<rect x="355" y="207" width="55" height="93" rx="3" fill="#147f80"/><text x="382" y="200" text-anchor="middle" font-size="11" fill="#5a7476">18.5%</text><text x="382" y="322" text-anchor="middle" font-size="12" fill="#31555a">4</text>
+<rect x="430" y="187" width="55" height="113" rx="3" fill="#147f80"/><text x="457" y="180" text-anchor="middle" font-size="11" fill="#5a7476">22.6%</text><text x="457" y="322" text-anchor="middle" font-size="12" fill="#31555a">5</text>
+<rect x="505" y="168" width="55" height="132" rx="3" fill="#147f80"/><text x="532" y="161" text-anchor="middle" font-size="11" fill="#5a7476">26.5%</text><text x="532" y="322" text-anchor="middle" font-size="12" fill="#31555a">6</text>
+<rect x="580" y="149" width="55" height="151" rx="3" fill="#147f80"/><text x="607" y="142" text-anchor="middle" font-size="11" fill="#5a7476">30.2%</text><text x="607" y="322" text-anchor="middle" font-size="12" fill="#31555a">7</text>
+<rect x="655" y="132" width="55" height="168" rx="3" fill="#147f80"/><text x="682" y="125" text-anchor="middle" font-size="11" fill="#5a7476">33.7%</text><text x="682" y="322" text-anchor="middle" font-size="12" fill="#31555a">8</text>
+<rect x="730" y="115" width="55" height="185" rx="3" fill="#147f80"/><text x="757" y="108" text-anchor="middle" font-size="11" fill="#5a7476">37.0%</text><text x="757" y="322" text-anchor="middle" font-size="12" fill="#31555a">9</text>
+<rect x="805" y="99" width="55" height="201" rx="3" fill="#147f80"/><text x="832" y="92" text-anchor="middle" font-size="11" fill="#5a7476">40.1%</text><text x="832" y="322" text-anchor="middle" font-size="12" fill="#31555a">10</text>
+<text x="110" y="352" font-size="12" fill="#597477">次数 k（相互独立的比较）</text>
+<text x="36" y="372" font-size="12" fill="#597477">陶土色柱标出第 3 次比较时约 14.3% 的累计假阳性概率。</text>
+</g></svg>
