@@ -16,8 +16,8 @@
       "id": "cohen-conventions",
       "claim": "Cohen's benchmark conventions are d = 0.2/0.5/0.8 and r = 0.1/0.3/0.5 for small/medium/large effects, with 0.80 power as a common target",
       "kind": "book",
-      "source_url": "https://doi.org/10.1038/nrn3475",
-      "locator": "Cohen (1988); conventions restated in later reviews",
+      "source_url": "https://doi.org/10.4324/9780203771587",
+      "locator": "Cohen (1988), Statistical Power Analysis for the Behavioral Sciences (2nd ed.), ch. 2 (effect-size conventions)",
       "status": "verified",
       "notes": "Conventions are reference scales, not universal thresholds"
     },
