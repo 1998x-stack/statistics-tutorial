@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="380" viewBox="0 0 900 380" role="img" aria-labelledby="t d"><title id="t">不同分位数算法在小样本上的差异</title><desc id="d">样本1、2、3、3、4、5、6、7、18。排除中位数的分半法得到Q1=2.5和Q3=6.5；线性插值type7取第25百分位数3、第75百分位数6。</desc><rect width="900" height="380" rx="16" fill="#fff"/><g font-family="system-ui, sans-serif">
+<text x="36" y="44" font-size="20" font-weight="750" fill="#294b50">同一组数据，分位数约定不同</text>
+<text x="39" y="85" font-size="14" fill="#5b7377">已排序：1   2   3   3   4   5   6   7   18（n = 9）</text>
+<rect x="36" y="108" width="826" height="104" rx="13" fill="#eaf6f2" stroke="#9cc8c0"/>
+<text x="55" y="140" font-size="15" font-weight="700" fill="#147f80">排除中位数再对两半取中位数（Tukey hinges 相关变体）</text>
+<text x="56" y="174" font-size="24" font-weight="750" fill="#147f80">Q1 = (2+3)/2 = 2.5</text><text x="486" y="174" font-size="24" font-weight="750" fill="#147f80">Q3 = (6+7)/2 = 6.5</text>
+<rect x="36" y="229" width="826" height="104" rx="13" fill="#f6f1fa" stroke="#c5b7de"/>
+<text x="55" y="261" font-size="15" font-weight="700" fill="#7665aa">线性插值（常见 type 7 / NumPy 默认 linear）</text>
+<text x="56" y="297" font-size="24" font-weight="750" fill="#7665aa">P25 = 3</text><text x="485" y="297" font-size="24" font-weight="750" fill="#7665aa">P75 = 6</text>
+<text x="41" y="366" font-size="13" fill="#61777b">这不是谁计算“错误”：小样本尤其要说明分位数定义。</text></g></svg>
