@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360" role="img" aria-labelledby="t d">
+<title id="t">气温作为混淆变量同时影响冰淇淋销量与溺水人数</title>
+<desc id="d">因果图：气温分别指向冰淇淋销量和溺水人数；冰淇淋与溺水之间存在相关，但没有直接箭头，表示这种相关由共同原因气温造成，并非因果。</desc>
+<rect width="900" height="360" rx="15" fill="#fff"/>
+<g font-family="system-ui,sans-serif">
+<text x="36" y="40" font-size="20" font-weight="750" fill="#294b50">相关却非因果：共同原因在中间</text>
+<rect x="380" y="70" width="160" height="56" rx="12" fill="#e7f4f0" stroke="#147f80" stroke-width="2"/>
+<text x="460" y="104" text-anchor="middle" font-size="15" font-weight="700" fill="#147f80">气温</text>
+<rect x="120" y="250" width="180" height="56" rx="12" fill="#fff" stroke="#92acaa" stroke-width="2"/>
+<text x="210" y="284" text-anchor="middle" font-size="14" fill="#31555a">冰淇淋销量</text>
+<rect x="620" y="250" width="180" height="56" rx="12" fill="#fff" stroke="#92acaa" stroke-width="2"/>
+<text x="710" y="284" text-anchor="middle" font-size="14" fill="#31555a">溺水人数</text>
+<path d="M400 126L235 248" stroke="#147f80" stroke-width="2.5"/>
+<path d="M235 248l24-8-14-12z" fill="#147f80"/>
+<path d="M520 126L685 248" stroke="#147f80" stroke-width="2.5"/>
+<path d="M685 248l-24-8 14-12z" fill="#147f80"/>
+<path d="M300 278H620" stroke="#c06d4c" stroke-width="2.5" stroke-dasharray="7 5"/>
+<text x="460" y="270" text-anchor="middle" font-size="13" font-weight="700" fill="#c06d4c">相关（无因果箭头）</text>
+<text x="150" y="150" font-size="12" fill="#597477">气温升高</text>
+<text x="540" y="150" font-size="12" fill="#597477">气温升高</text>
+<text x="36" y="342" font-size="12" fill="#597477">实线为因果方向，虚线只表示统计相关；控制气温后两者的关联会大幅减弱。</text>
+</g></svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="380" viewBox="0 0 900 380" role="img" aria-labelledby="t d">
+<title id="t">同一个相关系数可以对应完全不同的散点形状</title>
+<desc id="d">三个散点图。左侧近似线性的点云相关系数约 0.9；中间 U 形关系虽然变量密切相关，相关系数却接近 0；右侧一团无关点加一个极端值后，相关系数被抬高到约 0.8。</desc>
+<rect width="900" height="380" rx="15" fill="#fff"/>
+<g font-family="system-ui,sans-serif">
+<text x="36" y="40" font-size="20" font-weight="750" fill="#294b50">先看散点图，再信相关系数</text>
+<rect x="40" y="90" width="260" height="210" rx="10" fill="#f7fbfa" stroke="#dce5e1"/>
+<rect x="320" y="90" width="260" height="210" rx="10" fill="#f7fbfa" stroke="#dce5e1"/>
+<rect x="600" y="90" width="260" height="210" rx="10" fill="#f7fbfa" stroke="#dce5e1"/>
+<path d="M60 285L280 130" stroke="#147f80" stroke-width="2" stroke-dasharray="5 4"/>
+<g fill="#147f80"><circle cx="60" cy="285" r="5"/><circle cx="90" cy="270" r="5"/><circle cx="120" cy="252" r="5"/><circle cx="150" cy="230" r="5"/><circle cx="180" cy="205" r="5"/><circle cx="210" cy="180" r="5"/><circle cx="240" cy="150" r="5"/><circle cx="272" cy="128" r="5"/></g>
+<g fill="#147f80"><circle cx="342" cy="130" r="5"/><circle cx="372" cy="185" r="5"/><circle cx="402" cy="235" r="5"/><circle cx="432" cy="272" r="5"/><circle cx="462" cy="272" r="5"/><circle cx="492" cy="235" r="5"/><circle cx="522" cy="185" r="5"/><circle cx="558" cy="130" r="5"/></g>
+<g fill="#147f80"><circle cx="630" cy="205" r="5"/><circle cx="662" cy="218" r="5"/><circle cx="694" cy="205" r="5"/><circle cx="722" cy="188" r="5"/><circle cx="648" cy="182" r="5"/><circle cx="700" cy="224" r="5"/></g>
+<circle cx="848" cy="118" r="6" fill="#c06d4c"/>
+<text x="170" y="322" text-anchor="middle" font-size="13" fill="#31555a">(a) 线性：r 接近 1</text>
+<text x="450" y="322" text-anchor="middle" font-size="13" fill="#31555a">(b) U 型：r 接近 0</text>
+<text x="730" y="322" text-anchor="middle" font-size="13" fill="#31555a">(c) 一个极端值：r 被抬高</text>
+<text x="36" y="362" font-size="12" fill="#597477">点与相关系数均为教学构造；(b) 与 (c) 说明只看 r 会误判关系。</text>
+</g></svg>

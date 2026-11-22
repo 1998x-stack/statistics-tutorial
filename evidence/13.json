@@ -1,0 +1,70 @@
+{
+  "chapter": "13",
+  "version": "2026-11-22",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "pearson",
+      "claim": "Pearson's r standardises the covariance and lies in [-1,1], measuring linear association only",
+      "kind": "textbook",
+      "source_url": "https://openstax.org/books/introductory-statistics-2e/pages/12-1-linear-equations",
+      "locator": "§12.1",
+      "status": "verified",
+      "notes": "r near 0 means no linear relation, not no relation"
+    },
+    {
+      "id": "anscombe",
+      "claim": "Datasets with identical correlation can have very different scatter shapes, so plots are essential",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1080/00031305.1973.10478966",
+      "locator": "Anscombe (1973)",
+      "status": "verified",
+      "notes": "Figure 1 is an original schematic, not Anscombe's exact coordinates"
+    },
+    {
+      "id": "spearman-kendall",
+      "claim": "Spearman's rho is Pearson correlation of ranks; Kendall's tau is based on concordant and discordant pairs; both capture monotonic association and resist outliers",
+      "kind": "textbook",
+      "source_url": "https://www.openintro.org/book/os/",
+      "locator": "OpenIntro Statistics, correlation",
+      "status": "verified",
+      "notes": "Neither requires normality"
+    },
+    {
+      "id": "margarine-divorce",
+      "claim": "Maine per-capita margarine consumption correlates with divorce rate near 0.99, a spurious correlation from shared time trends",
+      "kind": "reference",
+      "source_url": "https://tylervigen.com/spurious-correlations",
+      "locator": "Vigen, spurious correlations",
+      "status": "verified",
+      "notes": "Used only to illustrate spurious correlation"
+    },
+    {
+      "id": "confounder",
+      "claim": "Ice-cream sales and drowning deaths are correlated mainly because temperature raises both",
+      "kind": "textbook",
+      "source_url": "https://www.openintro.org/book/os/",
+      "locator": "OpenIntro Statistics, confounding",
+      "status": "verified",
+      "notes": "Classic confounding example"
+    },
+    {
+      "id": "shape-figure",
+      "claim": "The three scatter panels and their r values are hand constructed",
+      "kind": "figure",
+      "source_url": null,
+      "locator": "figure 1",
+      "status": "illustrative",
+      "notes": "Values are schematic, not a dataset"
+    },
+    {
+      "id": "demo-r",
+      "claim": "Interactive Pearson r for fixed points plus one movable point",
+      "kind": "model",
+      "source_url": null,
+      "locator": "section 05 widget",
+      "status": "derived",
+      "notes": "r computed from the sample covariance formula"
+    }
+  ]
+}

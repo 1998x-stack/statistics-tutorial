@@ -1,213 +1,49 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>第13章 相关分析</title>
-    <link rel="stylesheet" href="theme.css">
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { background: linear-gradient(135deg, #f5f3ff 0%, #e8f5f0 100%); font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', Roboto, 'Helvetica Neue', sans-serif; padding: 20px; }
-        .double-border { max-width: 1400px; margin: 0 auto; background: #ffffff; border: 2px solid #8b5cf6; border-radius: 24px; box-shadow: 0 20px 30px -15px rgba(0,0,0,0.2), inset 0 1px 0 0 #f5f3ff; overflow: hidden; }
-        .container { display: grid; grid-template-columns: 260px 1fr; gap: 0; }
-        .sidebar { background: #faf8ff; border-right: 2px solid #c4b5fd; padding: 24px 16px; }
-        .sidebar h3 { font-size: 1.4rem; color: #6d28d9; border-left: 5px solid #8b5cf6; padding-left: 15px; margin-bottom: 25px; }
-        .chapter-list { list-style: none; }
-        .chapter-list li { margin-bottom: 6px; }
-        .chapter-list a { display: block; padding: 8px 12px; text-decoration: none; color: #334155; border-radius: 12px; transition: all 0.2s; font-weight: 500; font-size: 0.92rem; }
-        .chapter-list a:hover { background: #ede9fe; transform: translateX(3px); }
-        .chapter-list .active { background: #7c3aed; color: white; box-shadow: 0 2px 5px rgba(124,58,237,0.3); }
-        .main-content { padding: 30px 35px; background: white; }
-        .footer-nav { margin-top: 45px; padding-top: 20px; border-top: 2px solid #c4b5fd; display: flex; justify-content: space-between; }
-        .footer-nav a { padding: 8px 24px; background: #f1f5f9; text-decoration: none; color: #5b21b6; border-radius: 40px; font-weight: 500; transition: 0.2s; }
-        .footer-nav a:hover { background: #ede9fe; transform: translateY(-2px); }
-        footer { text-align: center; margin-top: 30px; padding: 15px; color: #64748b; border-top: 1px dashed #c4b5fd; font-size: 0.9rem; }
-        h2 { color: #4c1d95; border-left: 6px solid #8b5cf6; padding-left: 15px; margin: 20px 0 15px; font-size: 1.5rem; }
-        h3 { color: #5b21b6; margin: 20px 0 10px; font-size: 1.2rem; }
-        h4 { color: #6d28d9; margin: 15px 0 8px; font-size: 1.05rem; }
-        p { line-height: 1.85; margin: 10px 0; color: #1e293b; }
-        ul, ol { margin: 10px 0 10px 20px; line-height: 1.8; }
-        li { color: #1e293b; margin-bottom: 4px; }
-        pre { background: #1e1035; color: #e8e8f0; padding: 15px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', monospace; margin: 15px 0; font-size: 0.9rem; line-height: 1.5; }
-        code { background: #f5f3ff; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
-        pre code { background: none; padding: 0; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: #fafafe; }
-        th, td { border: 1px solid #c4b5fd; padding: 10px; text-align: left; }
-        th { background: #f5f3ff; color: #5b21b6; font-weight: 600; }
-        .tip, .warning, .highlight { padding: 12px 18px; border-radius: 16px; margin: 15px 0; line-height: 1.7; }
-        .tip { background: #e0f2fe; border-left: 6px solid #0ea5e9; }
-        .warning { background: #fee2e2; border-left: 6px solid #ef4444; }
-        .highlight { background: #fef9c3; border: 1px solid #facc15; }
-        strong { color: #1e1b4b; }
-        @media (max-width: 768px) { .container { grid-template-columns: 1fr; } .sidebar { border-right: none; border-bottom: 2px solid #c4b5fd; } body { padding: 10px; } .main-content { padding: 20px; } }
-    </style>
-</head>
-<body>
-<div class="double-border">
-<div class="container">
-    <div class="sidebar">
-        <h3>📊 课程目录</h3>
-        <ul class="chapter-list">
-            <li><a href="01.html">第1章 什么是统计学</a></li>
-            <li><a href="02.html">第2章 数据的类型与来源</a></li>
-            <li><a href="03.html">第3章 描述统计（一）</a></li>
-            <li><a href="04.html">第4章 描述统计（二）</a></li>
-            <li><a href="05.html">第5章 数据可视化基础</a></li>
-            <li><a href="06.html">第6章 概率基础</a></li>
-            <li><a href="07.html">第7章 常见概率分布</a></li>
-            <li><a href="08.html">第8章 抽样与抽样分布</a></li>
-            <li><a href="09.html">第9章 点估计与区间估计</a></li>
-            <li><a href="10.html">第10章 假设检验入门</a></li>
-            <li><a href="11.html">第11章 常见假设检验</a></li>
-            <li><a href="12.html">第12章 统计功效与样本量</a></li>
-            <li><a href="13.html" class="active">第13章 相关分析</a></li>
-            <li><a href="14.html">第14章 简单线性回归</a></li>
-            <li><a href="15.html">第15章 p值与统计显著性危机</a></li>
-            <li><a href="16.html">第16章 多重比较与谬误</a></li>
-            <li><a href="17.html">第17章 因果推断基础</a></li>
-            <li><a href="18.html">第18章 统计伦理与最佳实践</a></li>
-            <li><a href="19.html">第19章 多元线性回归</a></li>
-            <li><a href="20.html">第20章 逻辑回归</a></li>
-            <li><a href="21.html">第21章 方差分析（ANOVA）</a></li>
-            <li><a href="22.html">第22章 贝叶斯统计入门</a></li>
-            <li><a href="23.html">第23章 统计学工具链</a></li>
-            <li><a href="24.html">第24章 真实数据分析实战</a></li>
-            <li><a href="25.html">第25章 A/B测试实战</a></li>
-            <li><a href="26.html">第26章 机器学习中的统计学</a></li>
-            <li><a href="27.html">第27章 现代因果推断</a></li>
-            <li><a href="28.html">第28章 综合项目：从问题到结论</a></li>
-        </ul>
-    </div>
-    <div class="main-content">
-        <h2>第13章：相关分析</h2>
-
-        <p>大家好，我是你们的讲师。"相关不等于因果"——这是统计学中最著名的一句话，也是最容易被忽视的一句话。但相关分析本身仍然是一个极其强大的工具。它告诉我们：两个变量之间是否存在某种联系，联系有多强，方向是正是反。</p>
-
-        <p>想象一下：如果你能分析出用户的年龄和购买金额之间的关系，你就能更好地针对不同年龄段的用户做推荐；如果你发现气温和冰淇淋销量高度相关，你就能根据天气预报来安排进货量。相关分析的妙处在于：它不需要复杂的数学模型，就能给你直观而深刻的洞见。</p>
-
-        <h3>13.1 Pearson相关系数：线性相关的度量</h3>
-
-        <p>Pearson相关系数（通常记为 r）是最常用的相关系数。它的取值范围是 [-1, 1]：</p>
-
-        <ul>
-            <li><strong>r = 1：</strong>完全正相关——一个变量增加，另一个也成比例增加。</li>
-            <li><strong>r = -1：</strong>完全负相关——一个变量增加，另一个成比例减少。</li>
-            <li><strong>r = 0：</strong>没有线性相关——但要注意！r = 0 并不意味着没有关系，只是没有<strong>线性</strong>关系。</li>
-        </ul>
-
-        <p>判断相关性强弱的经验法则：|r| ≥ 0.7 为强相关，0.3 ≤ |r| < 0.7 为中等相关，|r| < 0.3 为弱相关。</p>
-
-        <div class="highlight">
-            <strong>重要提醒：</strong>Pearson相关系数只能捕捉<strong>线性关系</strong>。如果两个变量之间存在非线性关系（比如 U 型关系），Pearson r 可能会接近 0，但两个变量实际上密切相关。所以在计算 Pearson 相关系数之前，<strong>永远要先画散点图</strong>！每次看到有人只看相关系数矩阵而不画图，我都替他捏把汗。
-        </div>
-
-        <h3>13.2 Spearman秩相关：单调关系</h3>
-
-        <p>Spearman秩相关系数（Spearman's rank correlation）是 Pearson 的非参数版本。它不关心原始数值，而是把数据转换成<strong>秩次（rank）</strong>——也就是排序的位置。然后计算秩次之间的 Pearson 相关系数。</p>
-
-        <p>Spearman 的好处是：</p>
-
-        <ul>
-            <li>不要求数据服从正态分布。</li>
-            <li>可以捕捉单调关系（不一定是线性，只要一直增加或一直减少）。</li>
-            <li>对异常值不敏感。</li>
-        </ul>
-
-        <h3>13.3 Kendall τ：另一种秩相关</h3>
-
-        <p>Kendall's τ（tau）是另一种基于秩次的相关系数。它的计算基于"一致对"和"不一致对"的概念：随机抽取两个数据点，如果它们的两个变量的大小顺序一致（一个变量大另一个也大），就称为一致对；否则是不一致对。</p>
-
-        <p>Kendall τ 的优点是它的<strong>统计性质更好</strong>——它的分布更接近正态分布，在小样本下比 Spearman 更可靠。缺点是计算复杂度高一些（在非常大的数据集上可能较慢）。</p>
-
-        <table>
-            <tr><th>相关系数</th><th>类型</th><th>适合的数据</th><th>对异常值敏感</th><th>需要正态性</th></tr>
-            <tr><td>Pearson r</td><td>参数</td><td>连续、线性关系</td><td>很敏感</td><td>是</td></tr>
-            <tr><td>Spearman ρ</td><td>非参数</td><td>连续/有序、单调关系</td><td>不敏感</td><td>否</td></tr>
-            <tr><td>Kendall τ</td><td>非参数</td><td>连续/有序、单调关系</td><td>不敏感</td><td>否</td></tr>
-        </table>
-
-        <h3>13.4 相关矩阵与热力图</h3>
-
-        <p>在实际数据分析中，我们常常需要同时看多个变量之间的相关关系，这时候<strong>相关矩阵（correlation matrix）</strong>和<strong>热力图（heatmap）</strong>就派上了用场。</p>
-
-        <p>下面是用 Python 计算相关系数并绘制热力图的完整代码：</p>
-
-        <pre><code>import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="用散点图、公式与可复算代码理解 Pearson、Spearman、Kendall 相关系数的适用条件、异常值敏感性，以及为什么相关不等于因果。"><title>13 相关分析：先看散点图，再谈相关系数 | Statistics Lab</title><link rel="stylesheet" href="../assets/css/article.css"></head><body><a class="skip-link" href="#content">跳转到正文</a><nav class="topbar" aria-label="章节导航"><a href="../index.html">← Statistics Lab / 课程目录</a><span class="trail">13 / 28 · 相关分析</span></nav><div class="article-layout"><nav class="toc" aria-label="本文目录"><h2>本篇路径</h2><a href="#pearson">01 · Pearson r：线性相关</a><a href="#rank">02 · Spearman ρ 与 Kendall τ</a><a href="#matrix">03 · 相关矩阵与热力图</a><a href="#causation">04 · 相关不等于因果</a><a href="#demo">05 · 动手：异常值如何拉动 r</a><a href="#practice">06 · 自我检查</a><a href="#refs">参考资料与延伸阅读</a></nav><main id="content"><article><header class="article-header"><div class="kicker">Chapter 13 · Correlation</div><h1>相关分析：先看散点图，再谈相关系数</h1><p class="dek">“相关不等于因果”人人会背，但更常见的问题是：一个 r 值装不下关系的形状。同一个 r 可以对应一条直线、一条 U 形曲线，或一团被单个点拉歪的乱云。</p><div class="question"><strong>贯穿案例：</strong>某数据集里“冰淇淋销量”与“溺水人数”高度正相关。这是否说明吃冰淇淋会导致溺水？我们该怎么用一张图和一个混淆变量把这件事说清楚？</div></header>
+<section class="section" id="pearson"><h2>01 · Pearson r：线性相关</h2>
+<p class="lede">Pearson 相关系数 r 度量两个连续变量之间<strong>线性</strong>关联的强度与方向。它把两列数据的离差标准化后相乘求和：</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="皮尔逊相关系数等于离差乘积之和，除以两个离差平方和乘积的平方根，可横向滚动"><math display="block" aria-label="皮尔逊相关系数等于离差乘积之和，除以两个离差平方和乘积的平方根"><mrow><mi>r</mi><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mi>i</mi></munder><mrow><mo>(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo>¯</mo></mover><mo>)</mo><mo>(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>−</mo><mover><mi>y</mi><mo>¯</mo></mover><mo>)</mo></mrow></mrow><msqrt><mrow><munder><mo>∑</mo><mi>i</mi></munder><msup><mrow><mo>(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo>¯</mo></mover><mo>)</mo></mrow><mn>2</mn></msup><munder><mo>∑</mo><mi>i</mi></munder><msup><mrow><mo>(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>−</mo><mover><mi>y</mi><mo>¯</mo></mover><mo>)</mo></mrow><mn>2</mn></msup></mrow></msqrt></mfrac></mrow></math></div><div class="eq-caption">式 1</div></div>
+<p>r 落在 [−1, 1]：接近 1 表示同向的线性关系，接近 −1 表示反向的线性关系，接近 0 表示<strong>没有线性</strong>关系。作为粗略经验，有人用 |r| ≥ 0.7 判为强、0.3 到 0.7 判为中等、低于 0.3 判为弱；但这些阈值与领域密切相关，不是普适标准。</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="380" viewBox="0 0 900 380" role="img" aria-labelledby="cs-t cs-d"><title id="cs-t">同一个相关系数可以对应完全不同的散点形状</title><desc id="cs-d">三个散点图：左侧近似线性的点云相关系数接近 1；中间 U 形关系变量密切相关但相关系数接近 0；右侧一团无关点加一个极端值后相关系数被抬高。</desc><rect width="900" height="380" rx="15" fill="#fff"/><g font-family="system-ui,sans-serif"><text x="36" y="40" font-size="20" font-weight="750" fill="#294b50">先看散点图，再信相关系数</text><rect x="40" y="90" width="260" height="210" rx="10" fill="#f7fbfa" stroke="#dce5e1"/><rect x="320" y="90" width="260" height="210" rx="10" fill="#f7fbfa" stroke="#dce5e1"/><rect x="600" y="90" width="260" height="210" rx="10" fill="#f7fbfa" stroke="#dce5e1"/><path d="M60 285L280 130" stroke="#147f80" stroke-width="2" stroke-dasharray="5 4"/><g fill="#147f80"><circle cx="60" cy="285" r="5"/><circle cx="90" cy="270" r="5"/><circle cx="120" cy="252" r="5"/><circle cx="150" cy="230" r="5"/><circle cx="180" cy="205" r="5"/><circle cx="210" cy="180" r="5"/><circle cx="240" cy="150" r="5"/><circle cx="272" cy="128" r="5"/></g><g fill="#147f80"><circle cx="342" cy="130" r="5"/><circle cx="372" cy="185" r="5"/><circle cx="402" cy="235" r="5"/><circle cx="432" cy="272" r="5"/><circle cx="462" cy="272" r="5"/><circle cx="492" cy="235" r="5"/><circle cx="522" cy="185" r="5"/><circle cx="558" cy="130" r="5"/></g><g fill="#147f80"><circle cx="630" cy="205" r="5"/><circle cx="662" cy="218" r="5"/><circle cx="694" cy="205" r="5"/><circle cx="722" cy="188" r="5"/><circle cx="648" cy="182" r="5"/><circle cx="700" cy="224" r="5"/></g><circle cx="848" cy="118" r="6" fill="#c06d4c"/><text x="170" y="322" text-anchor="middle" font-size="13" fill="#31555a">(a) 线性：r 接近 1</text><text x="450" y="322" text-anchor="middle" font-size="13" fill="#31555a">(b) U 型：r 接近 0</text><text x="730" y="322" text-anchor="middle" font-size="13" fill="#31555a">(c) 一个极端值：r 被抬高</text><text x="36" y="362" font-size="12" fill="#597477">点与相关系数均为教学构造；(b) 与 (c) 说明只看 r 会误判关系。</text></g></svg><figcaption><strong>图 1 · r 装不下形状。</strong>(a) 才符合“r 大就是线性相关”的理解；(b) 是确定性的 U 形关系，r 却接近 0；(c) 单个陶土色极端值就能把 r 拉高。计算 r 之前永远先画散点图。</figcaption></figure></section>
+<section class="section" id="rank"><h2>02 · Spearman ρ 与 Kendall τ</h2>
+<p>当关系是<strong>单调但非线性</strong>（一直增或一直减，比如对数曲线），或数据含异常值、只是有序类别时，基于秩次的相关系数更合适。</p>
+<div class="grid-two"><div class="panel"><h3>Spearman ρ</h3><p>把两列数据各自换成秩次，再对秩次算 Pearson 相关。它不要求正态，对异常值不敏感，能捕捉单调关系。</p></div><div class="panel"><h3>Kendall τ</h3><p>基于“一致对”与“不一致对”的比例：随机取两个个体，变量大小顺序一致对上不一致对。小样本下分布更接近正态，解释也更直接。</p></div></div>
+<table class="data-table"><caption>三种相关系数的对比</caption><thead><tr><th>系数</th><th>类型</th><th>适合的数据</th><th>异常值敏感</th><th>需要正态</th></tr></thead><tbody><tr><td>Pearson r</td><td>参数</td><td>连续、线性</td><td>很敏感</td><td>是（推断时）</td></tr><tr><td>Spearman ρ</td><td>非参数</td><td>连续/有序、单调</td><td>不敏感</td><td>否</td></tr><tr><td>Kendall τ</td><td>非参数</td><td>连续/有序、单调</td><td>不敏感</td><td>否</td></tr></tbody></table>
+<p>三者不是“越新越好”的关系，而是针对不同关系的工具：线性且无异常值时用 Pearson，单调但非线或含离群值时用 Spearman 或 Kendall。</p></section>
+<section class="section" id="matrix"><h2>03 · 相关矩阵与热力图</h2>
+<p>多个变量一起分析时，会把两两相关系数排成<strong>相关矩阵</strong>，再用颜色深浅渲染为热力图。矩阵有助于快速发现成组的变量，但它同样只是线性关系的概括，不能代替逐对散点图。</p>
+<pre><code>import numpy as np
 from scipy import stats
 
-# 生成模拟数据
-np.random.seed(42)
-n = 200
-data = pd.DataFrame({
-    'age': np.random.normal(35, 12, n),
-    'income': np.random.normal(15000, 5000, n),
-    'education_years': np.random.normal(14, 3, n),
-    'satisfaction': np.random.normal(7, 1.5, n),
-})
+rng = np.random.default_rng(0)
+x = rng.normal(0, 1, 200)
+y = 0.6 * x + rng.normal(0, 0.8, 200)   # 教学构造的线性关系
 
-# 人为加入一些相关关系
-data['income'] = data['income'] + data['education_years'] * 800  # 教育和收入正相关
-data['satisfaction'] = data['satisfaction'] - data['age'] * 0.03  # 年龄和满意度负相关
+print("Pearson :", stats.pearsonr(x, y))
+print("Spearman:", stats.spearmanr(x, y))
+print("Kendall :", stats.kendalltau(x, y))</code></pre>
+<p>热力图上的每一个格都是一个单独的推断。变量一多，两两比较的次数就急剧增长，未校正地解读“最显著的那一格”很容易得到假阳性（第 16 章）。</p></section>
+<section class="section" id="causation"><h2>04 · 相关不等于因果</h2>
+<p>一个经典的真实例子：美国缅因州人均人造黄油消费量与离婚率之间的相关系数高达约 0.99（Tyler Vigen 的虚假相关图集）。这当然不能说明吃人造黄油导致离婚，最有说服力的解释是两者都随时间上升，属于巧合。</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360" role="img" aria-labelledby="cd-t cd-d"><title id="cd-t">气温作为混淆变量同时影响冰淇淋销量与溺水人数</title><desc id="cd-d">因果图：气温分别指向冰淇淋销量和溺水人数；冰淇淋与溺水之间存在相关但没有直接箭头，表示这种相关由共同原因气温造成。</desc><rect width="900" height="360" rx="15" fill="#fff"/><g font-family="system-ui,sans-serif"><text x="36" y="40" font-size="20" font-weight="750" fill="#294b50">相关却非因果：共同原因在中间</text><rect x="380" y="70" width="160" height="56" rx="12" fill="#e7f4f0" stroke="#147f80" stroke-width="2"/><text x="460" y="104" text-anchor="middle" font-size="15" font-weight="700" fill="#147f80">气温</text><rect x="120" y="250" width="180" height="56" rx="12" fill="#fff" stroke="#92acaa" stroke-width="2"/><text x="210" y="284" text-anchor="middle" font-size="14" fill="#31555a">冰淇淋销量</text><rect x="620" y="250" width="180" height="56" rx="12" fill="#fff" stroke="#92acaa" stroke-width="2"/><text x="710" y="284" text-anchor="middle" font-size="14" fill="#31555a">溺水人数</text><path d="M400 126L235 248" stroke="#147f80" stroke-width="2.5"/><path d="M235 248l24-8-14-12z" fill="#147f80"/><path d="M520 126L685 248" stroke="#147f80" stroke-width="2.5"/><path d="M685 248l-24-8 14-12z" fill="#147f80"/><path d="M300 278H620" stroke="#c06d4c" stroke-width="2.5" stroke-dasharray="7 5"/><text x="460" y="270" text-anchor="middle" font-size="13" font-weight="700" fill="#c06d4c">相关（无因果箭头）</text><text x="150" y="150" font-size="12" fill="#597477">气温升高</text><text x="540" y="150" font-size="12" fill="#597477">气温升高</text><text x="36" y="342" font-size="12" fill="#597477">实线为因果方向，虚线只表示统计相关；控制气温后两者的关联会大幅减弱。</text></g></svg><figcaption><strong>图 2 · 混淆变量制造出“看得见”的相关。</strong>气温同时抬高了冰淇淋销量和溺水人数，于是两者相关，但去掉气温后这条相关就基本消失。这就是遗漏变量偏倚的直观形式。</figcaption></figure>
+<ol class="process"><li><strong>混淆变量：</strong>第三个变量同时影响两者（如气温）。</li><li><strong>反向因果：</strong>可能是 B 导致 A，而非 A 导致 B（收入与健康就是典型）。</li><li><strong>纯粹巧合：</strong>在足够多的变量对里，总能找到一些看起来很巧的相关。</li></ol>
+<div class="callout"><h3>三个问题过滤假相关</h3><p>看到一个有趣的相关时，先问：1）有没有合理的因果机制？2）有没有可能的混淆变量？3）时间顺序是否合理（因在前，果在后）？三个问题能过滤掉大量虚假相关。第 17、27 章会用因果图与实验设计系统处理这个问题。</p></div></section>
+<section class="section" id="demo"><h2>05 · 动手：异常值如何拉动 r</h2>
+<p>下面有五个大致线性的点，再加一个你可以上下拖动的点。观察单个点如何拖动整个 Pearson r，以及为什么这类判读必须回到散点图上。</p>
+<div class="demo"><h3>单点对 Pearson r 的影响</h3><label for="py">第六个点的纵坐标 y：<output id="py-out" for="py">5</output></label><input id="py" type="range" min="1" max="12" step="1" value="5"><p class="demo-output" id="r-out" aria-live="polite"></p><p class="subtle">前五个点为 (1,2)(2,3)(3,5)(4,4)(5,6)，第六个点固定在 x=6。</p></div>
+<p>把第六个点拖到极端值，看 r 如何被拉高；如果改用 Spearman 秩相关，这一个点的影响会小得多。</p></section>
+<section class="section" id="practice"><h2>06 · 自我检查与可复现计算</h2>
+<pre><code>import numpy as np
+from scipy import stats
 
-# == 1. 计算 Pearson 相关系数 ==
-pearson_r, pearson_p = stats.pearsonr(data['education_years'], data['income'])
-print(f"教育年限与收入的 Pearson r = {pearson_r:.3f}, p = {pearson_p:.4f}")
+x = np.arange(1, 11.0)
+y = x.copy()
+print("无异常值 Pearson:", round(stats.pearsonr(x, y)[0], 3))   # 1.0
 
-# == 2. 计算 Spearman 秩相关系数 ==
-spearman_r, spearman_p = stats.spearmanr(data['education_years'], data['income'])
-print(f"教育年限与收入的 Spearman ρ = {spearman_r:.3f}, p = {spearman_p:.4f}")
-
-# == 3. 计算 Kendall τ ==
-kendall_tau, kendall_p = stats.kendalltau(data['education_years'], data['income'])
-print(f"教育年限与收入的 Kendall τ = {kendall_tau:.3f}, p = {kendall_p:.4f}")
-
-# == 4. 相关矩阵与热力图 ==
-corr_matrix = data.corr(method='pearson')  # 可选 'spearman', 'kendall'
-print("\n相关矩阵:")
-print(corr_matrix.round(3))
-
-# 用 seaborn 绘制热力图（如果环境支持图形显示）
-# plt.figure(figsize=(8, 6))
-# sns.heatmap(corr_matrix, annot=True, cmap='RdBu_r',
-#             vmin=-1, vmax=1, center=0,
-#             square=True, linewidths=0.5)
-# plt.title('变量相关矩阵热力图')
-# plt.tight_layout()
-# plt.show()</code></pre>
-
-        <h3>13.5 相关不等于因果（经典案例）</h3>
-
-        <div class="warning">
-            <strong>经典搞笑案例：</strong>有人发现，美国 Maine 州的离婚率与人均人造黄油消费量之间的 Pearson 相关系数高达 r = 0.99！这难道说明吃人造黄油会导致离婚吗？当然不是。这种明显的虚假相关（spurious correlation）往往是因为两个变量都跟时间趋势有关——随着社会发展，离婚率和人造黄油消费可能都发生了变化，但两者之间根本没有因果关系。<br><br>
-            另一个著名的例子：冰激凌销量与溺水人数的相关系数很高。是因为吃冰激凌让人容易溺水吗？不是。其实是因为天气热的时候，吃冰激凌的人多，去游泳的人也越多，而游泳的人多了，溺水的人数自然上升。这里的混淆变量是"气温"。
-        </div>
-
-        <p>为什么相关不等于因果？主要有以下几个原因：</p>
-
-        <ul>
-            <li><strong>遗漏变量/混淆变量：</strong>可能存在第三个变量同时影响两个观测变量（如上面的气温例子）。</li>
-            <li><strong>反向因果：</strong>可能是 B 导致了 A，而不是 A 导致了 B。比如收入高的人更健康——但到底是收入高导致了健康，还是健康的人更容易赚到高收入？</li>
-            <li><strong>纯粹的巧合：</strong>在大数据中，总能找到一些听起来很荒谬但统计上显著的相关关系。</li>
-        </ul>
-
-        <div class="tip">
-            <strong>实用建议：</strong>当你看到一个有趣的相关关系时，不要急于下因果结论。先问自己三个问题：1）是否存在一个合理的因果机制？（理论上说得通吗？）2）是否存在可能的混淆变量？3）时间顺序是否合理？（因在前，果在后）。这三个问题至少能帮你过滤掉一半以上的虚假相关。
-        </div>
-
-        <p>相关分析是探索性数据分析的利剑，但它不是终点。如果你想进一步量化一个变量如何影响另一个变量，并且控制其他变量的影响，就需要进入下一章的话题——回归分析。</p>
-
-        <p>下一章，我们将从最简单的回归模型开始——简单线性回归。我们来看看如何找到那条"最佳"的直线。</p>
-
-        <div class="footer-nav">
-            <a href="12.html">← 上一章</a>
-            <a href="index.html">📖 返回目录</a>
-            <a href="14.html">下一章 →</a>
-        </div>
-    </div>
-</div>
-</div>
-</body>
-</html>
+y2 = y.copy()
+y2[-1] = 0
+print("含异常值 Pearson:", round(stats.pearsonr(x, y2)[0], 3))
+print("含异常值 Spearman:", round(stats.spearmanr(x, y2)[0], 3))</code></pre>
+<div class="callout"><h3>自我检查</h3><p><strong>问题：</strong>缅因州人均人造黄油消费量与离婚率的相关系数约 0.99。能否得出结论“人造黄油导致离婚”？</p><p><strong>参考答案：</strong>不能。两者随时间缓慢变化，最合理的解释是共同的时间趋势而非直接因果。要检验因果，需要控制混淆变量或使用实验/准实验设计。</p></div>
+<div class="callout warning"><h3>失败模式</h3><p>只看相关矩阵而跳过散点图，会把 U 形关系（r≈0）误判为“无关”，也会把被单个异常值拉高的 r 当成真实趋势。去掉异常值前后分别报告结果，是更稳当的做法。</p></div></section>
+<section class="section" id="refs"><h2>参考资料与延伸阅读</h2><ol class="sources"><li><a href="https://doi.org/10.1080/00031305.1973.10478966">Anscombe (1973), Graphs in Statistical Analysis</a>：同名四组数据集说明画图不可省略。</li><li><a href="https://tylervigen.com/spurious-correlations">Tyler Vigen, Spurious Correlations</a>：缅因州人造黄油与离婚率等虚假相关实例。</li><li><a href="https://openstax.org/books/introductory-statistics-2e/pages/12-1-linear-equations">OpenStax, Introductory Statistics (2e)</a>：相关与回归的入门。</li><li><a href="https://www.openintro.org/book/os/">OpenIntro Statistics</a>：相关系数的性质与图片诊断。</li><li><a href="https://docs.scipy.org/doc/scipy/reference/stats.html">SciPy statistics reference</a>：pearsonr、spearmanr、kendalltau。</li></ol><p class="subtle">本章散点与代码数据均为教学构造；缅因州与冰淇淋例子来自上述公开资料，仅用于说明相关与因果的区别。</p></section>
+<nav class="chapter-nav" aria-label="章节切换"><a href="12.html">← 统计功效与样本量</a><a href="../index.html">课程目录</a><a href="14.html">简单线性回归 →</a></nav></article></main></div><script>(()=>{const y=document.getElementById('py'),yo=document.getElementById('py-out'),out=document.getElementById('r-out');if(!y||!out)return;const X=[1,2,3,4,5,6],Y5=[2,3,5,4,6];const upd=()=>{const k=Number(y.value),Y=Y5.concat([k]),n=6;let mx=0,my=0;for(let i=0;i<n;i++){mx+=X[i];my+=Y[i]}mx/=n;my/=n;let sxy=0,sxx=0,syy=0;for(let i=0;i<n;i++){const dx=X[i]-mx,dy=Y[i]-my;sxy+=dx*dy;sxx+=dx*dx;syy+=dy*dy}const r=sxy/Math.sqrt(sxx*syy);yo.value=String(k);yo.textContent=String(k);out.textContent='第六个点 (6, '+k+') → Pearson r = '+r.toFixed(3)};y.addEventListener('input',upd);upd()})();</script></body></html>
