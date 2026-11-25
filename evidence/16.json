@@ -1,0 +1,79 @@
+{
+  "chapter": "16",
+  "version": "2026-11-22",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "fwer",
+      "claim": "For m independent tests each at level alpha, the familywise error rate is 1 - (1 - alpha)^m",
+      "kind": "textbook",
+      "source_url": "https://www.openintro.org/book/os/",
+      "locator": "OpenIntro Statistics, multiple comparisons",
+      "status": "verified",
+      "notes": "Assumes independence; correlated tests give a lower FWER"
+    },
+    {
+      "id": "bonferroni",
+      "claim": "Bonferroni correction compares each p-value to alpha/m, controlling the familywise error rate without an independence assumption",
+      "kind": "reference",
+      "source_url": "https://www.statsmodels.org/stable/generated/statsmodels.stats.multitest.multipletests.html",
+      "locator": "statsmodels multipletests, Bonferroni method",
+      "status": "verified",
+      "notes": "Conservative when m is large"
+    },
+    {
+      "id": "benjamini-hochberg",
+      "claim": "The Benjamini-Hochberg procedure controls the false discovery rate by rejecting the largest k with p_(k) <= (k/m) q",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1111/j.2517-6161.1995.tb02031.x",
+      "locator": "Benjamini & Hochberg (1995), JRSS-B 57(1)",
+      "status": "verified",
+      "notes": "Guarantees FDR <= q under independence or positive dependence"
+    },
+    {
+      "id": "berkeley-simpson",
+      "claim": "Berkeley 1973 graduate admissions showed a higher overall male admission rate, but most departments showed little or no bias against women; the gap was driven by differing application choices",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1126/science.187.4175.398",
+      "locator": "Bickel, Hammel & O'Connell (1975), Science 187",
+      "status": "verified",
+      "notes": "Classic Simpson's paradox case"
+    },
+    {
+      "id": "wald-survivorship",
+      "claim": "Abraham Wald argued for armouring the parts with the fewest returning-aircraft hits, because aircraft hit there did not return",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1080/01621459.1984.10478038",
+      "locator": "Mangel & Samaniego (1984), JASA 79(386)",
+      "status": "verified",
+      "notes": "Historical reconstruction of Wald's WWII work"
+    },
+    {
+      "id": "gwas-threshold",
+      "claim": "With about a million comparisons, a Bonferroni threshold is of order 0.05/10^6 = 5e-8",
+      "kind": "model",
+      "source_url": null,
+      "locator": "section 05",
+      "status": "derived",
+      "notes": "Direct arithmetic from alpha/m, not a specific study value"
+    },
+    {
+      "id": "fwer-demo",
+      "claim": "The section 06 calculator evaluates 1 - 0.95^m for 1..100",
+      "kind": "model",
+      "source_url": null,
+      "locator": "section 06 widget",
+      "status": "derived",
+      "notes": "Deterministic formula"
+    },
+    {
+      "id": "figures",
+      "claim": "The FWER curve is computed exactly; the Simpson figure uses constructed teaching data that reverses under aggregation",
+      "kind": "figure",
+      "source_url": null,
+      "locator": "figures 1-2",
+      "status": "illustrative",
+      "notes": "Figure 2 numbers are synthetic, not the Berkeley data"
+    }
+  ]
+}
