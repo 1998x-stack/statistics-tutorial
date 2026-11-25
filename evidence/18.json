@@ -1,0 +1,70 @@
+{
+  "chapter": "18",
+  "version": "2026-11-22",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "wakefield",
+      "claim": "The 1998 Lancet paper linking the MMR vaccine to autism was retracted in 2010; its data and ethics were found deficient and the claim was discredited",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1016/S0140-6736(10)60175-4",
+      "locator": "The Lancet (2010), retraction notice",
+      "status": "verified",
+      "notes": "Used for the public-health harm example"
+    },
+    {
+      "id": "misconduct-prevalence",
+      "claim": "Surveys and meta-analysis indicate a non-trivial prevalence of self-reported fabrication and falsification, with questionable practices more common",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1371/journal.pone.0005738",
+      "locator": "Fanelli (2009), PLoS ONE",
+      "status": "verified",
+      "notes": "Motivates the fraud-to-grey-zone spectrum"
+    },
+    {
+      "id": "registered-reports",
+      "claim": "Registered Reports review and accept a study protocol before results are known, so publication does not depend on the significance of the results",
+      "kind": "reference",
+      "source_url": "https://www.cos.io/initiatives/registered-reports",
+      "locator": "Center for Open Science, Registered Reports",
+      "status": "verified",
+      "notes": "Reduces publication bias at the source"
+    },
+    {
+      "id": "preregistration",
+      "claim": "Preregistration platforms such as OSF and ClinicalTrials.gov record hypotheses, primary outcomes, sample size and analysis plans before data collection",
+      "kind": "reference",
+      "source_url": "https://osf.io/",
+      "locator": "Open Science Framework",
+      "status": "verified",
+      "notes": "ClinicalTrials.gov is the clinical analogue"
+    },
+    {
+      "id": "fair",
+      "claim": "The FAIR principles require data to be findable, accessible, interoperable and reusable to support verification and reuse",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1038/sdata.2016.18",
+      "locator": "Wilkinson et al. (2016), Scientific Data",
+      "status": "verified",
+      "notes": "Open-science data-sharing standard"
+    },
+    {
+      "id": "selective-demo",
+      "claim": "If only significant results are reported from m independent tests at 5 percent, about 0.05m false positives are expected, and with one true effect at 80 percent power most reported findings can be false",
+      "kind": "model",
+      "source_url": null,
+      "locator": "section 06 widget, section 07 code",
+      "status": "derived",
+      "notes": "Expectation arithmetic under independence and a fixed power assumption"
+    },
+    {
+      "id": "checklist-figures",
+      "claim": "The spectrum figure, the preregistration timeline and the self-check table are teaching material prepared for this lesson",
+      "kind": "figure",
+      "source_url": null,
+      "locator": "figures 1-2 and section 05",
+      "status": "illustrative",
+      "notes": "Not empirical results"
+    }
+  ]
+}
