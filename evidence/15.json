@@ -1,0 +1,79 @@
+{
+  "chapter": "15",
+  "version": "2026-11-22",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "p-value-definition",
+      "claim": "A p-value is the probability of observing data at least as extreme as the sample, computed under a specified null model; it is not the probability that the null hypothesis is true",
+      "kind": "standard",
+      "source_url": "https://doi.org/10.1080/00031305.2016.1154108",
+      "locator": "Wasserstein & Lazar (2016), ASA statement",
+      "status": "verified",
+      "notes": "Principle 2 of the ASA statement"
+    },
+    {
+      "id": "asa-principles",
+      "claim": "The 2016 ASA statement lists six principles: p-values indicate incompatibility with a model, do not measure the probability a hypothesis is true, should not decide conclusions alone, require full reporting, do not measure effect size, and are not a good standalone measure of evidence",
+      "kind": "standard",
+      "source_url": "https://doi.org/10.1080/00031305.2016.1154108",
+      "locator": "Wasserstein & Lazar (2016), six principles",
+      "status": "verified",
+      "notes": "Paraphrased, not quoted verbatim"
+    },
+    {
+      "id": "researcher-degrees-of-freedom",
+      "claim": "Undisclosed flexibility in data collection and analysis lets researchers present anything as significant; a parody study made listening to a Beatles song 'reduce' reported age",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1177/0956797611417632",
+      "locator": "Simmons, Nelson & Simonsohn (2011)",
+      "status": "verified",
+      "notes": "Illustrates p-hacking, not a real effect"
+    },
+    {
+      "id": "file-drawer",
+      "claim": "Rosenthal's fail-safe N estimates how many unpublished null results would be needed to overturn a significant meta-analytic conclusion",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1037/0033-2909.86.3.638",
+      "locator": "Rosenthal (1979), Psychological Bulletin",
+      "status": "verified",
+      "notes": "Original uses the one-tailed chi-square critical value 2.706"
+    },
+    {
+      "id": "repro-psychology",
+      "claim": "Of 100 psychology studies repeated by the Open Science Collaboration, about 36% of the original significant results were significant again",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1126/science.aac4716",
+      "locator": "Open Science Collaboration (2015), Science",
+      "status": "verified",
+      "notes": "35 of 97 originally significant effects"
+    },
+    {
+      "id": "repro-economics",
+      "claim": "Camerer et al. replicated 18 experimental economics studies, with about 61% reproducing",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1126/science.aaf0918",
+      "locator": "Camerer et al. (2016), Science",
+      "status": "verified",
+      "notes": "11 of 18 studies"
+    },
+    {
+      "id": "multiplicity-demo",
+      "claim": "Across k independent tests each at 5%, the chance of at least one false positive is 1 - 0.95^k",
+      "kind": "model",
+      "source_url": null,
+      "locator": "section 07 widget",
+      "status": "derived",
+      "notes": "Assumes independence; deterministic formula"
+    },
+    {
+      "id": "figures",
+      "claim": "The uniform p-value figure and the 50/50 publish-or-file illustration are teaching schematics",
+      "kind": "figure",
+      "source_url": null,
+      "locator": "figures 1-2",
+      "status": "illustrative",
+      "notes": "The 50/50 split is schematic, not empirical"
+    }
+  ]
+}
