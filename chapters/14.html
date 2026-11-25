@@ -1,249 +1,60 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>第14章 简单线性回归</title>
-    <link rel="stylesheet" href="theme.css">
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { background: linear-gradient(135deg, #f5f3ff 0%, #e8f5f0 100%); font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', Roboto, 'Helvetica Neue', sans-serif; padding: 20px; }
-        .double-border { max-width: 1400px; margin: 0 auto; background: #ffffff; border: 2px solid #8b5cf6; border-radius: 24px; box-shadow: 0 20px 30px -15px rgba(0,0,0,0.2), inset 0 1px 0 0 #f5f3ff; overflow: hidden; }
-        .container { display: grid; grid-template-columns: 260px 1fr; gap: 0; }
-        .sidebar { background: #faf8ff; border-right: 2px solid #c4b5fd; padding: 24px 16px; }
-        .sidebar h3 { font-size: 1.4rem; color: #6d28d9; border-left: 5px solid #8b5cf6; padding-left: 15px; margin-bottom: 25px; }
-        .chapter-list { list-style: none; }
-        .chapter-list li { margin-bottom: 6px; }
-        .chapter-list a { display: block; padding: 8px 12px; text-decoration: none; color: #334155; border-radius: 12px; transition: all 0.2s; font-weight: 500; font-size: 0.92rem; }
-        .chapter-list a:hover { background: #ede9fe; transform: translateX(3px); }
-        .chapter-list .active { background: #7c3aed; color: white; box-shadow: 0 2px 5px rgba(124,58,237,0.3); }
-        .main-content { padding: 30px 35px; background: white; }
-        .footer-nav { margin-top: 45px; padding-top: 20px; border-top: 2px solid #c4b5fd; display: flex; justify-content: space-between; }
-        .footer-nav a { padding: 8px 24px; background: #f1f5f9; text-decoration: none; color: #5b21b6; border-radius: 40px; font-weight: 500; transition: 0.2s; }
-        .footer-nav a:hover { background: #ede9fe; transform: translateY(-2px); }
-        footer { text-align: center; margin-top: 30px; padding: 15px; color: #64748b; border-top: 1px dashed #c4b5fd; font-size: 0.9rem; }
-        h2 { color: #4c1d95; border-left: 6px solid #8b5cf6; padding-left: 15px; margin: 20px 0 15px; font-size: 1.5rem; }
-        h3 { color: #5b21b6; margin: 20px 0 10px; font-size: 1.2rem; }
-        h4 { color: #6d28d9; margin: 15px 0 8px; font-size: 1.05rem; }
-        p { line-height: 1.85; margin: 10px 0; color: #1e293b; }
-        ul, ol { margin: 10px 0 10px 20px; line-height: 1.8; }
-        li { color: #1e293b; margin-bottom: 4px; }
-        pre { background: #1e1035; color: #e8e8f0; padding: 15px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', monospace; margin: 15px 0; font-size: 0.9rem; line-height: 1.5; }
-        code { background: #f5f3ff; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
-        pre code { background: none; padding: 0; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: #fafafe; }
-        th, td { border: 1px solid #c4b5fd; padding: 10px; text-align: left; }
-        th { background: #f5f3ff; color: #5b21b6; font-weight: 600; }
-        .tip, .warning, .highlight { padding: 12px 18px; border-radius: 16px; margin: 15px 0; line-height: 1.7; }
-        .tip { background: #e0f2fe; border-left: 6px solid #0ea5e9; }
-        .warning { background: #fee2e2; border-left: 6px solid #ef4444; }
-        .highlight { background: #fef9c3; border: 1px solid #facc15; }
-        strong { color: #1e1b4b; }
-        @media (max-width: 768px) { .container { grid-template-columns: 1fr; } .sidebar { border-right: none; border-bottom: 2px solid #c4b5fd; } body { padding: 10px; } .main-content { padding: 20px; } }
-    </style>
-</head>
-<body>
-<div class="double-border">
-<div class="container">
-    <div class="sidebar">
-        <h3>📊 课程目录</h3>
-        <ul class="chapter-list">
-            <li><a href="01.html">第1章 什么是统计学</a></li>
-            <li><a href="02.html">第2章 数据的类型与来源</a></li>
-            <li><a href="03.html">第3章 描述统计（一）</a></li>
-            <li><a href="04.html">第4章 描述统计（二）</a></li>
-            <li><a href="05.html">第5章 数据可视化基础</a></li>
-            <li><a href="06.html">第6章 概率基础</a></li>
-            <li><a href="07.html">第7章 常见概率分布</a></li>
-            <li><a href="08.html">第8章 抽样与抽样分布</a></li>
-            <li><a href="09.html">第9章 点估计与区间估计</a></li>
-            <li><a href="10.html">第10章 假设检验入门</a></li>
-            <li><a href="11.html">第11章 常见假设检验</a></li>
-            <li><a href="12.html">第12章 统计功效与样本量</a></li>
-            <li><a href="13.html">第13章 相关分析</a></li>
-            <li><a href="14.html" class="active">第14章 简单线性回归</a></li>
-            <li><a href="15.html">第15章 p值与统计显著性危机</a></li>
-            <li><a href="16.html">第16章 多重比较与谬误</a></li>
-            <li><a href="17.html">第17章 因果推断基础</a></li>
-            <li><a href="18.html">第18章 统计伦理与最佳实践</a></li>
-            <li><a href="19.html">第19章 多元线性回归</a></li>
-            <li><a href="20.html">第20章 逻辑回归</a></li>
-            <li><a href="21.html">第21章 方差分析（ANOVA）</a></li>
-            <li><a href="22.html">第22章 贝叶斯统计入门</a></li>
-            <li><a href="23.html">第23章 统计学工具链</a></li>
-            <li><a href="24.html">第24章 真实数据分析实战</a></li>
-            <li><a href="25.html">第25章 A/B测试实战</a></li>
-            <li><a href="26.html">第26章 机器学习中的统计学</a></li>
-            <li><a href="27.html">第27章 现代因果推断</a></li>
-            <li><a href="28.html">第28章 综合项目：从问题到结论</a></li>
-        </ul>
-    </div>
-    <div class="main-content">
-        <h2>第14章：简单线性回归</h2>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="从散点与残差理解简单线性回归：最小二乘的斜率截距、R² 的真实含义、LINE 假设、影响点与虚假回归，并给出可复算的代码与诊断。"><title>14 简单线性回归：一条直线能说多少 | Statistics Lab</title><link rel="stylesheet" href="../assets/css/article.css"></head><body><a class="skip-link" href="#content">跳转到正文</a><nav class="topbar" aria-label="章节导航"><a href="../index.html">← Statistics Lab / 课程目录</a><span class="trail">14 / 28 · 线性回归</span></nav><div class="article-layout"><nav class="toc" aria-label="本文目录"><h2>本篇路径</h2><a href="#model">01 · 模型与几何直觉</a><a href="#ols">02 · 最小二乘法</a><a href="#r2">03 · R² 与拟合优度</a><a href="#assumptions">04 · 残差与 LINE 假设</a><a href="#influence">05 · 影响点与虚假回归</a><a href="#demo">06 · 动手：拖动一个点</a><a href="#practice">07 · 自我检查与可复现计算</a><a href="#refs">参考资料与延伸阅读</a></nav><main id="content"><article><header class="article-header"><div class="kicker">Chapter 14 · Linear regression</div><h1>简单线性回归：一条直线能说多少</h1><p class="dek">相关分析只说“有关系”，回归要回答“X 每变化一个单位，Y 平均变化多少”。但一条画得出来的直线，也可能建立在站不住的假设上——所以算完系数，还得回头看残差。</p><div class="question"><strong>贯穿案例：</strong>某团队用 10 位员工的“工作年限”预测“年薪”，拟合出斜率约 4 千元/年、R² ≈ 0.8。这条线能不能外推到 30 年工龄？那个 R² 又是否说明模型可靠？本章用可复算的例子把这两个问题说清楚。</div></header>
+<section class="section" id="model"><h2>01 · 模型与几何直觉</h2>
+<p class="lede">回归把两个变量的关系写成一条<strong>带误差的直线</strong>。它不再只问“有没有关系”，而是给出一个可解释的斜率：X 每增加一个单位，Y 平均变化多少。</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="简单线性回归模型：因变量y等于截距beta0加上斜率beta1乘以自变量x，再加上误差项epsilon，可横向滚动"><math display="block" aria-label="简单线性回归模型：因变量y等于截距beta0加上斜率beta1乘以自变量x，再加上误差项epsilon"><mrow><mi>y</mi><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><mi>x</mi><mo>+</mo><mi>ε</mi></mrow></math></div><div class="eq-caption">式 1</div></div>
+<p>β₀ 是截距（X = 0 时 Y 的期望），β₁ 是斜率（X 每增加一个单位，Y 的期望变化量），ε 是直线无法解释的部分。这里的 β₀、β₁ 是<strong>总体参数</strong>；样本上算出的 b₀、b₁ 只是它们的估计。</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="380" viewBox="0 0 900 380" role="img" aria-labelledby="fit-t fit-d"><title id="fit-t">最小二乘直线与各点残差</title><desc id="fit-d">散点沿一条上升趋势排布；青色实线是最小二乘拟合线，每个点到该线的竖直虚线是残差，回归就是选一条让这些残差平方和最小的直线。</desc><rect width="900" height="380" rx="15" fill="#fff"/><g font-family="system-ui,sans-serif"><text x="36" y="42" font-size="20" font-weight="750" fill="#294b50">最小二乘：让残差平方和最小</text><text x="37" y="72" font-size="14" fill="#587174">青色直线是拟合值；竖直虚线是每个观测的残差（观测 − 预测）</text><path d="M90 300H830M90 300V96" stroke="#92acaa" stroke-width="2"/><text x="46" y="104" font-size="12" fill="#5a7476">Y</text><text x="826" y="326" text-anchor="end" font-size="12" fill="#5a7476">X</text><path d="M150 283.5L650 146.3" stroke="#147f80" stroke-width="3"/><g stroke="#c06d4c" stroke-width="1.6" stroke-dasharray="4 4"><path d="M150 272V283.5"/><path d="M250 268V256.1"/><path d="M350 215V228.7"/><path d="M450 212V201.2"/><path d="M550 185V173.8"/><path d="M650 138V146.3"/></g><g fill="#7665aa"><circle cx="150" cy="272" r="5"/><circle cx="250" cy="268" r="5"/><circle cx="350" cy="215" r="5"/><circle cx="450" cy="212" r="5"/><circle cx="550" cy="185" r="5"/><circle cx="650" cy="138" r="5"/></g><text x="150" y="266" font-size="12" font-weight="700" fill="#147f80">ŷ = b₀ + b₁x</text><text x="36" y="362" font-size="12" fill="#597477">散点与直线为教学构造，不代表某个真实数据集；斜率单位为“Y 单位 / X 单位”。</text></g></svg><figcaption><strong>图 1 · 回归是一条“最贴近”的直线。</strong>残差平方和 SSE 越大，直线越差。最小二乘在所有可能的直线里挑选 SSE 最小的那条；它必然穿过点 (x̄, ȳ)。</figcaption></figure>
+<div class="callout warning"><h3>先看散点，再拟合</h3><p>相关系数装不下的形状，回归线同样装不下。若散点呈弧形、分组或含极端点，直接套一条直线会把系统性偏差藏进残差里。拟合之前先看图，是本篇反复强调的第一步。</p></div>
+<p class="subtle">本页散点、系数与残差均为教学示意，用于演示公式与诊断，不来自任何真实数据集。</p></section>
+<section class="section" id="ols"><h2>02 · 最小二乘法</h2>
+<p>把每个点的残差 eᵢ = yᵢ − ŷᵢ 平方后相加，得到残差平方和 SSE。普通最小二乘法（OLS）就是选让 SSE 最小的 b₀、b₁。对 SSE 分别关于 b₀、b₁ 求偏导并令其为零，可解出两个闭式公式：</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="斜率b1等于x与y离差乘积之和除以x离差平方和，可横向滚动"><math display="block" aria-label="斜率b1等于x与y离差乘积之和除以x离差平方和"><mrow><msub><mi>b</mi><mn>1</mn></msub><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mi>i</mi></munder><mrow><mo>(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo>¯</mo></mover><mo>)</mo><mo>(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>−</mo><mover><mi>y</mi><mo>¯</mo></mover><mo>)</mo></mrow></mrow><mrow><munder><mo>∑</mo><mi>i</mi></munder><msup><mrow><mo>(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo>¯</mo></mover><mo>)</mo></mrow><mn>2</mn></msup></mrow></mfrac></mrow></math></div><div class="eq-caption">式 2</div></div>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="截距b0等于y的均值减去斜率b1乘以x的均值，可横向滚动"><math display="block" aria-label="截距b0等于y的均值减去斜率b1乘以x的均值"><mrow><msub><mi>b</mi><mn>0</mn></msub><mo>=</mo><mover><mi>y</mi><mo>¯</mo></mover><mo>−</mo><msub><mi>b</mi><mn>1</mn></msub><mover><mi>x</mi><mo>¯</mo></mover></mrow></math></div><div class="eq-caption">式 3</div></div>
+<p>b₁ 的分子与 Pearson 相关系数 r 的分子完全相同，因此 <strong>b₁ = r · (s_y / s_x)</strong>：相关性越强、Y 相对 X 波动越大，斜率越陡。这也解释了为什么 r 与 b₁ 符号总是一致。</p>
+<table class="data-table"><caption>手算示例：5 个点的最小二乘</caption><thead><tr><th>x</th><th>y</th><th>x − x̄</th><th>y − ȳ</th><th>乘积</th><th>(x − x̄)²</th></tr></thead><tbody><tr><td>1</td><td>2</td><td>−2</td><td>−2</td><td>4</td><td>4</td></tr><tr><td>2</td><td>4</td><td>−1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>3</td><td>5</td><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>4</td><td>4</td><td>1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>5</td><td>5</td><td>2</td><td>1</td><td>2</td><td>4</td></tr></tbody></table>
+<p>x̄ = 3、ȳ = 4，乘积之和为 6，(x − x̄)² 之和为 10，所以 b₁ = 6/10 = 0.6，b₀ = 4 − 0.6×3 = 2.2。拟合直线为 ŷ = 2.2 + 0.6x。</p>
+<div class="callout"><h3>把两个前提记牢</h3><p>OLS 给出的是<strong>使平方误差最小</strong>的解，它本身不保证因果、不保证无偏、不要求 X 随机。斜率可解释的句子永远是：“X 每增加 1 个单位，Y 平均变化 b₁”，而不是“X 导致 Y 变化 b₁”。</p></div>
+<p class="subtle">上表与系数为教学构造的小样本，可用本节末尾代码逐步复算。</p></section>
+<section class="section" id="r2"><h2>03 · R² 与拟合优度</h2>
+<p>衡量直线拟合得好不好，最常用的是决定系数 R²。它把 Y 的总变异 SST 分成两块：模型解释了的 SSR，和残差留下的 SSE。</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="决定系数R平方等于1减去SSE比SST，也等于SSR比SST，可横向滚动"><math display="block" aria-label="决定系数R平方等于1减去SSE比SST，也等于SSR比SST"><mrow><msup><mi>R</mi><mn>2</mn></msup><mo>=</mo><mn>1</mn><mo>−</mo><mfrac><mrow><mtext>SSE</mtext></mrow><mrow><mtext>SST</mtext></mrow></mfrac><mo>=</mo><mfrac><mrow><mtext>SSR</mtext></mrow><mrow><mtext>SST</mtext></mrow></mfrac></mrow></math></div><div class="eq-caption">式 4</div></div>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="300" viewBox="0 0 900 300" role="img" aria-labelledby="r2-t r2-d"><title id="r2-t">R² 把总变异拆成可解释与残差两部分</title><desc id="r2-d">一条长条代表总平方和 SST；青色部分是回归解释的 SSR，陶土色部分是残差平方和 SSE。二者之比即 R²。</desc><rect width="900" height="300" rx="15" fill="#fff"/><g font-family="system-ui,sans-serif"><text x="36" y="42" font-size="20" font-weight="750" fill="#294b50">SST = SSR + SSE：R² 是青色占整条的比例</text><text x="37" y="72" font-size="14" fill="#587174">沿用第 02 节的 5 点例子：SST = 6，SSE = 2.4，SSR = 3.6</text><rect x="120" y="130" width="360" height="64" rx="6" fill="#147f80"/><rect x="480" y="130" width="240" height="64" rx="6" fill="#c06d4c"/><text x="300" y="170" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">SSR 3.6（被解释）</text><text x="600" y="170" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">SSE 2.4（残差）</text><text x="120" y="118" font-size="13" fill="#5a7476">0</text><text x="720" y="118" text-anchor="end" font-size="13" fill="#5a7476">SST = 6</text><text x="36" y="262" font-size="13" fill="#31555a">R² = SSR / SST = 3.6 / 6 = 0.6，与 r² = 0.6 一致。</text></g></svg><figcaption><strong>图 2 · R² 是“解释比例”。</strong>在简单线性回归中 R² 恰好等于 r²。但“解释”是几何意义上的分解，不等于因果关系。</figcaption></figure>
+<p>在本例中 R² = 3.6/6 = 0.6，与相关系数的平方 r² = 0.6 完全一致。R² 介于 0 和 1：越接近 1，直线解释的变异越多。但要用好它，得记住三个限制。</p>
+<div class="grid-two"><div class="panel"><h3>高 R² ≠ 模型正确</h3><p>加入更多变量只会让 R² 不降，与变量是否有意义无关。简单回归里还要提防“虚假回归”：两个各自随时间上升的序列，即使毫无关系也可能给出很高的 R²。</p></div><div class="panel"><h3>低 R² ≠ 无关系</h3><p>非线性关系、测量噪声大或总体本就不确定，都会压低 R²。低 R² 只是说“直线解释得少”，不代表斜率为零或没有信息。</p></div></div>
+<div class="callout warning"><h3>两个时间序列的“漂亮”R²</h3><p>Granger 与 Newbold（1974）证明：把两个<strong>相互独立</strong>的随机游走序列做回归，常得到很高的 R² 和看似显著的 t 值，实际却是伪回归。遇到时间趋势数据，先差分、看残差自相关，再谈 R²。</p></div></section>
+<section class="section" id="assumptions"><h2>04 · 残差与 LINE 假设</h2>
+<p>系数和 R² 只描述样本内的拟合，不保证推断有效。OLS 的推断依赖四个假设，合称 <strong>LINE</strong>：线性（Linearity）、独立性（Independence）、残差正态性（Normality）、同方差性（Equal variance）。检查它们最直接的工具就是残差图。</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="380" viewBox="0 0 900 380" role="img" aria-labelledby="res-t res-d"><title id="res-t">三种典型的残差图形态</title><desc id="res-d">左图残差随机分布在零线两侧，符合假设；中图呈漏斗形，方差随拟合值增大；右图呈弧形，提示真实关系非线性。</desc><rect width="900" height="380" rx="15" fill="#fff"/><g font-family="system-ui,sans-serif"><text x="36" y="42" font-size="20" font-weight="750" fill="#294b50">残差图：随机、漏斗、弧形</text><text x="37" y="72" font-size="14" fill="#587174">横轴是拟合值，纵轴是残差；虚线为零线</text><rect x="40" y="90" width="260" height="210" rx="10" fill="#f7fbfa" stroke="#dce5e1"/><rect x="320" y="90" width="260" height="210" rx="10" fill="#f7fbfa" stroke="#dce5e1"/><rect x="600" y="90" width="260" height="210" rx="10" fill="#f7fbfa" stroke="#dce5e1"/><g stroke="#92acaa" stroke-width="1.5" stroke-dasharray="5 4"><path d="M50 195H290"/><path d="M330 195H570"/><path d="M610 195H850"/></g><g fill="#147f80"><circle cx="70" cy="190" r="4"/><circle cx="100" cy="205" r="4"/><circle cx="130" cy="180" r="4"/><circle cx="160" cy="200" r="4"/><circle cx="190" cy="188" r="4"/><circle cx="220" cy="206" r="4"/><circle cx="250" cy="182" r="4"/><circle cx="280" cy="198" r="4"/></g><g fill="#c06d4c"><circle cx="340" cy="193" r="4"/><circle cx="370" cy="198" r="4"/><circle cx="400" cy="185" r="4"/><circle cx="430" cy="205" r="4"/><circle cx="460" cy="175" r="4"/><circle cx="490" cy="215" r="4"/><circle cx="520" cy="160" r="4"/><circle cx="555" cy="230" r="4"/></g><g fill="#7665aa"><circle cx="620" cy="230" r="4"/><circle cx="650" cy="205" r="4"/><circle cx="680" cy="185" r="4"/><circle cx="710" cy="178" r="4"/><circle cx="740" cy="185" r="4"/><circle cx="770" cy="205" r="4"/><circle cx="800" cy="230" r="4"/></g><text x="170" y="322" text-anchor="middle" font-size="13" fill="#31555a">(a) 随机 —— 可接受</text><text x="450" y="322" text-anchor="middle" font-size="13" fill="#31555a">(b) 漏斗 —— 异方差</text><text x="730" y="322" text-anchor="middle" font-size="13" fill="#31555a">(c) 弧形 —— 非线性</text><text x="36" y="362" font-size="12" fill="#597477">三图为教学构造的示意图，用于对比形态，不代表真实数据。</text></g></svg><figcaption><strong>图 3 · 残差里藏着假设是否成立。</strong>(a) 无模式才好；(b) 的漏斗提示方差随水平变化，会使标准误和 p 值不可靠；(c) 的弧形说明直线选错了形状，应先用变量变换或非线性模型。</figcaption></figure>
+<table class="data-table"><caption>常见残差问题与对策</caption><thead><tr><th>问题</th><th>残差图表现</th><th>后果</th><th>对策</th></tr></thead><tbody><tr><td>异方差</td><td>漏斗形</td><td>标准误不准，p 值失真</td><td>稳健标准误（如 HC3）</td></tr><tr><td>离群点</td><td>个别点残差极大</td><td>拉动斜率和截距</td><td>核查数据、稳健回归</td></tr><tr><td>非线性</td><td>弧形或 S 形</td><td>系统性偏差</td><td>变量变换或非线性模型</td></tr><tr><td>高杠杆点</td><td>x 值远离其他点</td><td>对直线影响过大</td><td>看杠杆值与 Cook 距离</td></tr><tr><td>残差非正态</td><td>Q-Q 图偏离对角线</td><td>小样本下 p 值不可靠</td><td>大样本下可依赖中心极限定理</td></tr></tbody></table>
+<div class="callout"><h3>正态性到底要紧吗</h3><p>“残差要正态”主要影响<strong>小样本的推断</strong>（t 检验、置信区间）；点估计和 R² 本身不需要它。样本较大时，中心极限定理使系数的抽样分布近似正态，轻度偏态通常可接受。</p></div></section>
+<section class="section" id="influence"><h2>05 · 影响点与虚假回归</h2>
+<p>并非每个点对直线的影响都一样。一个在 x 方向远离中心的点，即使残差不大，也可能把直线整体拽向自己——这叫<strong>高杠杆点</strong>。杠杆值只取决于 x 的分布，而与 y 无关。</p>
+<div class="grid-two"><div class="panel"><h3>离群点 vs 杠杆点</h3><p>离群点是 y 方向偏离直线的点；杠杆点是 x 方向极端的点。一个既是离群又是高杠杆的点（强影响点）能单独改变斜率符号。</p></div><div class="panel"><h3>Cook 距离</h3><p>把第 i 个点拿掉、重算系数，看估计变化多大。Cook 距离把“残差大”与“杠杆高”合在一起，用于筛查强影响点（Cook, 1977）。</p></div></div>
+<div class="callout warning"><h3>教学示意：人口与图书馆</h3><p>设想用某地区的人口预测图书馆数量，很容易得到很高的 R²。但人口多、图书馆多，是因为两者都被“城市规模”推动，而不是人口能“造出”图书馆。把它当成模型去指导“先增人口再增图书馆”就是因果倒置。高 R² 只描述拟合，不回答机制。</p></div>
+<div class="callout warning"><h3>前视偏差（look-ahead bias）</h3><p>更隐蔽的危险来自数据本身：若自变量里混入了“未来才知道”的信息（例如用事后数据构造的预测变量），R² 会被岗高。这不是模型的功劳，而是信息泄露。建模前必须把每个变量的可获取时点写清楚。</p></div>
+<p>发现强影响点后，正确做法不是直接删掉它，而是先问“它是录入错误，还是一个真实且重要的群体”。两种情形的处理完全不同：前者纠正数据，后者可能需要在报告里同时给出含与不含该点的结果。</p>
+<p class="subtle">本节的人口–图书馆与前视偏差均为说明性情景，不是引用自某项研究的实测结果。</p></section>
+<section class="section" id="demo"><h2>06 · 动手：拖动一个点</h2>
+<p>下面有五个大致上升的点，再加一个你可以改变高度的点。观察单个点如何改变斜率 b₁ 和 R²——尤其是当它被拖到极端位置时。</p>
+<div class="demo"><h3>单点对斜率与 R² 的影响</h3><label for="py">第六个点的纵坐标 y：<output id="py-out" for="py">5</output></label><input id="py" type="range" min="0" max="12" step="1" value="5"><p class="demo-output" id="fit-out" aria-live="polite"></p><p class="subtle">前五个点为 (1,1)(2,2)(3,2)(4,3)(5,4)，第六个点固定在 x = 6；b₁ 与 R² 由样本公式实时计算。</p></div>
+<p>把第六个点拖到 0 或 12，看斜率和 R² 如何被一个点左右。这正是为什么回归诊断必须回到“每个点的杠杆与残差”，而不是只看一个汇总的 R²。</p></section>
+<section class="section" id="practice"><h2>07 · 自我检查与可复现计算</h2>
+<pre><code>import numpy as np
 
-        <p>大家好，我是你们的讲师。如果说相关分析告诉我们"两个变量有关系"，那么回归分析告诉我们的是"如果一个变量变化一个单位，另一个变量会变化多少"。从"有没有关系"到"有多强的定量关系"，这是一个质的飞跃。</p>
+x = np.array([1, 2, 3, 4, 5], dtype=float)
+y = np.array([2, 4, 5, 4, 5], dtype=float)
 
-        <p>简单线性回归（Simple Linear Regression）是整个回归家族中最基础、最优雅的成员。它只有两个变量：一个自变量 X 和一个因变量 Y，并且假设它们之间的关系是一条直线。别小看这个简单的模型——理解了它的原理，你就理解了最小二乘法、R²、残差分析这些在更复杂的模型（多元回归、逻辑回归、甚至深度学习）中同样适用的核心概念。</p>
+b1 = np.sum((x - x.mean()) * (y - y.mean())) / np.sum((x - x.mean()) ** 2)
+b0 = y.mean() - b1 * x.mean()
+pred = b0 + b1 * x
+sse = np.sum((y - pred) ** 2)
+sst = np.sum((y - y.mean()) ** 2)
 
-        <h3>14.1 回归的几何直觉：找一条最佳直线</h3>
-
-        <p>想象你有一堆散点，每个点代表一个人的年收入（X）和年消费金额（Y）。你想用一条直线来概括 X 和 Y 的关系。但问题是：这些点不会完美地排列在一条直线上——每个人都有自己的消费习惯。那么，什么样的直线才是"最佳"的呢？</p>
-
-        <p>这就是回归的核心问题：<strong>找一条直线，让它"尽可能接近"所有的数据点</strong>。</p>
-
-        <p>回归直线的一般形式：</p>
-
-        <p style="text-align:center; font-size:1.1rem;"><strong>Y = β₀ + β₁X + ε</strong></p>
-
-        <p>其中 β₀ 是截距（当 X = 0 时 Y 的期望值），β₁ 是斜率（X 每增加一个单位，Y 平均变化多少），ε 是误差项（直线无法解释的部分）。</p>
-
-        <div class="tip">
-            <strong>几何直觉：</strong>每个数据点到直线的垂直距离就是它的误差（残差）。把所有这些距离的平方加起来，就得到了"总误差"——残差平方和（Sum of Squared Residuals, SSE）。最小二乘法就是在找一条能使 SSE 最小的直线。为什么用"平方"而不是绝对值？因为平方可以放大大误差的影响——这迫使直线不能放过任何一个"离群"的点。同时，平方让误差函数可微分，方便用微积分求最小值。
-        </div>
-
-        <h3>14.2 最小二乘法（OLS）的原理</h3>
-
-        <p>普通最小二乘法（Ordinary Least Squares, OLS）是最常用的回归参数估计方法。它的数学推导很简单——对 SSE 关于 β₀ 和 β₁ 求偏导，令其为零，然后解方程组。</p>
-
-        <p>结果就是：</p>
-
-        <p style="text-align:center; font-size:1.05rem;"><strong>β₁ = Σ((Xᵢ - x̄)(Yᵢ - ȳ)) / Σ(Xᵢ - x̄)²</strong></p>
-        <p style="text-align:center; font-size:1.05rem;"><strong>β₀ = ȳ - β₁x̄</strong></p>
-
-        <p>注意到没有？β₁ 的分子和 Pearson 相关系数的分子是一样的！实际上，β₁ = r × (sᵧ / sₓ) ，其中 r 是 Pearson 相关系数，sᵧ 和 sₓ 分别是 Y 和 X 的标准差。这很好地展示了相关和回归的紧密联系。</p>
-
-        <h3>14.3 R² 的解释与局限</h3>
-
-        <p>R²（决定系数）是回归中最常用的拟合优度指标。它的定义是：</p>
-
-        <p style="text-align:center; font-size:1.1rem;"><strong>R² = 1 - SSE / SST = SSR / SST</strong></p>
-
-        <p>其中 SST 是 Y 的总变异（总平方和），SSE 是未被模型解释的变异（残差平方和）。所以 R² 就是"模型能解释的变异比例"。在简单线性回归中，R² = r² —— 正好是相关系数的平方。</p>
-
-        <div class="warning">
-            <strong>R² 的局限性：</strong>一个经典的踩坑故事——有人在分析某个经济指标时，得到了 R² = 0.95 的"漂亮"结果，兴高采烈地汇报给老板。但实际上，他做回归的是两个独立的时间序列变量——比如中国GDP和美国某地的降雨量。这两个变量各自随时间增长，因此高度相关，但实际上没有任何因果关系！<br><br>
-            R² 高只说明模型的拟合度好，但<strong>不说明模型正确</strong>。尤其对于时间序列数据，两个不相关的趋势变量之间的回归经常产生极高的 R²。这个陷阱叫做"虚假回归"（spurious regression）。判断模型是否正确，关键看残差分析、领域知识、以及因果关系理论。
-        </div>
-
-        <h3>14.4 残差分析：检查模型假设</h3>
-
-        <p>OLS 回归的有效性依赖于几个关键假设（缩写为 <strong>LINE</strong>）：</p>
-
-        <ul>
-            <li><strong>L - Linearity（线性）：</strong>X 和 Y 的关系是线性的。</li>
-            <li><strong>I - Independence（独立性）：</strong>各观测值相互独立。</li>
-            <li><strong>N - Normality（正态性）：</strong>残差服从正态分布（对于推断来说）。</li>
-            <li><strong>E - Equal Variance（同方差性）：</strong>残差的方差不随 X 变化。</li>
-        </ul>
-
-        <p>残差分析就是通过检查残差（实际值 - 预测值）来判断这些假设是否成立。如果残差图中出现明显的模式（如漏斗形、弧形），就说明某些假设被违反了。</p>
-
-        <h3>14.5 回归诊断</h3>
-
-        <p>以下是回归诊断中需要关注的几个问题：</p>
-
-        <table>
-            <tr><th>问题</th><th>表现</th><th>后果</th><th>解决方法</th></tr>
-            <tr><td>异方差</td><td>残差散点图呈"漏斗形"</td><td>标准误估计不准</td><td>使用稳健标准误（HCSE）</td></tr>
-            <tr><td>离群点</td><td>|残差| > 3σ</td><td>扭曲回归系数</td><td>检查数据、使用稳健回归</td></tr>
-            <tr><td>杠杆点</td><td>X 值极端</td><td>对回归线影响过大</td><td>计算杠杆值、Cook's distance</td></tr>
-            <tr><td>非正态残差</td><td>Q-Q图偏离对角线</td><td>p值不可靠</td><td>大样本下可忽略（CLT）</td></tr>
-        </table>
-
-        <p>下面是用 statsmodels 进行完整回归诊断的 Python 代码：</p>
-
-        <pre><code>import numpy as np
-import pandas as pd
-import statsmodels.api as sm
-import matplotlib.pyplot as plt
-from scipy import stats
-
-# 生成模拟数据：用多年的经验预测工资
-np.random.seed(42)
-n = 100
-experience = np.linspace(0, 20, n)
-salary = 30000 + 4000 * experience + np.random.normal(0, 8000, n)
-
-# 添加一个离群点（被严重高薪的人）
-salary[-1] = 150000
-
-# 构建 DataFrame
-data = pd.DataFrame({'exp': experience, 'salary': salary})
-
-# 添加截距项
-X = sm.add_constant(data['exp'])
-y = data['salary']
-
-# 拟合 OLS 模型
-model = sm.OLS(y, X).fit()
-print(model.summary())
-
-# === 残差诊断 ===
-residuals = model.resid
-fitted = model.fittedvalues
-
-# 1. 残差 vs 拟合值图（检查线性和同方差性）
-# plt.scatter(fitted, residuals)
-# plt.axhline(y=0, color='r', linestyle='--')
-# plt.xlabel('拟合值')
-# plt.ylabel('残差')
-# plt.title('残差 vs 拟合值图')
-# plt.show()
-
-# 2. Q-Q图（检查正态性）
-# sm.qqplot(residuals, line='s')
-# plt.title('Q-Q 图')
-# plt.show()
-
-# 3. 计算 Cook's distance（识别强影响点）
-influence = model.get_influence()
-cooks_d = influence.cooks_distance[0]
-n = len(data)
-threshold = 4 / n
-influential_points = np.where(cooks_d > threshold)[0]
-print(f"\nCook's distance 阈值: {threshold:.4f}")
-print(f"强影响点索引: {influential_points}")
-
-# 4. 学生化残差（识别离群点）
-studentized_residuals = influence.resid_studentized_internal
-outliers = np.where(np.abs(studentized_residuals) > 3)[0]
-print(f"离群点（|学生化残差| > 3）索引: {outliers}")
-
-# 5. 异方差检验（Breusch-Pagan）
-from statsmodels.stats.diagnostic import het_breuschpagan
-bp_test = het_breuschpagan(residuals, X)
-print(f"\nBreusch-Pagan 异方差检验:")
-print(f"LM统计量: {bp_test[0]:.3f}, p值: {bp_test[1]:.4f}")
-if bp_test[1] < 0.05:
-    print("存在异方差问题，建议使用稳健标准误")
-    # 使用稳健标准误重新拟合
-    model_robust = sm.OLS(y, X).fit(cov_type='HC3')
-    print(model_robust.summary())
-else:
-    print("未发现明显的异方差")</code></pre>
-
-        <div class="tip">
-            <strong>解读 OLS 输出：</strong>在模型摘要中，重点关注几个指标——<strong>coef</strong> 列给出回归系数，<strong>P>|t|</strong> 列是每个系数的显著性检验，<strong>R-squared</strong> 是拟合优度，<strong>Durbin-Watson</strong> 在 2 附近说明残差自相关不严重，<strong>Omnibus / Jarque-Bera</strong> 的概率值如果大于 0.05 说明残差正态性可以接受。
-        </div>
-
-        <h3>14.6 R² 很高但模型完全错误</h3>
-
-        <div class="warning">
-            <strong>经典故事：</strong>金融领域曾经有一个著名的"超级模型"，这个模型声称能够完美预测股票市场的波动，R² 超过 90%。很多投资者趋之若鹜。但最终被发现，这个模型的一个关键"预测变量"实际上是未来数据——他们错误地使用了未来信息来预测过去，R² 自然高得离谱。这就是典型的<strong>前视偏差（look-ahead bias）</strong>。<br><br>
-            另一个更微妙的例子：有人用某城市的人口数量预测该城市图书馆的数量，得到了 R² = 0.97 的完美结果。确实，人口越多的城市图书馆越多——但这真的是一个"模型"吗？如果你告诉市政府"为了增加图书馆，我们要先增加人口"，这就完全因果倒置了。R² 再高也不能代替逻辑推理。
-        </div>
-
-        <p>每次你得到一个很高的 R² 时，都应该问自己几个问题：这个关系在逻辑上说得通吗？是否存在遗漏变量？数据是否存在时间趋势？R² 高可能是因为偶然，也可能是因为数据质量问题——而不仅仅是因为你的模型好。</p>
-
-        <p>简单线性回归是通向更复杂模型的起点。掌握了它的原理和诊断方法，你就为学习多元线性回归、逻辑回归乃至更高级的统计模型打下了坚实的基础。下一章，我们来讨论当今统计学中一个非常有争议的话题——p 值与统计显著性的危机。</p>
-
-        <div class="footer-nav">
-            <a href="13.html">← 上一章</a>
-            <a href="index.html">📖 返回目录</a>
-            <a href="15.html">下一章 →</a>
-        </div>
-    </div>
-</div>
-</div>
-</body>
-</html>
+print("b1 =", round(b1, 3), " b0 =", round(b0, 3))
+print("R^2 =", round(1 - sse / sst, 3))
+# b1 = 0.6   b0 = 2.2
+# R^2 = 0.6</code></pre>
+<div class="callout"><h3>自我检查</h3><p><strong>问题：</strong>某回归得到 b₁ = 0.6，能否说“X 每增加 1，Y 就一定会增加 0.6”？</p><p><strong>参考答案：</strong>不能。“平均”两字不能省：0.6 是预期变化，个体值仍围绕直线波动（由残差描述）。而且这句话只在 X 的观测范围内、且线性假设成立时才有意义，更不能读成因果。</p></div>
+<div class="callout warning"><h3>失败模式</h3><p>最常见的两个错：一是把直线<strong>外推</strong>到观测范围之外（例如用 10 年工龄的样本预测 30 年工龄），线性关系往往不再成立；二是把<strong>高 R² 当作“模型对”或“有因果”的证明</strong>。R² 只度量拟合，不度量正确性。</p></div></section>
+<section class="section" id="refs"><h2>参考资料与延伸阅读</h2><ol class="sources"><li><a href="https://openstax.org/books/introductory-statistics-2e/pages/12-3-the-regression-equation">OpenStax, Introductory Statistics (2e) §12.3</a>：最小二乘直线、斜率与截距的公式。</li><li><a href="https://www.openintro.org/book/os/">OpenIntro Statistics</a>：回归、残差与拟合优度的入门处理。</li><li><a href="https://doi.org/10.1016/0304-4076(74)90034-7">Granger &amp; Newbold (1974), Spurious regressions in econometrics</a>：独立随机游走序列之间的伪回归。</li><li><a href="https://doi.org/10.1080/00401706.1977.10489493">Cook (1977), Detection of Influential Observation in Linear Regression</a>：Cook 距离的定义与用途。</li><li><a href="https://www.itl.nist.gov/div898/handbook/">NIST/SEMATECH e-Handbook of Statistical Methods</a>：回归与残差诊断的工程处理。</li></ol><p class="subtle">本章的散点图、手算表格、残差形态图与交互数据均为教学构造；Granger–Newbold 的伪回归结论与 Cook 距离的定义来自上述文献，不是本页实测。</p></section>
+<nav class="chapter-nav" aria-label="章节切换"><a href="13.html">← 相关分析</a><a href="../index.html">课程目录</a><a href="15.html">p 值与显著性危机 →</a></nav></article></main></div><script>(()=>{const y=document.getElementById('py'),yo=document.getElementById('py-out'),out=document.getElementById('fit-out');if(!y||!out)return;const X=[1,2,3,4,5,6],Y5=[1,2,2,3,4];const upd=()=>{const k=Number(y.value),Y=Y5.concat([k]),n=6;let mx=0,my=0;for(let i=0;i<n;i++){mx+=X[i];my+=Y[i]}mx/=n;my/=n;let sxy=0,sxx=0,sst=0;for(let i=0;i<n;i++){const dx=X[i]-mx,dy=Y[i]-my;sxy+=dx*dy;sxx+=dx*dx;sst+=dy*dy}const b1=sxy/sxx,b0=my-b1*mx;let sse=0;for(let i=0;i<n;i++){const e=Y[i]-(b0+b1*X[i]);sse+=e*e}const r2=1-sse/sst;yo.value=String(k);yo.textContent=String(k);out.textContent='第六个点 (6, '+k+') → b₁ = '+b1.toFixed(3)+'，R² = '+r2.toFixed(3)};y.addEventListener('input',upd);upd()})();</script></body></html>
