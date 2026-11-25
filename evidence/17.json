@@ -1,0 +1,70 @@
+{
+  "chapter": "17",
+  "version": "2026-11-22",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "confounding",
+      "claim": "A confounder is a variable that affects both the treatment and the outcome, so an observed association can be spurious; larger samples reduce random error but not confounding bias",
+      "kind": "textbook",
+      "source_url": "https://www.openintro.org/book/os/",
+      "locator": "OpenIntro Statistics, confounding",
+      "status": "verified",
+      "notes": "Bias does not vanish as n grows"
+    },
+    {
+      "id": "hrt-whi",
+      "claim": "Observational studies suggested hormone replacement therapy reduced coronary risk, but the randomised Women's Health Initiative trial found increased coronary heart disease, stroke and breast cancer risks",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1001/jama.288.3.321",
+      "locator": "Writing Group (2002), JAMA 288(3)",
+      "status": "verified",
+      "notes": "Classic observational-versus-experimental reversal"
+    },
+    {
+      "id": "backdoor",
+      "claim": "The backdoor criterion identifies a set of variables that, when conditioned on, block all non-causal paths from treatment to outcome so the remaining association can be interpreted causally",
+      "kind": "reference",
+      "source_url": "https://miguelhernan.org/whatifbook",
+      "locator": "Hernán & Robins, Causal Inference: What If, Chapter 6-7",
+      "status": "verified",
+      "notes": "Assumes the causal diagram is correct"
+    },
+    {
+      "id": "do-operator",
+      "claim": "Pearl's ladder distinguishes association, intervention P(Y|do(X)), and counterfactuals, with each higher rung requiring more causal assumptions",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1145/3241036",
+      "locator": "Pearl (2019), Communications of the ACM",
+      "status": "verified",
+      "notes": "Ladder of causation"
+    },
+    {
+      "id": "rct",
+      "claim": "Random assignment makes treatment groups comparable in expectation, blocking arrows into the treatment and removing confounding; intention-to-treat preserves this when adherence is imperfect",
+      "kind": "textbook",
+      "source_url": "https://miguelhernan.org/whatifbook",
+      "locator": "Hernán & Robins, Causal Inference: What If, randomised experiments",
+      "status": "verified",
+      "notes": "Comes with ethical, cost and external-validity limits"
+    },
+    {
+      "id": "confounding-demo",
+      "claim": "In the teaching model X = Z + noise, Y = 3000*X + c*Z + noise, the naive slope is about 3000 + c/2 while the adjusted slope is 3000",
+      "kind": "model",
+      "source_url": null,
+      "locator": "section 06 widget, section 07 code",
+      "status": "derived",
+      "notes": "Exact under the stated linear model with a = 1"
+    },
+    {
+      "id": "figures",
+      "claim": "The four-structure panel, the confounding DAG pair, and the ladder figure are hand-drawn teaching schematics",
+      "kind": "figure",
+      "source_url": null,
+      "locator": "figures 1-3",
+      "status": "illustrative",
+      "notes": "No empirical data used"
+    }
+  ]
+}
