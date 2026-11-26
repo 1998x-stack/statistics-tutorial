@@ -1,196 +1,51 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>第22章 贝叶斯统计入门 | 统计学教程</title>
-<link rel="stylesheet" href="theme.css">
-<style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { background: linear-gradient(135deg, #f5f3ff 0%, #e8f5f0 100%); font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', Roboto, 'Helvetica Neue', sans-serif; padding: 20px; }
-.double-border { max-width: 1400px; margin: 0 auto; background: #ffffff; border: 2px solid #8b5cf6; border-radius: 24px; box-shadow: 0 20px 30px -15px rgba(0,0,0,0.2), inset 0 1px 0 0 #f5f3ff; overflow: hidden; }
-.container { display: grid; grid-template-columns: 260px 1fr; gap: 0; }
-.sidebar { background: #faf8ff; border-right: 2px solid #c4b5fd; padding: 24px 16px; }
-.sidebar h3 { font-size: 1.4rem; color: #6d28d9; border-left: 5px solid #8b5cf6; padding-left: 15px; margin-bottom: 25px; }
-.chapter-list { list-style: none; }
-.chapter-list li { margin-bottom: 6px; }
-.chapter-list a { display: block; padding: 8px 12px; text-decoration: none; color: #334155; border-radius: 12px; transition: all 0.2s; font-weight: 500; font-size: 0.92rem; }
-.chapter-list a:hover { background: #ede9fe; transform: translateX(3px); }
-.chapter-list .active { background: #7c3aed; color: white; box-shadow: 0 2px 5px rgba(124,58,237,0.3); }
-.main-content { padding: 30px 35px; background: white; }
-.footer-nav { margin-top: 45px; padding-top: 20px; border-top: 2px solid #c4b5fd; display: flex; justify-content: space-between; }
-.footer-nav a { padding: 8px 24px; background: #f1f5f9; text-decoration: none; color: #5b21b6; border-radius: 40px; font-weight: 500; transition: 0.2s; }
-.footer-nav a:hover { background: #ede9fe; transform: translateY(-2px); }
-footer { text-align: center; margin-top: 30px; padding: 15px; color: #64748b; border-top: 1px dashed #c4b5fd; font-size: 0.9rem; }
-h2 { color: #4c1d95; border-left: 6px solid #8b5cf6; padding-left: 15px; margin: 20px 0 15px; font-size: 1.5rem; }
-h3 { color: #5b21b6; margin: 20px 0 10px; font-size: 1.2rem; }
-h4 { color: #6d28d9; margin: 15px 0 8px; font-size: 1.05rem; }
-p { line-height: 1.85; margin: 10px 0; color: #1e293b; }
-ul, ol { margin: 10px 0 10px 20px; line-height: 1.8; }
-li { color: #1e293b; margin-bottom: 4px; }
-pre { background: #1e1035; color: #e8e8f0; padding: 15px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', monospace; margin: 15px 0; font-size: 0.9rem; line-height: 1.5; }
-code { background: #f5f3ff; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
-pre code { background: none; padding: 0; }
-table { width: 100%; border-collapse: collapse; margin: 15px 0; background: #fafafe; }
-th, td { border: 1px solid #c4b5fd; padding: 10px; text-align: left; }
-th { background: #f5f3ff; color: #5b21b6; font-weight: 600; }
-.tip, .warning, .highlight { padding: 12px 18px; border-radius: 16px; margin: 15px 0; line-height: 1.7; }
-.tip { background: #e0f2fe; border-left: 6px solid #0ea5e9; }
-.warning { background: #fee2e2; border-left: 6px solid #ef4444; }
-.highlight { background: #fef9c3; border: 1px solid #facc15; }
-strong { color: #1e1b4b; }
-@media (max-width: 768px) { .container { grid-template-columns: 1fr; } .sidebar { border-right: none; border-bottom: 2px solid #c4b5fd; } body { padding: 10px; } .main-content { padding: 20px; } }
-</style></head>
-<body>
-<div class="double-border">
-<div class="container">
-<div class="sidebar">
-<h3>统计学教程</h3>
-<ul class="chapter-list">
-<li><a href="01.html">第1章 什么是统计学</a></li>
-<li><a href="02.html">第2章 数据的类型与来源</a></li>
-<li><a href="03.html">第3章 描述统计（一）</a></li>
-<li><a href="04.html">第4章 描述统计（二）</a></li>
-<li><a href="05.html">第5章 数据可视化基础</a></li>
-<li><a href="06.html">第6章 概率基础</a></li>
-<li><a href="07.html">第7章 常见概率分布</a></li>
-<li><a href="08.html">第8章 抽样与抽样分布</a></li>
-<li><a href="09.html">第9章 点估计与区间估计</a></li>
-<li><a href="10.html">第10章 假设检验入门</a></li>
-<li><a href="11.html">第11章 常见假设检验</a></li>
-<li><a href="12.html">第12章 统计功效与样本量</a></li>
-<li><a href="13.html">第13章 相关分析</a></li>
-<li><a href="14.html">第14章 简单线性回归</a></li>
-<li><a href="15.html">第15章 p值与统计显著性危机</a></li>
-<li><a href="16.html">第16章 多重比较与谬误</a></li>
-<li><a href="17.html">第17章 因果推断基础</a></li>
-<li><a href="18.html">第18章 统计伦理与最佳实践</a></li>
-<li><a href="19.html">第19章 多元线性回归</a></li>
-<li><a href="20.html">第20章 逻辑回归</a></li>
-<li><a href="21.html">第21章 方差分析（ANOVA）</a></li>
-<li><a href="22.html" class="active">第22章 贝叶斯统计入门</a></li>
-<li><a href="23.html">第23章 统计学工具链</a></li>
-<li><a href="24.html">第24章 真实数据分析实战</a></li>
-<li><a href="25.html">第25章 A/B测试实战</a></li>
-<li><a href="26.html">第26章 机器学习中的统计学</a></li>
-<li><a href="27.html">第27章 现代因果推断</a></li>
-<li><a href="28.html">第28章 综合项目：从问题到结论</a></li>
-</ul>
-</div>
-<div class="main-content">
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="用 Beta-二项共轭更新理解贝叶斯统计：先验、似然与后验、可信区间与置信区间的区别、MCMC 采样，以及先验选择与敏感性分析。"><title>22 贝叶斯统计入门：先验、似然与后验 | Statistics Lab</title><link rel="stylesheet" href="../assets/css/article.css"></head><body><a class="skip-link" href="#content">跳转到正文</a><nav class="topbar" aria-label="章节导航"><a href="../index.html">← Statistics Lab / 课程目录</a><span class="trail">22 / 28 · 统计模型</span></nav><div class="article-layout"><nav class="toc" aria-label="本文目录"><h2>本篇路径</h2><a href="#bayes">01 · 贝叶斯定理就是更新规则</a><a href="#conjugate">02 · 共轭更新：Beta 与二项</a><a href="#schools">03 · 频率学派与贝叶斯学派</a><a href="#mcmc">04 · MCMC：后验没有解析解时</a><a href="#prior">05 · 先验选择与敏感性分析</a><a href="#demo">06 · 动手：先验强度与观测</a><a href="#practice">07 · 自我检查与可复现计算</a><a href="#refs">参考资料与延伸阅读</a></nav><main id="content"><article><header class="article-header"><div class="kicker">Chapter 22 · Bayesian inference</div><h1>贝叶斯统计入门：先验、似然与后验</h1><p class="dek">频率学派问“如果假设为真，看到这些数据的概率有多大”；贝叶斯换了个起点：先写下对参数的信念，再用数据把它更新成一个完整的概率分布。</p><div class="question"><strong>贯穿案例：</strong>你抛一枚硬币 100 次得到 60 次正面。它是公平的吗？贝叶斯给出的不是“拒绝/不拒绝”，而是“正面概率 p 落在这个区间内的概率有多大”。</div></header>
+<section class="section" id="bayes"><h2>01 · 贝叶斯定理就是更新规则</h2>
+<p class="lede">贝叶斯统计的全部数学都从一条概率等式出发：把参数记为 θ，数据记为 D，则</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="后验等于似然乘先验，再除以数据的边际概率，可横向滚动"><math display="block" aria-label="后验等于似然乘先验，再除以数据的边际概率"><mrow><mi>P</mi><mo>(</mo><mi>θ</mi><mo>|</mo><mi>D</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi>P</mi><mo>(</mo><mi>D</mi><mo>|</mo><mi>θ</mi><mo>)</mo><mi>P</mi><mo>(</mo><mi>θ</mi><mo>)</mo></mrow><mrow><mi>P</mi><mo>(</mo><mi>D</mi><mo>)</mo></mrow></mfrac></mrow></math></div><div class="eq-caption">式 1</div></div>
+<p>四个部分各司其职：<strong>先验</strong> P(θ) 是看到数据前对参数的信念；<strong>似然</strong> P(D|θ) 是“若参数为 θ，产生当前数据的可能性”；<strong>后验</strong> P(θ|D) 是更新后的信念；<strong>边际似然</strong> P(D) 与 θ 无关，只起归一化作用。因此常写成比例形式：</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="后验正比于似然乘先验，可横向滚动"><math display="block" aria-label="后验正比于似然乘先验"><mrow><mi>P</mi><mo>(</mo><mi>θ</mi><mo>|</mo><mi>D</mi><mo>)</mo><mo>∝</mo><mi>P</mi><mo>(</mo><mi>D</mi><mo>|</mo><mi>θ</mi><mo>)</mo><mi>P</mi><mo>(</mo><mi>θ</mi><mo>)</mo></mrow></math></div><div class="eq-caption">式 2</div></div>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="260" viewBox="0 0 900 260" role="img" aria-labelledby="bay-t bay-d"><title id="bay-t">贝叶斯更新：先验乘以似然得到后验</title><desc id="bay-d">流程图：先验分布乘以似然后得到后验分布，再由边际似然归一化。后验同时反映先验信息与数据信息。</desc><rect width="900" height="260" rx="15" fill="#fff"/><g font-family="system-ui,-apple-system,'PingFang SC',sans-serif"><text x="36" y="42" font-size="20" font-weight="750" fill="#294b50">更新 = 先验 × 似然（再归一化）</text><rect x="50" y="90" width="190" height="72" rx="12" fill="#e7f4f0" stroke="#147f80" stroke-width="2"/><text x="145" y="122" text-anchor="middle" font-size="16" font-weight="700" fill="#147f80">先验</text><text x="145" y="145" text-anchor="middle" font-size="14" fill="#31555a">P(θ)</text><text x="262" y="138" font-size="30" font-weight="700" fill="#20353a">×</text><rect x="290" y="90" width="210" height="72" rx="12" fill="#fff" stroke="#92acaa" stroke-width="2"/><text x="395" y="122" text-anchor="middle" font-size="16" font-weight="700" fill="#31555a">似然</text><text x="395" y="145" text-anchor="middle" font-size="14" fill="#31555a">P(D|θ)</text><text x="527" y="138" font-size="30" font-weight="700" fill="#20353a">→</text><rect x="560" y="90" width="250" height="72" rx="12" fill="#e7f4f0" stroke="#147f80" stroke-width="2"/><text x="685" y="122" text-anchor="middle" font-size="16" font-weight="700" fill="#147f80">后验</text><text x="685" y="145" text-anchor="middle" font-size="14" fill="#31555a">P(θ|D)</text><text x="685" y="196" text-anchor="middle" font-size="12" fill="#597477">除以 P(D) 只做归一化，不改变形状</text><text x="36" y="240" font-size="12" fill="#597477">后验同时携带先验信息与数据信息，是完整的分布而非单一数字。</text></g></svg><figcaption><strong>图 1 · 贝叶斯学习的一步。</strong>先验与似然相乘、再归一化，得到后验。若数据量大，似然占主导，后验逐渐脱离先验；若数据少，先验的影响就明显——这也是先验必须接受敏感性检验的原因。</figcaption></figure>
+<p>和频率学派一样，贝叶斯也用似然；区别在于它把参数 θ 当作可以承载分布的随机变量，并要求你明确写出先验。先验不是“作弊”，而是把假设摆在桌面上。</p></section>
+<section class="section" id="conjugate"><h2>02 · 共轭更新：Beta 与二项</h2>
+<p>抛硬币例子有一个漂亮的性质：若先验是 Beta(α, β)，数据是 n 次试验中 h 次成功、t = n − h 次失败，则后验仍是 Beta 分布：</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="给定成功次数与失败次数后，参数的后验服从 Beta，参数为 α 加成功次数与 β 加失败次数，可横向滚动"><math display="block" aria-label="给定成功次数与失败次数后，参数的后验服从 Beta，参数为 α 加成功次数与 β 加失败次数"><mrow><mi>p</mi><mo>|</mo><mi>h</mi><mo>,</mo><mi>t</mi><mo>∼</mo><mi>Beta</mi><mo>(</mo><mi>α</mi><mo>+</mo><mi>h</mi><mo>,</mo><mspace width="0.3em"></mspace><mi>β</mi><mo>+</mo><mi>t</mi><mo>)</mo></mrow></math></div><div class="eq-caption">式 3</div></div>
+<p>这叫<strong>共轭先验</strong>：先验与后验属于同一分布族，更新只是把成功、失败次数加到两个参数上。后验均值也很直观：</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="后验均值等于 α 加成功次数，除以 α 加 β 加试验总次数，可横向滚动"><math display="block" aria-label="后验均值等于 α 加成功次数，除以 α 加 β 加试验总次数"><mrow><mi>E</mi><mo>[</mo><mi>p</mi><mo>|</mo><mi>D</mi><mo>]</mo><mo>=</mo><mfrac><mrow><mi>α</mi><mo>+</mo><mi>h</mi></mrow><mrow><mi>α</mi><mo>+</mo><mi>β</mi><mo>+</mo><mi>n</mi></mrow></mfrac></mrow></math></div><div class="eq-caption">式 4</div></div>
+<p>它就像是把先验看成“α + β 次虚拟试验”。α = β = 2 相当于两个成功、两个失败的先验信息；当 n = 100、h = 60 时，后验为 Beta(62, 42)，均值约 0.596。</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360" role="img" aria-labelledby="beta-t beta-d"><title id="beta-t">先验 Beta(2,2) 与后验 Beta(62,42) 的密度示意</title><desc id="beta-d">横轴为硬币正面概率 p，从 0 到 1。青色宽而矮的曲线是先验 Beta(2,2)，以 0.5 为中心。陶土色窄而高的曲线是后验 Beta(62,42)，集中在约 0.6 附近，说明数据缩小了不确定性。</desc><rect width="900" height="360" rx="15" fill="#fff"/><g font-family="system-ui,-apple-system,'PingFang SC',sans-serif"><text x="36" y="40" font-size="20" font-weight="750" fill="#294b50">100 次抛硬币后，后验比先验窄得多</text><path d="M130 300H800" stroke="#20353a" stroke-width="2"/><path d="M130 300V80" stroke="#20353a" stroke-width="2"/><path d="M130 300Q465 90 800 300" fill="none" stroke="#147f80" stroke-width="3"/><path d="M450 300Q533 20 615 300" fill="none" stroke="#c06d4c" stroke-width="3"/><path d="M529 300V150" stroke="#c06d4c" stroke-width="1.6" stroke-dasharray="6 5"/><text x="536" y="146" font-size="13" font-weight="700" fill="#c06d4c">后验均值 ≈ 0.596</text><text x="300" y="230" font-size="13" font-weight="700" fill="#147f80">先验 Beta(2,2)</text><text x="130" y="326" font-size="13" fill="#31555a">p = 0</text><text x="790" y="326" font-size="13" fill="#31555a">p = 1</text><text x="36" y="352" font-size="12" fill="#597477">曲线为教学示意（非按精确高度比例绘制）；后验集中于约 0.6 附近。</text></g></svg><figcaption><strong>图 2 · 数据把信念收窄。</strong>先验宽，表示事先不确定；观测 100 次后后验变窄，集中在样本比例附近。这正是贝叶斯版本的不确定性：“p 大约在 0.5 ~ 0.69”比一个点估计携带更多信息。</figcaption></figure>
+<div class="callout"><h3>后验分布能用来说什么</h3><p>有了后验，就能直接回答“p 落在某区间的概率有多大”。这种区间称为<strong>可信区间</strong>（credible interval）。本例的 95% 可信区间大约在 0.50 到 0.69 之间（数值可由 Beta 分位数得到）。</p></div></section>
+<section class="section" id="schools"><h2>03 · 频率学派与贝叶斯学派</h2>
+<p>两者并不是“对错”之争，而是回答了不同的问题。频率学派把参数看作固定未知的常数，把概率看作长期频率；贝叶斯把参数看作随机变量，把概率看作信念程度。</p>
+<table class="data-table"><caption>两种世界观对照</caption><thead><tr><th>维度</th><th>频率学派</th><th>贝叶斯学派</th></tr></thead><tbody><tr><td>概率的含义</td><td>重复实验中事件的长期频率</td><td>对命题的信念程度</td></tr><tr><td>参数</td><td>固定但未知的常数</td><td>有分布的随机变量</td></tr><tr><td>主要输出</td><td>点估计、置信区间、p 值</td><td>完整的后验分布</td></tr><tr><td>先验信息</td><td>不正式纳入</td><td>以先验形式明确纳入</td></tr><tr><td>区间含义</td><td>重复抽样中覆盖真值的频率</td><td>参数落入该区间的概率</td></tr></tbody></table>
+<div class="callout warning"><h3>置信区间不能说成“真值有 95% 概率在其中”</h3><p>频率学派的 95% 置信区间指的是：若把抽样重复很多次，约 95% 的区间会盖住固定的真值。只在这一次抽样得到的区间里，真值能否被盖住是不确定的。贝叶斯可信区间则可以直接说：“给定先验和模型，参数有 95% 的后验概率落在其中。”两者数值相近但含义不同，报告时必须说清楚用的是哪一种。</p></div></section>
+<section class="section" id="mcmc"><h2>04 · MCMC：后验没有解析解时</h2>
+<p>共轭只是特例。大多数现实模型（如层次模型、逻辑回归的贝叶斯版）后验分布没有闭式解，归一化常数 P(D) 也往往算不出来。 MCMC（马尔可夫链蒙特卡洛）换了个思路：不求出后验的公式，而是构造一条马尔可夫链，使其平稳分布恰好是目标后验，再从链中采样。</p>
+<ol class="process"><li><strong>构造链：</strong>Metropolis–Hastings、Gibbs 采样、NUTS 等都是具体规则，决定下一步去哪里。</li><li><strong>退火：</strong>丢掉初期尚未收敛的样本（warm-up/burn-in）。</li><li><strong>诊断：</strong>用多条链、迹图与 R-hat 等指标判断是否收敛；不收敛的后验均值毫无意义。</li></ol>
+<p>有了样本，后验均值、分位数、可信区间都可以直接由样本计算。MCMC 不保证“算得准”，它只是把积分问题换成采样问题；若链没收敛或把强相关样本当成独立样本，结果依然会出错。</p></section>
+<section class="section" id="prior"><h2>05 · 先验选择与敏感性分析</h2>
+<p>先验是贝叶斯方法最受争议之处。它既可以把既有知识合理地注入模型（小样本场景尤其有用），也可能被人为操纵成想要的结论。</p>
+<div class="grid-two"><div class="panel"><h3>合理先验</h3><p>从历史文献或物理约束中提取弱信息先验，约束参数范围，在数据稀少时稳定估计。</p></div><div class="panel"><h3>操纵风险</h3><p>挑一个极端先验，就能把后验推向预设结论。只报告对自己有利先验下的结果，是不完整的。</p></div></div>
+<div class="callout warning"><h3>失败模式：不做敏感性分析就下结论</h3><p>只用一个先验、不检查结论是否随先验改变，就无法判断结论是“数据驱动的”还是“先验驱动的”。正确做法：用几个合理先验重跑，报告后验如何变化（先验敏感性分析）。若结论对先验非常敏感，就必须把这一点写进结论。</p></div></section>
+<section class="section" id="demo"><h2>06 · 动手：先验强度与观测</h2>
+<p>用两个滑块控制先验强度 k（取 α = β = k）与 100 次抛硬币中的正面数 h，看后验均值如何被两者共同决定。</p>
+<div class="demo"><h3>Beta-二项更新</h3><label for="prior-k">先验强度 k（α = β = k）：<output id="pk-out" for="prior-k">2</output></label><input id="prior-k" type="range" min="1" max="10" step="1" value="2"><label for="heads">正面次数 h（共 100 次）：<output id="h-out" for="heads">60</output></label><input id="heads" type="range" min="0" max="100" step="1" value="60"><p class="demo-output" id="post-out" aria-live="polite"></p><p class="subtle">后验为 Beta(k+h, k+100−h)；区间用正态近似均值 ± 1.96 倍标准差，仅供参考，精确可信区间应由 Beta 分位数给出。</p></div>
+<p>把 k 调大，先验的影响变强，后验均值会向 0.5 靠；把 k 调到 1（接近无信息先验），后验几乎只看数据。这就是“数据量 vs 先验强度”的拉锯。</p></section>
+<section class="section" id="practice"><h2>07 · 自我检查与可复现计算</h2>
+<p>下面用固定的先验与数据重现上面的共轭更新，并给出后验均值和 95% 可信区间。</p>
+<pre><code>from scipy import stats
 
-<h2>第22章 贝叶斯统计入门</h2>
-<p>大家好，我是你们的讲师。走到这一章，我们已经学过了 p 值、置信区间、假设检验——这些都属于<strong>频率学派</strong>（Frequentist）统计的范畴。但统计学还有另一大流派，近年来在 AI 和机器学习领域全面翻红：<strong>贝叶斯统计</strong>（Bayesian Statistics）。它的核心思想非常直观：在观测到数据之前，我们对某件事有一个"先验信念"；看到数据后，我们用数据更新这个信念，得到"后验信念"。这个"学习-更新"的循环，和人类认识世界的方式惊人地一致。这一章我们不做深度推导，重在理解贝叶斯思维的哲学和方法。</p>
-
-<h3>22.1 贝叶斯定理回顾：P(A|B) = P(B|A)P(A)/P(B)</h3>
-<p>贝叶斯统计的数学基础是一个简洁的概率公式：</p>
-<pre><code>P(A|B) = P(B|A) × P(A) / P(B)</code></pre>
-<p>换到统计学的语境中：</p>
-<ul>
-<li><strong>P(θ)</strong> 是<strong>先验概率</strong>（Prior）：在看到数据之前，我们认为参数 θ 取某个值的概率。</li>
-<li><strong>P(D|θ)</strong> 是<strong>似然</strong>（Likelihood）：如果参数 θ 是真的，我们观测到当前数据 D 的可能性。</li>
-<li><strong>P(θ|D)</strong> 是<strong>后验概率</strong>（Posterior）：看到数据后，我们对参数 θ 的更新信念。</li>
-<li><strong>P(D)</strong> 是<strong>边际似然</strong>（Marginal Likelihood），充当归一化常数。</li>
-</ul>
-
-<div class="tip">
-<strong>一句话总结：</strong>后验 = 先验 × 似然 / 归一化常数。或者更通俗地：<strong>更新后的信念 = 原有信念 × 数据的支持程度</strong>。
-</div>
-
-<h3>22.2 先验、似然、后验：贝叶斯更新的三部曲</h3>
-<p>假设你有一个硬币，想知道它是否公平。贝叶斯方法的做法是：</p>
-<ol>
-<li><strong>设定先验：</strong>在没有抛硬币之前，你认为硬币有 99% 的概率是公平的（p ≈ 0.5）——这是你的先验信念。</li>
-<li><strong>收集数据：</strong>你抛了 100 次，得到 60 次正面。计算似然——如果 p=0.5，看到 60/100 的概率；如果 p=0.6，看到 60/100 的概率。</li>
-<li><strong>更新后验：</strong>结合先验和似然，得到关于 p 的后验分布。后验分布是一个完整的分布，而不是一个单一的点估计——这意味着我们可以说"p 有 95% 的概率落在 0.52 到 0.68 之间"。</li>
-</ol>
-
-<p>频率学派则会说："如果 p 真的等于 0.5，那么看到 60/100 或更极端结果的概率（即 p 值）是 X。如果 X &lt; 0.05，我们拒绝 p=0.5 的假设。"请注意这里的微妙区别：贝叶斯在谈论的是"参数的概率"（p 在某个区间内的概率），而频率学派谈论的是"数据的概率"（在参数为真时看到这些数据的概率）。</p>
-
-<h3>22.3 频率学派 vs 贝叶斯学派：两种世界观</h3>
-
-<table>
-<thead><tr><th>维度</th><th>频率学派</th><th>贝叶斯学派</th></tr></thead>
-<tbody>
-<tr><td>概率的定义</td><td>长期频率：重复实验中事件发生的比例</td><td>信念程度：对某个命题的信任度</td></tr>
-<tr><td>参数</td><td>固定但未知的常数</td><td>随机变量，有自己的分布</td></tr>
-<tr><td>输出结果</td><td>点估计 + 置信区间 + p 值</td><td>后验分布（完整的概率描述）</td></tr>
-<tr><td>先验的使用</td><td>不使用（或尽量避免）</td><td>明确纳入先验信息</td></tr>
-<tr><td>置信区间的含义</td><td>重复抽样中 95% 的区间包含真值</td><td>参数有 95% 的概率落在该区间</td></tr>
-<tr><td>对小样本的适应性</td><td>差，依赖大样本渐近性质</td><td>好，可以通过先验注入信息</td></tr>
-</tbody>
-</table>
-
-<div class="highlight">
-<strong>哲学小辩论：</strong>如果你说"这个置信区间有 95% 的概率包含真值"，频率学派会纠正你——应该说"如果重复实验很多次，95% 的置信区间会包含真值"。这种区别看似咬文嚼字，但反映了深刻的哲学分歧。贝叶斯后验区间（Credible Interval）则可以直接解释为"参数有 95% 的概率在这个区间内"——这是大多数非统计人员直觉上想要的解释。
-</div>
-
-<h3>22.4 MCMC：从后验分布中采样</h3>
-<p>贝叶斯统计面临一个实际问题：后验分布通常没有解析解。也就是说，你没法用纸笔直接写出后验分布的具体公式。这就引出了 <strong>MCMC</strong>（Markov Chain Monte Carlo，马尔可夫链蒙特卡洛）方法。</p>
-<p>MCMC 的思路是：不需要知道后验的精确函数形式，只需要能从中<strong>采样</strong>就够了。通过构造一条马尔可夫链，让它的平稳分布等于目标后验分布，然后从链中收集样本。有了足够多的样本，我们就可以计算后验均值、分位数、可信区间等一切我们关心的量。</p>
-
-<pre><code>import numpy as np
-import matplotlib.pyplot as plt
-from scipy import stats
-
-# 简化版贝叶斯更新：抛硬币问题
-# 先验：Beta(2, 2) —— 认为硬币大致公平但不确定
-# 似然：二项分布 Binomial(n, p)
-# 后验：Beta(α + 正面数, β + 反面数)
-
-prior_a, prior_b = 2, 2  # 先验参数
-n_trials = 100
-heads = 60
-tails = n_trials - heads
-
-# 后验参数
+prior_a, prior_b = 2, 2          # 先验 Beta(2, 2)
+heads, n = 60, 100               # 100 次抛硬币，60 次正面
 post_a = prior_a + heads
-post_b = prior_b + tails
+post_b = prior_b + (n - heads)   # 后验 Beta(62, 42)
 
-# 生成后验分布样本
-posterior_samples = np.random.beta(post_a, post_b, 100000)
-
-print(f"后验均值: {posterior_samples.mean():.3f}")
-print(f"后验 95% 可信区间: "
-      f"{np.percentile(posterior_samples, 2.5):.3f} — "
-      f"{np.percentile(posterior_samples, 97.5):.3f}")
-
-# 可视化：先验 vs 后验
-x = np.linspace(0, 1, 1000)
-plt.plot(x, stats.beta.pdf(x, prior_a, prior_b),
-         label='先验 Beta(2,2)', linestyle='--')
-plt.plot(x, stats.beta.pdf(x, post_a, post_b),
-         label='后验 Beta(62,42)')
-plt.xlabel('硬币正面概率 p')
-plt.ylabel('概率密度')
-plt.legend()
-plt.title('贝叶斯更新：先验 → 后验')
-plt.show()</code></pre>
-
-<div class="warning">
-<strong>我的踩坑故事：</strong>第一次用贝叶斯方法分析一个临床试验数据时，我随手选了一个无信息先验（uniform prior），觉得这样"客观"。结果因为样本量小，后验分布非常宽，结论基本没什么意义。后来在同事的建议下，我加入了合理的"弱信息先验"（weakly informative prior）——从过往文献中提取了先验信息，后验分布立刻变得有说服力了。但我也见过有人<strong>恶意选择先验</strong>来操纵结果（例如选择极端先验让结果看起来更"显著"）。先验选择是一把双刃剑：合理的先验能注入有效信息，不合理的先验则可能掩盖真相。这就是所谓的 <strong>prior sensitivity</strong>（先验敏感性）问题——<strong>一定要做敏感性分析</strong>，看看不同的先验选择是否会导致结论变化。
-</div>
-
-<h3>22.5 为什么贝叶斯在 AI 时代翻红</h3>
-<p>过去几十年，频率学派统计由于计算简便，在学术界占据统治地位。但近年来贝叶斯方法全面复兴，原因包括：</p>
-<ul>
-<li><strong>计算能力的飞跃：</strong>MCMC、变分推理（Variational Inference）等方法的成熟，使得贝叶斯计算不再遥不可及。PyMC、Stan、TensorFlow Probability 等工具让贝叶斯建模变得空前简单。</li>
-<li><strong>深度学习中的贝叶斯：</strong>贝叶斯神经网络（BNN）、贝叶斯优化（Bayesian Optimization）、贝叶斯深度学习方法在不确定性量化方面表现出色，对 AI 安全、主动学习等场景至关重要。</li>
-<li><strong>A/B 测试与产品决策：</strong>贝叶斯方法可以自然地引入业务先验，并给出直观的分位数和概率陈述（例如"方案 A 有 87% 的概率优于方案 B"），而频率学派只能给出 p 值。</li>
-<li><strong>小样本学习和迁移学习：</strong>在数据稀缺的场景下，贝叶斯方法的先验机制天然适合迁移已有知识。</li>
-</ul>
-
-<div class="tip">
-<strong>推荐工具：</strong>如果你想深入实践贝叶斯统计，推荐试试 <strong>PyMC</strong>（Python 生态中的旗舰贝叶斯库）或 <strong>Stan</strong>（通过 cmdstanpy 调用）。它们的语法比手写 MCMC 友好得多，内部实现了 NUTS（No-U-Turn Sampler）等高效采样算法。PyMC 的官方示例库是一个宝贵的学习资源。
-</div>
-
-<p>这一章我们打开了贝叶斯统计的大门——从贝叶斯定理出发，理解了先验、似然、后验的三部曲，比较了频率学派和贝叶斯学派的世界观差异，了解了 MCMC 如何从后验中采样，并看到了贝叶斯方法在 AI 时代的复兴。下一章我们将回归实践，看看<strong>统计学工具链</strong>——在实际工作中如何组织数据分析项目、如何选择工具和技术栈。</p>
-
-<div class="footer-nav">
-<a href="21.html">← 上一章</a>
-<a href="index.html">📖 返回目录</a>
-<a href="23.html">下一章 →</a>
-</div>
-</div>
-</div>
-<footer>统计学教程 · 第22章 贝叶斯统计入门 · 用数据理解世界</footer>
-</div>
-</body>
-</html>
+dist = stats.beta(post_a, post_b)
+print("后验参数:", post_a, post_b)
+print("后验均值:", round(dist.mean(), 3))            # 约 0.596
+print("95% 可信区间:", [round(x, 3) for x in dist.interval(0.95)])
+# 约 [0.50, 0.69]（由 Beta 分位数给出）</code></pre>
+<p>换上不同的先验（如 Beta(1,1) 或 Beta(10,10)）重跑，看后验均值与区间怎么变，这就是一次最简的先验敏感性分析。</p>
+<div class="callout"><h3>自我检查</h3><p><strong>问题：</strong>有人报告“参数有 95% 概率落在 [0.2, 0.4]”，并称这就是某个频率学派置信区间。这样说合适吗？</p><p><strong>参考答案：</strong>不合适。“参数落在区间的概率”是贝叶斯可信区间的语言；频率学派的置信区间只能说“重复抽样中约 95% 的区间会覆盖真值”。两者数值可能接近，但不能互换解释。</p></div>
+<div class="callout warning"><h3>失败模式：只报一个先验</h3><p>只用一个先验、不检查结论对先验的敏感性，就无法区分结论是数据推动还是先验推动。至少用几个合理先验重跑，把后验变化一并报告。</p></div></section>
+<section class="section" id="refs"><h2>参考资料与延伸阅读</h2><ol class="sources"><li><a href="https://doi.org/10.1038/s43586-020-00001-2">van de Schoot 等 (2021), Nature Reviews Methods Primers</a>：贝叶斯方法综述与可复现建议。</li><li><a href="http://www.stat.columbia.edu/~gelman/book/">Gelman 等, Bayesian Data Analysis</a>：先验选择、层次模型与 MCMC 的权威教材。</li><li><a href="https://www.pymc.io/">PyMC 文档</a>：Python 贝叶斯建模与 NUTS 采样。</li><li><a href="https://mc-stan.org/">Stan 文档</a>：跨语言贝叶斯推断与诊断工具。</li><li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.beta.html">SciPy：scipy.stats.beta</a>：Beta 分布与分位数。</li></ol><p class="subtle">本章图形与抛硬币例子均为教学示意；共轭更新与后验均值公式来自上述公开资料。</p></section>
+<nav class="chapter-nav" aria-label="章节切换"><a href="21.html">← 方差分析（ANOVA）</a><a href="../index.html">课程目录</a><a href="23.html">统计学工具链 →</a></nav></article></main></div><script>(()=>{const pk=document.getElementById('prior-k'),po=document.getElementById('pk-out'),hh=document.getElementById('heads'),ho=document.getElementById('h-out'),out=document.getElementById('post-out');if(!pk||!hh||!out)return;const upd=()=>{const k=Number(pk.value),h=Number(hh.value),n=100;const a=k+h,b=k+(n-h);const mean=a/(a+b);const sd=Math.sqrt(a*b/((a+b)*(a+b)*(a+b+1)));const lo=Math.max(0,mean-1.96*sd),hi=Math.min(1,mean+1.96*sd);po.value=String(k);po.textContent=String(k);ho.value=String(h);ho.textContent=String(h);out.textContent='后验 Beta('+a+', '+b+') → 均值 '+mean.toFixed(3)+'，95% 近似可信区间 ['+lo.toFixed(3)+', '+hi.toFixed(3)+']'};pk.addEventListener('input',upd);hh.addEventListener('input',upd);upd()})();</script></body></html>

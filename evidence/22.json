@@ -1,0 +1,70 @@
+{
+  "chapter": "22",
+  "version": "2026-11-26",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "bayes-theorem",
+      "claim": "Bayes' theorem gives the posterior as proportional to the likelihood times the prior, P(theta|D) proportional to P(D|theta) P(theta)",
+      "kind": "reference",
+      "source_url": "http://www.stat.columbia.edu/~gelman/book/",
+      "locator": "Gelman et al., Bayesian Data Analysis, Chapter 1",
+      "status": "verified",
+      "notes": "Foundational updating rule"
+    },
+    {
+      "id": "beta-binomial",
+      "claim": "With a Beta(alpha,beta) prior and binomial data of h successes in n trials, the posterior is Beta(alpha+h, beta+n-h), a conjugate update",
+      "kind": "reference",
+      "source_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.beta.html",
+      "locator": "SciPy stats.beta; standard conjugate-prior result",
+      "status": "verified",
+      "notes": "Used for the coin example"
+    },
+    {
+      "id": "credible-vs-confidence",
+      "claim": "A Bayesian credible interval admits the statement that the parameter lies in the interval with a given posterior probability, unlike a frequentist confidence interval",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1038/s43586-020-00001-2",
+      "locator": "van de Schoot et al. (2021), Nature Reviews Methods Primers",
+      "status": "verified",
+      "notes": "Distinguishes the two interval interpretations"
+    },
+    {
+      "id": "mcmc",
+      "claim": "MCMC methods such as Metropolis-Hastings, Gibbs sampling and NUTS draw samples from a posterior that has no closed form, and require convergence diagnostics",
+      "kind": "reference",
+      "source_url": "https://mc-stan.org/",
+      "locator": "Stan documentation; PyMC documentation at https://www.pymc.io/",
+      "status": "verified",
+      "notes": "Motivates the MCMC section"
+    },
+    {
+      "id": "posterior-mean",
+      "claim": "The posterior mean for the Beta-binomial model equals (alpha+h)/(alpha+beta+n); for Beta(62,42) this is about 0.596 with a 95 percent interval near [0.50, 0.69]",
+      "kind": "derived",
+      "source_url": null,
+      "locator": "section 02 equations and section 07 code",
+      "status": "derived",
+      "notes": "Elementary Beta moments and quantiles; interval quoted approximately"
+    },
+    {
+      "id": "teaching-numbers",
+      "claim": "The 100-toss, 60-heads example and the density curves are constructed teaching numbers",
+      "kind": "model",
+      "source_url": null,
+      "locator": "header example, sections 02 and 06",
+      "status": "illustrative",
+      "notes": "Not an empirical dataset"
+    },
+    {
+      "id": "figures",
+      "claim": "The Bayesian updating flow chart and the prior-versus-posterior density sketch are teaching diagrams prepared for this lesson",
+      "kind": "figure",
+      "source_url": null,
+      "locator": "figures 1-2",
+      "status": "illustrative",
+      "notes": "Schematic, not to scale"
+    }
+  ]
+}
