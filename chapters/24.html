@@ -31,7 +31,7 @@
 <table class="data-table"><caption>对数房价模型的系数解释（教学示意）</caption><thead><tr><th>特征</th><th>示意系数 β</th><th>解释</th></tr></thead><tbody><tr><td>整体质量评分 +1</td><td>0.157</td><td>价格中位数约 +17%（(e^0.157−1)×100）</td></tr><tr><td>总面积 +100 平方英尺</td><td>0.002</td><td>价格中位数约 +0.2%（需按实际量纲换算）</td></tr><tr><td>厨房质量 一般→良好</td><td>0.09</td><td>价格中位数约 +9.4%</td></tr><tr><td>建筑年份 +10 年</td><td>0.04</td><td>价格中位数约 +4.1%</td></tr></tbody></table>
 <p>读这类结果时有三个固定提醒：</p>
 <ol class="process"><li><strong>单位要对：</strong>系数是“每增加一个单位”的效果，上表的面积项必须乘 100 才能对上“100 平方英尺”。</li><li><strong>是条件关联，不是因果：</strong>“控制其他变量后”不等于“改变这一个变量就会涨价”，除非有随机化或可信的识别策略（第 27 章）。</li><li><strong>是示意，不是事实：</strong>表中数值为教学构造，不能作为任何市场的真实溢价。</li></ol>
-<div class="callout"><h3>业务建议要带上不确定性</h3><p>“提升整体质量能提价”这句话必须配上区间与代价：提升到什么程度、需要多少成本、置信区间多宽。只报“系数显著为正”而不报区间与成本，不是可执行的建议。</p></section>
+<div class="callout"><h3>业务建议要带上不确定性</h3><p>“提升整体质量能提价”这句话必须配上区间与代价：提升到什么程度、需要多少成本、置信区间多宽。只报“系数显著为正”而不报区间与成本，不是可执行的建议。</p></div></section>
 <section class="section" id="practice"><h2>07 · 自我检查与可复现计算</h2>
 <p>把“对数目标 + 系数反变换”手算一遍：β = 0.16 时，<span class="math-inline"><math aria-label="e 的零点一六次方减一"><mrow><msup><mi>e</mi><mn>0.16</mn></msup><mo>−</mo><mn>1</mn></mrow></math></span> ≈ 0.1735，即约 +17.4%。下面的代码在一个合成数据上重现这个过程。</p>
 <pre><code>import numpy as np
