@@ -1,257 +1,63 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>第28章 综合项目：从问题到结论</title>
-    <link rel="stylesheet" href="theme.css">
-    <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { background: linear-gradient(135deg, #f5f3ff 0%, #e8f5f0 100%); font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', Roboto, 'Helvetica Neue', sans-serif; padding: 20px; }
-.double-border { max-width: 1400px; margin: 0 auto; background: #ffffff; border: 2px solid #8b5cf6; border-radius: 24px; box-shadow: 0 20px 30px -15px rgba(0,0,0,0.2), inset 0 1px 0 0 #f5f3ff; overflow: hidden; }
-.container { display: grid; grid-template-columns: 260px 1fr; gap: 0; }
-.sidebar { background: #faf8ff; border-right: 2px solid #c4b5fd; padding: 24px 16px; }
-.sidebar h3 { font-size: 1.4rem; color: #6d28d9; border-left: 5px solid #8b5cf6; padding-left: 15px; margin-bottom: 25px; }
-.chapter-list { list-style: none; }
-.chapter-list li { margin-bottom: 6px; }
-.chapter-list a { display: block; padding: 8px 12px; text-decoration: none; color: #334155; border-radius: 12px; transition: all 0.2s; font-weight: 500; font-size: 0.92rem; }
-.chapter-list a:hover { background: #ede9fe; transform: translateX(3px); }
-.chapter-list .active { background: #7c3aed; color: white; box-shadow: 0 2px 5px rgba(124,58,237,0.3); }
-.main-content { padding: 30px 35px; background: white; }
-.footer-nav { margin-top: 45px; padding-top: 20px; border-top: 2px solid #c4b5fd; display: flex; justify-content: space-between; }
-.footer-nav a { padding: 8px 24px; background: #f1f5f9; text-decoration: none; color: #5b21b6; border-radius: 40px; font-weight: 500; transition: 0.2s; }
-.footer-nav a:hover { background: #ede9fe; transform: translateY(-2px); }
-footer { text-align: center; margin-top: 30px; padding: 15px; color: #64748b; border-top: 1px dashed #c4b5fd; font-size: 0.9rem; }
-h2 { color: #4c1d95; border-left: 6px solid #8b5cf6; padding-left: 15px; margin: 20px 0 15px; font-size: 1.5rem; }
-h3 { color: #5b21b6; margin: 20px 0 10px; font-size: 1.2rem; }
-h4 { color: #6d28d9; margin: 15px 0 8px; font-size: 1.05rem; }
-p { line-height: 1.85; margin: 10px 0; color: #1e293b; }
-ul, ol { margin: 10px 0 10px 20px; line-height: 1.8; }
-li { color: #1e293b; margin-bottom: 4px; }
-pre { background: #1e1035; color: #e8e8f0; padding: 15px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', monospace; margin: 15px 0; font-size: 0.9rem; line-height: 1.5; }
-code { background: #f5f3ff; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
-pre code { background: none; padding: 0; }
-table { width: 100%; border-collapse: collapse; margin: 15px 0; background: #fafafe; }
-th, td { border: 1px solid #c4b5fd; padding: 10px; text-align: left; }
-th { background: #f5f3ff; color: #5b21b6; font-weight: 600; }
-.tip, .warning, .highlight { padding: 12px 18px; border-radius: 16px; margin: 15px 0; line-height: 1.7; }
-.tip { background: #e0f2fe; border-left: 6px solid #0ea5e9; }
-.warning { background: #fee2e2; border-left: 6px solid #ef4444; }
-.highlight { background: #fef9c3; border: 1px solid #facc15; }
-strong { color: #1e1b4b; }
-@media (max-width: 768px) { .container { grid-template-columns: 1fr; } .sidebar { border-right: none; border-bottom: 2px solid #c4b5fd; } body { padding: 10px; } .main-content { padding: 20px; } }
-    </style>
-</head>
-<body>
-<div class="double-border">
-<div class="container">
-    <div class="sidebar">
-        <h3>📊 课程目录</h3>
-        <ul class="chapter-list">
-            <li><a href="01.html">第1章 什么是统计学</a></li>
-            <li><a href="02.html">第2章 数据的类型与来源</a></li>
-            <li><a href="03.html">第3章 描述统计（一）</a></li>
-            <li><a href="04.html">第4章 描述统计（二）</a></li>
-            <li><a href="05.html">第5章 数据可视化基础</a></li>
-            <li><a href="06.html">第6章 概率基础</a></li>
-            <li><a href="07.html">第7章 常见概率分布</a></li>
-            <li><a href="08.html">第8章 抽样与抽样分布</a></li>
-            <li><a href="09.html">第9章 点估计与区间估计</a></li>
-            <li><a href="10.html">第10章 假设检验入门</a></li>
-            <li><a href="11.html">第11章 常见假设检验</a></li>
-            <li><a href="12.html">第12章 统计功效与样本量</a></li>
-            <li><a href="13.html">第13章 相关分析</a></li>
-            <li><a href="14.html">第14章 简单线性回归</a></li>
-            <li><a href="15.html">第15章 p值与统计显著性危机</a></li>
-            <li><a href="16.html">第16章 多重比较与谬误</a></li>
-            <li><a href="17.html">第17章 因果推断基础</a></li>
-            <li><a href="18.html">第18章 统计伦理与最佳实践</a></li>
-            <li><a href="19.html">第19章 多元线性回归</a></li>
-            <li><a href="20.html">第20章 逻辑回归</a></li>
-            <li><a href="21.html">第21章 方差分析（ANOVA）</a></li>
-            <li><a href="22.html">第22章 贝叶斯统计入门</a></li>
-            <li><a href="23.html">第23章 统计学工具链</a></li>
-            <li><a href="24.html">第24章 真实数据分析实战</a></li>
-            <li><a href="25.html">第25章 A/B测试实战</a></li>
-            <li><a href="26.html">第26章 机器学习中的统计学</a></li>
-            <li><a href="27.html">第27章 现代因果推断</a></li>
-            <li><a href="28.html" class="active">第28章 综合项目：从问题到结论</a></li>
-        </ul>
-    </div>
-    <div class="main-content">
-        <h2>第28章：综合项目——从问题到结论</h2>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="把统计方法串成一条完整研究流程：从可检验的问题、预先注册的研究设计，到探索、建模、诊断、混杂校正，以及如何诚实报告不确定性、局限与失败模式。"><title>28 综合项目：从问题到结论的完整流程 | Statistics Lab</title><link rel="stylesheet" href="../assets/css/article.css"></head><body><a class="skip-link" href="#content">跳转到正文</a><nav class="topbar" aria-label="章节导航"><a href="../index.html">← Statistics Lab / 课程目录</a><span class="trail">28 / 28 · 实战与拓展</span></nav><div class="article-layout"><nav class="toc" aria-label="本文目录"><h2>本篇路径</h2><a href="#question">01 · 从模糊的好奇到可检验的问题</a><a href="#design">02 · 研究设计：先写假设，再碰数据</a><a href="#analyze">03 · 分析流程：探索、建模、诊断</a><a href="#confound">04 · 混杂的例子：运动与 BMI</a><a href="#report">05 · 报告：诚实呈现不确定性与局限</a><a href="#demo">06 · 动手：调整前后差在哪</a><a href="#practice">07 · 自我检查与可复现计算</a><a href="#refs">参考资料与延伸阅读</a></nav><main id="content"><article><header class="article-header"><div class="kicker">Chapter 28 · End-to-end project</div><h1>综合项目：从问题到结论的完整流程</h1><p class="dek">前 27 章给了你工具。真正做项目时，决定结论质量的往往不是某个检验选得对不对，而是那些更早的决定：问题问得清不清楚、数据能不能回答它、分析计划有没有提前写下来。</p><div class="question"><strong>贯穿案例：</strong>一个数据集记录了 2000 人的运动频率与 BMI。想回答“运动是否影响 BMI”，直接跑一个相关或回归就够了吗？如果年龄既影响运动、也影响 BMI，简单分析会告诉我们什么？</div></header>
+<section class="section" id="question"><h2>01 · 从模糊的好奇到可检验的问题</h2>
+<p class="lede">“运动到底有没有用”不是一个统计问题，因为它无法被数据否定。研究的第一步，是把好奇改写成<strong>一个可量化、有对比、能被数据反驳</strong>的问题。好的研究问题通常具备三个特征：<strong>可量化</strong>（能定义出具体的变量与单位）、<strong>有对比</strong>（至少两个可比较的情形）、<strong>有不确定性</strong>（答案不是显而易见，否则不需要统计）。</p>
+<p>把例子改一下：“在控制年龄与性别后，每周多运动一天，成年人的 BMI 平均变化多少？”——这句话已经隐含了变量、对比与一个需要估计的参数。接下来的所有工作，都是围绕它展开。</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360" role="img" aria-labelledby="flow-t flow-d"><title id="flow-t">从问题到结论的七个环节及其反馈循环</title><desc id="flow-d">七个环节自上而下：提出可检验的问题、写成假设与设计、采集或获取数据、探索性分析、建模与估计、诊断与稳健性检验、报告与结论。诊断不通过时可回到建模，探索中发现新问题时也可回到问题定义。</desc><rect width="900" height="360" rx="15" fill="#fff"/><g font-family="system-ui,-apple-system,'PingFang SC',sans-serif"><text x="36" y="40" font-size="19" font-weight="750" fill="#294b50">研究不是一步到位，而是带反馈的七个环节</text><g><rect x="180" y="66" width="540" height="30" rx="8" fill="#e7f4f0" stroke="#147f80"/><text x="200" y="86" font-size="13" fill="#147f80">1 可检验的问题</text><rect x="180" y="102" width="540" height="30" rx="8" fill="#fff" stroke="#92acaa"/><text x="200" y="122" font-size="13" fill="#31555a">2 假设与预注册的研究设计</text><rect x="180" y="138" width="540" height="30" rx="8" fill="#fff" stroke="#92acaa"/><text x="200" y="158" font-size="13" fill="#31555a">3 采集或获取数据（记录来源与局限）</text><rect x="180" y="174" width="540" height="30" rx="8" fill="#fff" stroke="#92acaa"/><text x="200" y="194" font-size="13" fill="#31555a">4 探索性分析（图表优先）</text><rect x="180" y="210" width="540" height="30" rx="8" fill="#fff" stroke="#92acaa"/><text x="200" y="230" font-size="13" fill="#31555a">5 建模与估计（含区间）</text><rect x="180" y="246" width="540" height="30" rx="8" fill="#fff" stroke="#92acaa"/><text x="200" y="266" font-size="13" fill="#31555a">6 诊断与稳健性检验</text><rect x="180" y="282" width="540" height="30" rx="8" fill="#e7f4f0" stroke="#147f80"/><text x="200" y="302" font-size="13" fill="#147f80">7 报告与结论（含局限）</text></g><path d="M720 81C790 81 790 296 720 296" fill="none" stroke="#c06d4c" stroke-width="2" stroke-dasharray="6 5"/><text x="770" y="196" font-size="12" fill="#c06d4c" text-anchor="middle" transform="rotate(90 770 196)">诊断不通过 / 发现新问题：回上一步</text><text x="36" y="340" font-size="12" fill="#597477">顺序很重要：先写假设与设计，再看数据；反过来“先看图再补假设”就是第 15 章的 HARKing。</text></g></svg><figcaption><strong>图 1 · 流程本身防止一类错误。</strong>把设计写在前面、把反馈回路画出来，才能避免“看到哪个结果显著，就回去把它包装成事先的假设”。每个环节都应留下可复核的记录：数据来源、分析脚本、分析计划。</figcaption></figure>
+</section>
+<section class="section" id="design"><h2>02 · 研究设计：先写假设，再碰数据</h2>
+<p>初学者最容易跳过这一步——拿到现成数据就直接跑模型。这就像没有地基就盖楼。研究设计要事先回答五个问题，而它们的答案必须写在看到结果之前：</p>
+<ol class="process"><li><strong>假设是什么？</strong>把零假设 H₀ 与备择假设 H₁ 写清楚，并指明是单侧还是双侧。</li><li><strong>数据从哪里来？</strong>实验还是观测？若是观测数据，哪些变量可能混杂，怎么处理？</li><li><strong>样本量够吗？</strong>用第 12 章的功效分析，给出能检出的最小效应与相应样本量。</li><li><strong>分析什么？</strong>描述用哪些图表、推断用哪个检验或模型、是否需要控制变量。</li><li><strong>能不能预先注册？</strong>把分析计划公开记录，减少选择性报告与 p-hacking。</li></ol>
+<p>把设计写下来还有一层好处：它迫使你把“问题”翻译成“可执行的分析”——变量怎么定义、样本怎么纳入、缺失怎么处理、主分析之外还会做哪些敏感性分析。一个被严重低估的技巧是：<strong>在接触真实数据之前，先生成一批模拟数据把分析流程跑通</strong>，用它验证方法是否合适、样本量是否够、代码有没有错。</p>
+<div class="callout warning"><h3>失败模式：用结果反推设计</h3><p>“先跑十种模型，挑出显著的那个，再补一段‘我们假设……’”会系统性抬高假阳性。预注册与多重比较校正（第 16 章）正是为对付这类做法而存在。</p></div>
+</section>
+<section class="section" id="analyze"><h2>03 · 分析流程：探索、建模、诊断</h2>
+<p>数据到手后，流程分三步，每一步都有它不能跳过的交付物：</p>
+<ol class="process"><li><strong>探索性分析（EDA）：</strong>先看单变量分布、缺失、异常值，再看变量间的关系。图表优先，因为数字摘要会掩盖曲率与聚类（第 5 章）。</li><li><strong>建模与估计：</strong>根据问题选模型，报告系数（或效应量）<strong>及其置信区间</strong>，而不只报一个点估计与 p 值。</li><li><strong>诊断与稳健性：</strong>检查残差是否近似正态、是否异方差、是否自相关；再用不同模型、子样本或不同假设重跑，看结论是否稳定。</li></ol>
+<table class="data-table"><caption>各阶段的交付物与检查要点</caption><thead><tr><th>阶段</th><th>交付物</th><th>检查要点</th></tr></thead><tbody><tr><td>探索</td><td>分布图、关系图</td><td>有异常值吗？有混合群组吗？</td></tr><tr><td>建模</td><td>系数、标准误、置信区间</td><td>假设满足吗？效应量多大？</td></tr><tr><td>诊断</td><td>残差图、Q–Q 图、诊断统计量</td><td>正态、等方差、无自相关？</td></tr><tr><td>稳健性</td><td>敏感性分析与替代模型</td><td>结论稳定吗？替代解释能排除吗？</td></tr></tbody></table>
+<p>下一步用一个具体例子，把“探索→建模→诊断”走完，并看一个最常见也最容易被忽视的陷阱：混杂。</p>
+</section>
+<section class="section" id="confound"><h2>04 · 混杂的例子：运动与 BMI</h2>
+<p>回到贯穿案例。年龄既可能与运动频率相关（年轻人运动更多），又影响 BMI（新陈代谢不同），因此它是一条混杂路径。把变量关系画成有向无环图（DAG），能把“控制什么”从直觉变成可讨论的结构：</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="330" viewBox="0 0 900 330" role="img" aria-labelledby="dag-t dag-d"><title id="dag-t">年龄作为混杂变量的有向无环图</title><desc id="dag-d">年龄同时指向运动频率与 BMI，运动频率又指向 BMI。年龄是一条后门路径，若不控制它，运动与 BMI 的关联会混入年龄的影响。</desc><rect width="900" height="330" rx="15" fill="#fff"/><g font-family="system-ui,-apple-system,'PingFang SC',sans-serif"><text x="36" y="40" font-size="19" font-weight="750" fill="#294b50">年龄开了一道“后门”：不控制它，关联就不是效应</text><rect x="120" y="220" width="180" height="56" rx="12" fill="#e7f4f0" stroke="#147f80"/><text x="210" y="254" text-anchor="middle" font-size="15" font-weight="700" fill="#147f80">运动天数</text><rect x="600" y="220" width="180" height="56" rx="12" fill="#e7f4f0" stroke="#147f80"/><text x="690" y="254" text-anchor="middle" font-size="15" font-weight="700" fill="#147f80">BMI</text><rect x="360" y="80" width="180" height="56" rx="12" fill="#fae9e1" stroke="#c06d4c"/><text x="450" y="114" text-anchor="middle" font-size="15" font-weight="700" fill="#c06d4c">年龄</text><g stroke="#c06d4c" stroke-width="2.4" fill="none"><path d="M410 136L260 220"/><path d="M490 136L660 220"/></g><path d="M490 136l-2 11M410 136l2 11" stroke="#c06d4c" stroke-width="2.4"/><path d="M300 248h300" stroke="#147f80" stroke-width="3"/><path d="M600 248l-11-5v10z" fill="#147f80"/><text x="450" y="240" text-anchor="middle" font-size="13" font-weight="700" fill="#147f80">要估计的因果效应</text><text x="300" y="200" font-size="12" fill="#c06d4c">后门路径</text><text x="36" y="306" font-size="12" fill="#597477">陶土色为混杂路径，青色为要估计的效应；控制年龄（或在设计中固定它）即可堵住后门。</text></g></svg><figcaption><strong>图 2 · 先画图，再决定控制什么。</strong>把年龄作为协变量放进模型，相当于堵住了年龄这条后门路径；若不控制，运动与 BMI 的关联里就混着年龄的影响。DAG 的价值在于把“该不该控制某个变量”变成图上可检查的问题。</figcaption></figure>
+<p>把控制年龄、性别后的模型写出来，目标参数是运动天数对应的系数：</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="BMI 等于截距加运动系数乘运动天数加年龄系数乘年龄加性别系数乘性别加误差，可横向滚动"><math display="block" aria-label="BMI 等于截距加运动系数乘运动天数加年龄系数乘年龄加性别系数乘性别加误差"><mrow><msub><mi>BMI</mi><mi>i</mi></msub><mo>=</mo><msub><mi>&#946;</mi><mn>0</mn></msub><mo>+</mo><msub><mi>&#946;</mi><mn>1</mn></msub><mo>&#8901;</mo><msub><mi>exercise</mi><mi>i</mi></msub><mo>+</mo><msub><mi>&#946;</mi><mn>2</mn></msub><mo>&#8901;</mo><msub><mi>age</mi><mi>i</mi></msub><mo>+</mo><msub><mi>&#946;</mi><mn>3</mn></msub><mo>&#8901;</mo><msub><mi>gender</mi><mi>i</mi></msub><mo>+</mo><msub><mi>&#949;</mi><mi>i</mi></msub></mrow></math></div><div class="eq-caption">式 1</div></div>
+<p>而只用运动一个变量的“朴素”回归，会得到一个被污染的系数。在简化情形下，两者的差距约等于“年龄对 BMI 的效应 × 年龄与运动的关联”：</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="朴素系数约等于真实运动系数加上年龄对BMI的效应乘以年龄与运动的相关，可横向滚动"><math display="block" aria-label="朴素系数约等于真实运动系数加上偏倚项"><mrow><msub><mover><mi>&#946;</mi><mo>&#94;</mo></mover><mn>1</mn></msub><mo>&#8776;</mo><msub><mi>&#946;</mi><mn>1</mn></msub><mo>+</mo><msub><mi>&#947;</mi><mn>2</mn></msub><mo>&#8901;</mo><msub><mi>&#948;</mi><mn>1</mn></msub></mrow></math></div><div class="eq-caption">式 2</div></div>
+<p>这里 <em>&#946;<sub>1</sub></em> 是真实的运动效应，<em>&#947;<sub>2</sub></em> 是年龄对 BMI 的效应，<em>&#948;<sub>1</sub></em> 是年龄与运动的关联。只要这两项都不为零，不控制的估计就有偏——哪怕样本量再大。</p>
+<div class="callout warning"><h3>失败模式：把“调整后的相关”当成因果</h3><p>控制变量也不是越多越好：控制一个“处理后变量”或“共同结果”，反而会引入新的偏倚。判断该控制什么，靠的是对数据生成机制的理解与 DAG，而不是把所有列都丢进模型。</p></div>
+</section>
+<section class="section" id="report"><h2>05 · 报告：诚实呈现不确定性与局限</h2>
+<p>分析完成不等于项目完成。一份能被信任的报告，核心不是把图表做得好看，而是让读者能判断“这个结论能推到什么范围”。四条原则：</p>
+<ul><li><strong>结论先行：</strong>把“发现了什么”放在最前面，方法与细节放后面；决策者需要先知道答案。</li><li><strong>用区间而非单点：</strong>报告效应量及其置信区间，不把注意力全给 p 值（第 9、15 章）。</li><li><strong>诚实面对不确定性：</strong>结论不能比数据支持的更强；主动写出局限、替代解释与未排除的威胁。</li><li><strong>知道受众：</strong>给决策者的报告需要行动建议与可视化，给同行的报告需要方法细节与诊断。</li></ul>
+<div class="callout"><h3>报告自查清单</h3><p>你的报告是否回答了：（1）为什么问这个问题？（2）数据来自哪里、有什么局限？（3）用了什么方法、为什么？（4）发现了什么，不确定性多大？（5）这意味着什么、应做什么？（6）还有哪些替代解释与未排除的威胁？</p></div>
+<p>最后一步往往被忽略：把数据、脚本与版本一并归档，让别人能重跑。第 23 章讲过，不能复现的结论，只能算“一次性表演”。</p>
+</section>
+<section class="section" id="demo"><h2>06 · 动手：调整前后差在哪</h2>
+<p>下面的计算器用公式 2 演示未观测的混杂会把真实效应扭曲多少。这里固定真实运动效应为 −0.5（每周多运动一天、BMI 降低 0.5），只让你改变混杂强度。它只做乘法与加法，不含随机模拟。</p>
+<div class="demo"><h3>混杂偏倚计算器</h3><label for="gamma">年龄对 BMI 的效应 &#947;：<output id="gamma-out" for="gamma">1.0</output></label><input id="gamma" type="range" min="0" max="3" step="0.1" value="1"><label for="delta">年龄与运动的关联 &#948;：<output id="delta-out" for="delta">0.6</output></label><input id="delta" type="range" min="0" max="1" step="0.05" value="0.6"><p class="demo-output" id="bias-out" aria-live="polite"></p><p class="subtle">即使 &#947;、&#948; 都为负，只要两者同号，偏倚项 &#947;&#8901;&#948; 也可能为正；偏倚的方向由两个关联的符号乘积决定。</p></div>
+</section>
+<section class="section" id="practice"><h2>07 · 自我检查与可复现计算</h2>
+<p>下面这段代码只用标准库，完全确定性，可以手算核对。它构造一份无随机噪声的合成数据（数据生成时真实运动系数固定为 −0.5），分别算“只看运动”与“控制年龄后”的斜率：</p>
+<pre><code>ages = [25, 30, 35, 40, 45, 50, 55, 60]
+pert = [0.3, -0.2, 0.1, -0.3, 0.2, -0.1, 0.3, -0.2]
+exercise = [round(3 - 0.05*(a-40) + p, 2) for a, p in zip(ages, pert)]
+bmi = [round(28 - 0.5*e + 0.05*(a-40), 3) for a, e in zip(ages, exercise)]
 
-        <p>大家好，我是你们的讲师。欢迎来到本课程的最后一章。经过前面27章的跋涉，你已经掌握了从描述统计到因果推断的完整知识体系。但知识本身不是终点——能够用这些知识解决真实问题，才是我们学习统计学的真正目的。</p>
+def ols(xs, ys):                     # 一元最小二乘：返回斜率与截距
+    mx, my = sum(xs)/len(xs), sum(ys)/len(ys)
+    b = sum((x-mx)*(y-my) for x, y in zip(xs, ys)) / sum((x-mx)**2 for x in xs)
+    return b, my - b*mx
 
-        <p>这一章，我们将完整走一遍数据分析项目的流程：从选题到研究设计，从数据采集分析到报告撰写。更重要的是，我们将通过一个真实的数据分析案例，展示在项目过程中可能遇到的"坑"以及如何调整方向。最后，我会为整个课程做一个总结——这不仅是课程的结束，更希望你统计思维的开始。</p>
+def resid(xs, ys):                   # 对 xs 回归后的残差（用于 FWL）
+    b, a = ols(xs, ys)
+    return [y - (a + b*x) for x, y in zip(xs, ys)]
 
-        <h3>28.1 项目选题指南：什么是一个好的统计问题</h3>
-
-        <p>最常被问的问题："老师，我没有数据，怎么开始？"我的回答是：<strong>先有问题，再找数据</strong>。好的统计项目始于一个有趣的问题。什么样的问题是"好"的？这里有一些标准：</p>
-
-        <ul>
-            <li><strong>可量化（Quantifiable）</strong>：你的问题应该能用数字回答。"哪门课更好"不如"哪门课的学生平均成绩更高"。</li>
-            <li><strong>有对比（Comparable）</strong>：对比是统计学的灵魂。"A和B有什么不同"、"这种处理有效果吗"。</li>
-            <li><strong>有不确定性（Uncertain）</strong>：如果答案一目了然，就不需要统计学了。好的问题应该有不确定性，需要数据来给出答案。</li>
-            <li><strong>可操作（Actionable）</strong>：最好的统计问题能帮助人们做决策。"我们应该用A策略还是B策略"、"这个政策是否应该继续推广"。</li>
-        </ul>
-
-        <p>选题案例：</p>
-        <ul>
-            <li>入门级："这个城市的气温在十年间是否显著上升了？"（时间序列+假设检验）</li>
-            <li>进阶级："线上教学和线下教学哪种方式对学生成绩提升更大？"（A/B测试+因果推断）</li>
-            <li>挑战级："哪些因素最能预测用户流失？"（逻辑回归+特征选择）</li>
-        </ul>
-
-        <h3>28.2 研究设计：从问题到数据收集</h3>
-
-        <p>选题之后，最重要但最容易被忽视的一步是<strong>研究设计</strong>。很多初学者跳过了这一步，直接开始分析已有数据——这就像在没有地基的土地上盖房子。</p>
-
-        <p>研究设计要回答的关键问题：</p>
-        <ul>
-            <li><strong>你的假设是什么？</strong> 清晰写出零假设H₀和备择假设H₁。</li>
-            <li><strong>数据从哪里来？</strong> 实验（Experiment）还是观测（Observational）？如果观测数据中有混杂变量，如何控制？</li>
-            <li><strong>样本量够吗？</strong> 用第12章讲的功效分析（Power Analysis）来评估。</li>
-            <li><strong>分析方法是什么？</strong> 描述统计用什么图表？推断统计用什么检验？是否需要回归建模？</li>
-            <li><strong>预先注册（Pre-registration）？</strong> 如果可以，把分析计划公开记录，避免p-hacking。</li>
-        </ul>
-
-        <div class="tip">
-            <strong>💡 讲师提示：</strong> 有一个被严重低估的技巧：<strong>分析模拟数据</strong>。在接触真实数据之前，先根据你的假设生成模拟数据，在上面跑通分析流程。这能帮你：(1) 验证方法是否合适；(2) 确定需要的样本量；(3) 提前发现潜在的问题。我在做任何项目之前都做这一步。
-        </div>
-
-        <h3>28.3 数据分析流程：探索、建模、诊断</h3>
-
-        <p>这里我用一个实际案例带你走一遍完整流程。假设我们想研究："<strong>运动频率是否影响BMI</strong>"。我们有一个包含2000人运动习惯和BMI的观测数据集。</p>
-
-        <p><strong>第一步：探索性数据分析（EDA）</strong></p>
-
-        <pre><code>import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from scipy import stats
-
-# 模拟数据
-np.random.seed(42)
-n = 2000
-age = np.random.normal(35, 12, n).clip(18, 80)
-gender = np.random.binomial(1, 0.5, n)
-exercise_days = np.random.poisson(3, n).clip(0, 7)
-# 真实关系：运动越多BMI越低（因果效应约-0.5 per day）
-bmi = 28 - 0.5 * exercise_days + 0.05 * (age - 35) + 2 * gender + np.random.normal(0, 3, n)
-
-df = pd.DataFrame({'age': age, 'gender': gender,
-                   'exercise': exercise_days, 'bmi': bmi})
-print("=== 数据概览 ===")
-print(df.describe())
-print("\n=== 按运动分组 ===")
-df['ex_group'] = pd.cut(df['exercise'], bins=[-1, 1, 3, 5, 8],
-                        labels=['low', 'medium', 'high', 'very_high'])
-print(df.groupby('ex_group')['bmi'].describe())
-
-# 可视化
-fig, axes = plt.subplots(1, 2, figsize=(12, 4))
-axes[0].scatter(df['exercise'], df['bmi'], alpha=0.3)
-axes[0].set_xlabel('运动天数/周'); axes[0].set_ylabel('BMI')
-sns.boxplot(x='ex_group', y='bmi', data=df, ax=axes[1])</code></pre>
-
-        <p><strong>第二步：统计建模与推断</strong></p>
-
-        <pre><code>import statsmodels.api as sm
-
-# 简单线性回归
-X = sm.add_constant(df[['exercise']])
-model1 = sm.OLS(df['bmi'], X).fit()
-print(model1.summary())
-# 输出可能显示运动对BMI有显著负效应
-
-# 控制混杂变量（年龄、性别）
-X2 = sm.add_constant(df[['exercise', 'age', 'gender']])
-model2 = sm.OLS(df['bmi'], X2).fit()
-print(model2.summary())
-# 控制后，运动系数可能变化——因为年龄和性别既是BMI的预测因子，
-# 也与运动频率相关。这是混杂偏倚的校正。</code></pre>
-
-        <p><strong>第三步：模型诊断</strong></p>
-
-        <pre><code># 检查残差
-residuals = model2.resid
-sm.qqplot(residuals, line='s')
-plt.title('Q-Q图：检查正态性')
-
-# 检查异方差
-plt.scatter(model2.fittedvalues, residuals)
-plt.axhline(y=0, color='r', linestyle='--')
-plt.xlabel('拟合值'); plt.ylabel('残差')
-
-# Durbin-Watson检验自相关
-from statsmodels.stats.stattools import durbin_watson
-print(f"Durbin-Watson: {durbin_watson(residuals):.3f}")
-# 接近2说明无自相关</code></pre>
-
-        <div class="warning">
-            <strong>⚠️ 踩坑故事：</strong> 几年前我做了一个类似的项目，初步分析显示运动频率和BMI之间存在显著负相关。我兴高采烈地想："运动果然能降低BMI！"但一个审稿人让我检查年龄的影响。当我控制了年龄之后，运动的效应下降了近40——因为年轻人不仅运动更多，BMI也天然更低（新陈代谢快）。如果不控制年龄，效果估计是有偏的。更糟糕的是，我一开始甚至没有考虑性别这个混杂因素。这个故事告诉我们：<strong>因果关系不能仅靠回归系数来确定</strong>。务必思考数据生成机制，绘制有向无环图（DAG），识别所有可能的混杂变量。这也是为什么我在课程一开始就强调"相关不等于因果"——即使是用回归模型，如果不控制正确的混杂变量，你也只是得到了"调整后的相关"而非因果。
-        </div>
-
-        <h3>28.4 报告撰写：如何讲好数据故事</h3>
-
-        <p>分析完成不等于项目完成。<strong>如果不能有效地传达你的发现，再好的分析也没有价值</strong>。这是很多技术出身的同学最容易忽视的点。</p>
-
-        <p>数据报告的几个核心原则：</p>
-        <ul>
-            <li><strong>结论先行</strong>：不要把"我做了什么分析"放在前面，把"我的核心发现"放在最前面。决策者需要先知道答案，再决定要不要了解过程。</li>
-            <li><strong>一张图胜过千言万语</strong>：精心设计的可视化比任何文字都更有说服力。但注意：不要用3D饼图、彩虹色等"图表垃圾"（Chart Junk）。</li>
-            <li><strong>诚实面对不确定性</strong>：报告的结论不应该比数据能支持的更强。用置信区间替代点估计，用多个模型验证核心结论，坦诚讨论局限性。</li>
-            <li><strong>知道你的受众</strong>：给CEO看的报告和给统计学期刊写的论文完全不同。前者需要行动建议，后者需要方法细节。</li>
-        </ul>
-
-        <div class="highlight">
-            <strong>📌 报告撰写检查清单：</strong> 你是否回答了以下问题？(1) 我为什么要问这个问题？（背景）(2) 我的数据来自哪里，有什么局限性？（数据透明度）(3) 我用了什么方法，为什么？（方法选择依据）(4) 我发现了什么？（结果）(5) 这个发现意味着什么？应该采取什么行动？（讨论和建议）(6) 有哪些可能的替代解释？（局限性）
-        </div>
-
-        <table>
-            <tr><th>阶段</th><th>任务</th><th>交付物</th><th>检查要点</th></tr>
-            <tr><td>选题</td><td>定义研究问题</td><td>一句话问题陈述</td><td>可量化？有对比？可操作？</td></tr>
-            <tr><td>设计</td><td>确定数据来源和分析计划</td><td>研究计划书</td><td>有假设？样本量够？方法合适？</td></tr>
-            <tr><td>采集</td><td>收集或获取数据</td><td>原始数据集</td><td>有偏差？缺失值？数据质量？</td></tr>
-            <tr><td>探索</td><td>EDA可视化</td><td>探索性图表</td><td>发现模式？发现异常值？</td></tr>
-            <tr><td>建模</td><td>选择并拟合模型</td><td>模型结果</td><td>诊断通过？假设满足？</td></tr>
-            <tr><td>验证</td><td>稳健性检验</td><td>敏感性分析</td><td>结论稳定？替代解释排除？</td></tr>
-            <tr><td>报告</td><td>撰写并呈现发现</td><td>报告或幻灯片</td><td>受众匹配？结论明确？</td></tr>
-        </table>
-
-        <h3>28.5 结语：统计思维的终身修炼</h3>
-
-        <p>好了，亲爱的同学们，我们终于站在了这趟旅程的终点。从第一章的"什么是统计学"开始，我们走过了描述统计、概率分布、假设检验、回归分析、贝叶斯统计、因果推断和机器学习中的统计思想。现在我想请你停下来，回顾一下你学到的最重要的东西——不是具体的公式或方法，而是一种思维方式。</p>
-
-        <p><strong>统计思维是什么？</strong> 是面对不确定性问题时，知道如何用数据和逻辑来逼近答案的勇气。是看到一个惊人的数字时，第一反应是"这个数字从哪来？样本有多大？怎么测量的？"的审慎。是做决策时，既不自欺欺人地忽视不确定性，也不被不确定性吓倒而止步不前的智慧。</p>
-
-        <p>统计思维不是一门课程可以完全教给你的——它需要用一辈子去修炼。每一次你看到一个新闻标题说"某研究发现..."，每一次你需要做一个数据驱动的决策，每一次你听到"相关"被人误当作"因果"——你都有机会实践你的统计思维。</p>
-
-        <div class="tip">
-            <strong>💡 最后的叮嘱：</strong> 我想和你分享三件最重要的事：<br>
-            <strong>第一</strong>，永远保持怀疑精神（Healthy Skepticism）。不仅是怀疑别人的结论，也要怀疑自己的分析。如果你不是自己的最严格的批评者，别人就会成为你的批评者。<br>
-            <strong>第二</strong>，永远保持学习的态度。统计学和数据分析领域日新月异，我在写这些课程的时候也在不断学习。不要相信自己已经"学会了"统计学——最好的统计学家是最谦虚的统计学家。<br>
-            <strong>第三</strong>，把统计学用到实践中去。找一份数据，提一个问题，做一次分析，写一份报告。不要追求完美——你的第一个项目一定会有缺陷。但完成比完美重要。正如John Tukey所说："对大概正确问题的近似回答，远胜于对精确问题的错误回答。"（Far better an approximate answer to the right question, than an exact answer to the wrong question.）
-        </div>
-
-        <p>最后，让我用一句话来结束整门课程：<strong>统计学不是关于数字的科学，而是关于在不确定性中做出明智决策的艺术。</strong></p>
-
-        <p>感谢你陪我走过这28章的旅程。我是你的讲师，很高兴能成为你统计学之路上的向导。如果你有任何问题或心得，欢迎随时交流。未来在数据世界中的冒险，现在才刚刚开始——愿你统计思维之光，照亮你前行的每一步。</p>
-
-        <p>同学们，珍重，后会有期！</p>
-
-        <p style="margin-top: 25px; color: #6d28d9; font-style: italic; text-align: center; font-size: 1.1rem;">—— 全课程完 ——</p>
-
-        <div class="footer-nav">
-            <a href="27.html">← 上一章</a>
-            <a href="index.html">📖 返回目录</a>
-            <a href="#" style="visibility:hidden;">下一章 →</a>
-        </div>
-    </div>
-</div>
-</div>
-<footer>© 2026 统计学教程 · 保持好奇，持续学习</footer>
-</body>
-</html>
+naive, _ = ols(exercise, bmi)        # 不控制年龄：-1.335
+adj, _ = ols(resid(ages, exercise), resid(ages, bmi))   # 控制年龄：-0.5
+print(round(naive, 3), round(adj, 3))   # -1.335 -0.5</code></pre>
+<p>未控制的系数 −1.335 比真实的 −0.5 夸大了近两倍，因为年龄既与运动反向相关，又抬高了 BMI。控制年龄后系数回到 −0.5，与数据生成时的设定一致——这就是混杂被挡住后应有的结果。</p>
+<div class="callout"><h3>自我检查</h3><p><strong>问题 1：</strong>样本量从 2000 增加到 20000，上例中未控制的系数会不会谌渐逼近 −0.5？<strong>参考答案：</strong>不会。样本量只减少随机波动，不消除系统偏倚；只要混杂存在，大样本只会把错误的值估得更精确。
+</p><p><strong>问题 2：</strong>既然多控制变量可能引入新偏倚，那么“把所有可用变量都放进回归”是安全的做法吗？<strong>参考答案：</strong>不安全。控制处理后变量或共同结果会引入新的选择性偏倚；应依据因果图与数据生成机制选择协变量，而不是全量堆入。</p></div>
+</section>
+<section class="section" id="refs"><h2>参考资料与延伸阅读</h2><ol class="sources"><li><a href="https://doi.org/10.1073/pnas.1708274114">Nosek et al. (2018), The preregistration revolution</a>：预注册如何减少选择性报告与 p-hacking。</li><li><a href="https://doi.org/10.1177/0956797611417632">Simmons, Nelson &amp; Simonsohn (2011), False-Positive Psychology</a>：研究者自由度与虚假阳性结果。</li><li><a href="https://doi.org/10.3389/fpsyg.2016.01832">Wicherts et al. (2016), Degrees of Freedom in Planning, Running, Analyzing, and Reporting Studies</a>：避免 p-hacking 的分析检查清单。</li><li><a href="https://miguelhernan.org/whatif">Hernán &amp; Robins, Causal Inference: What If</a>：混杂、后门路径与分析计划。</li><li><a href="https://www.openintro.org/book/os/">OpenIntro Statistics</a>：回归、推断与数据分析流程的入门材料。</li></ol><p class="subtle">本章运动与 BMI 数据、−0.5 与 −1.335 等数值均为合成教学例子（无随机噪声，可手算核对），不是真实研究结果。</p></section>
+<nav class="chapter-nav" aria-label="章节切换"><a href="27.html">← 现代因果推断</a><a href="../index.html">课程目录</a></nav></article></main></div><script>(()=>{const g=document.getElementById('gamma'),d=document.getElementById('delta'),go=document.getElementById('gamma-out'),dOut=document.getElementById('delta-out'),o=document.getElementById('bias-out');if(!g||!d||!o)return;const TRUE=-0.5;const upd=()=>{const G=Number(g.value),D=Number(d.value);const naive=TRUE+G*D;const bias=G*D;go.value=G.toFixed(1);go.textContent=G.toFixed(1);dOut.value=D.toFixed(2);dOut.textContent=D.toFixed(2);o.textContent='偏倚项 γ·δ = '+bias.toFixed(2)+'；真实效应 = '+TRUE.toFixed(2)+'；未控制估计 ≈ '+naive.toFixed(2)+'；'+(Math.abs(bias)<0.01?'偏倚可忽略':'未控制明显偏离真实值')};g.addEventListener('input',upd);d.addEventListener('input',upd);upd()})();</script></body></html>

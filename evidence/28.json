@@ -1,0 +1,61 @@
+{
+  "chapter": "28",
+  "version": "2026-11-26",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "preregistration",
+      "claim": "Pre-registering hypotheses and analysis plans reduces selective reporting and p-hacking by fixing researcher degrees of freedom before data are seen",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1073/pnas.1708274114",
+      "locator": "Nosek, Ebersole, DeHaven & Mellor (2018), PNAS 115(11), 2600-2606",
+      "status": "verified",
+      "notes": "Supports sections 01, 02 and figure 1"
+    },
+    {
+      "id": "researcher-degrees-of-freedom",
+      "claim": "Undisclosed flexibility in data collection and analysis inflates false-positive rates",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1177/0956797611417632",
+      "locator": "Simmons, Nelson & Simonsohn (2011), Psychological Science 22(11)",
+      "status": "verified",
+      "notes": "Basis of the failure-mode callouts"
+    },
+    {
+      "id": "confounding-adjustment",
+      "claim": "Omitting a confounder biases the estimated association; adjusting for it (or blocking the backdoor path) removes that component of bias",
+      "kind": "reference",
+      "source_url": "https://miguelhernan.org/whatif",
+      "locator": "Hernán & Robins, Causal Inference: What If, Chapters 7-8",
+      "status": "verified",
+      "notes": "Basis of equations 1-2, figure 2 and section 04"
+    },
+    {
+      "id": "checklist",
+      "claim": "A structured checklist of degrees of freedom across planning, running, analysing and reporting helps avoid p-hacking",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.3389/fpsyg.2016.01832",
+      "locator": "Wicherts et al. (2016), Frontiers in Psychology 7, 1832",
+      "status": "verified",
+      "notes": "Supports the reporting checklist in section 05"
+    },
+    {
+      "id": "deterministic-example",
+      "claim": "The exercise/BMI dataset is deterministic and constructed with a true exercise coefficient of -0.5; the unadjusted slope is -1.335 and the age-adjusted slope is -0.5",
+      "kind": "model",
+      "source_url": null,
+      "locator": "sections 04 and 07",
+      "status": "derived",
+      "notes": "Computed by hand and by the standard-library code in section 07; reproducible"
+    },
+    {
+      "id": "figures",
+      "claim": "The end-to-end workflow diagram and the age-confounder DAG are schematic figures prepared for this lesson",
+      "kind": "figure",
+      "source_url": null,
+      "locator": "figures 1-2",
+      "status": "illustrative",
+      "notes": "Schematic; not empirical results"
+    }
+  ]
+}
