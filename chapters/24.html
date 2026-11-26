@@ -1,369 +1,52 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>第24章 真实数据分析实战</title>
-    <link rel="stylesheet" href="theme.css">
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { background: linear-gradient(135deg, #f5f3ff 0%, #e8f5f0 100%); font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', Roboto, 'Helvetica Neue', sans-serif; padding: 20px; }
-        .double-border { max-width: 1400px; margin: 0 auto; background: #ffffff; border: 2px solid #8b5cf6; border-radius: 24px; box-shadow: 0 20px 30px -15px rgba(0,0,0,0.2), inset 0 1px 0 0 #f5f3ff; overflow: hidden; }
-        .container { display: grid; grid-template-columns: 260px 1fr; gap: 0; }
-        .sidebar { background: #faf8ff; border-right: 2px solid #c4b5fd; padding: 24px 16px; }
-        .sidebar h3 { font-size: 1.4rem; color: #6d28d9; border-left: 5px solid #8b5cf6; padding-left: 15px; margin-bottom: 25px; }
-        .chapter-list { list-style: none; }
-        .chapter-list li { margin-bottom: 6px; }
-        .chapter-list a { display: block; padding: 8px 12px; text-decoration: none; color: #334155; border-radius: 12px; transition: all 0.2s; font-weight: 500; font-size: 0.92rem; }
-        .chapter-list a:hover { background: #ede9fe; transform: translateX(3px); }
-        .chapter-list .active { background: #7c3aed; color: white; box-shadow: 0 2px 5px rgba(124,58,237,0.3); }
-        .main-content { padding: 30px 35px; background: white; }
-        .footer-nav { margin-top: 45px; padding-top: 20px; border-top: 2px solid #c4b5fd; display: flex; justify-content: space-between; }
-        .footer-nav a { padding: 8px 24px; background: #f1f5f9; text-decoration: none; color: #5b21b6; border-radius: 40px; font-weight: 500; transition: 0.2s; }
-        .footer-nav a:hover { background: #ede9fe; transform: translateY(-2px); }
-        footer { text-align: center; margin-top: 30px; padding: 15px; color: #64748b; border-top: 1px dashed #c4b5fd; font-size: 0.9rem; }
-        h2 { color: #4c1d95; border-left: 6px solid #8b5cf6; padding-left: 15px; margin: 20px 0 15px; font-size: 1.5rem; }
-        h3 { color: #5b21b6; margin: 20px 0 10px; font-size: 1.2rem; }
-        h4 { color: #6d28d9; margin: 15px 0 8px; font-size: 1.05rem; }
-        p { line-height: 1.85; margin: 10px 0; color: #1e293b; }
-        ul, ol { margin: 10px 0 10px 20px; line-height: 1.8; }
-        li { color: #1e293b; margin-bottom: 4px; }
-        pre { background: #1e1035; color: #e8e8f0; padding: 15px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', monospace; margin: 15px 0; font-size: 0.9rem; line-height: 1.5; }
-        code { background: #f5f3ff; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
-        pre code { background: none; padding: 0; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: #fafafe; }
-        th, td { border: 1px solid #c4b5fd; padding: 10px; text-align: left; }
-        th { background: #f5f3ff; color: #5b21b6; font-weight: 600; }
-        .tip, .warning, .highlight { padding: 12px 18px; border-radius: 16px; margin: 15px 0; line-height: 1.7; }
-        .tip { background: #e0f2fe; border-left: 6px solid #0ea5e9; }
-        .warning { background: #fee2e2; border-left: 6px solid #ef4444; }
-        .highlight { background: #fef9c3; border: 1px solid #facc15; }
-        strong { color: #1e1b4b; }
-        @media (max-width: 768px) { .container { grid-template-columns: 1fr; } .sidebar { border-right: none; border-bottom: 2px solid #c4b5fd; } body { padding: 10px; } .main-content { padding: 20px; } }
-    </style>
-</head>
-<body>
-<div class="double-border">
-<div class="container">
-    <div class="sidebar">
-        <h3>📊 课程目录</h3>
-        <ul class="chapter-list">
-            <li><a href="01.html">第1章 什么是统计学</a></li>
-            <li><a href="02.html">第2章 数据的类型与来源</a></li>
-            <li><a href="03.html">第3章 描述统计（一）</a></li>
-            <li><a href="04.html">第4章 描述统计（二）</a></li>
-            <li><a href="05.html">第5章 数据可视化基础</a></li>
-            <li><a href="06.html">第6章 概率基础</a></li>
-            <li><a href="07.html">第7章 常见概率分布</a></li>
-            <li><a href="08.html">第8章 抽样与抽样分布</a></li>
-            <li><a href="09.html">第9章 点估计与区间估计</a></li>
-            <li><a href="10.html">第10章 假设检验入门</a></li>
-            <li><a href="11.html">第11章 常见假设检验</a></li>
-            <li><a href="12.html">第12章 统计功效与样本量</a></li>
-            <li><a href="13.html">第13章 相关分析</a></li>
-            <li><a href="14.html">第14章 简单线性回归</a></li>
-            <li><a href="15.html">第15章 p值与统计显著性危机</a></li>
-            <li><a href="16.html">第16章 多重比较与谬误</a></li>
-            <li><a href="17.html">第17章 因果推断基础</a></li>
-            <li><a href="18.html">第18章 统计伦理与最佳实践</a></li>
-            <li><a href="19.html">第19章 多元线性回归</a></li>
-            <li><a href="20.html">第20章 逻辑回归</a></li>
-            <li><a href="21.html">第21章 方差分析（ANOVA）</a></li>
-            <li><a href="22.html">第22章 贝叶斯统计入门</a></li>
-            <li><a href="23.html">第23章 统计学工具链</a></li>
-            <li><a href="24.html" class="active">第24章 真实数据分析实战</a></li>
-            <li><a href="25.html">第25章 A/B测试实战</a></li>
-            <li><a href="26.html">第26章 机器学习中的统计学</a></li>
-            <li><a href="27.html">第27章 现代因果推断</a></li>
-            <li><a href="28.html">第28章 综合项目：从问题到结论</a></li>
-        </ul>
-    </div>
-    <div class="main-content">
-        <h2>第24章：真实数据分析实战</h2>
-
-        <p>大家好，我是你们的讲师。前23章我们积累了大量的统计知识，上一章又装备好了工具链。是时候真刀真枪地干一场了。本章我们将用一个真实的数据集，走完从原始数据到最终结论的完整分析流程。没有模拟数据，没有"假设某某条件成立"——真实的脏数据就是你每天在工作中会遇到的样子。</p>
-
-        <p>我们选用的数据集是经典的 Ames Housing 数据集（爱荷华州埃姆斯市的房价数据），它比波士顿房价数据更新、特征更丰富，包含79个解释变量和1460条观测。我们的目标是：建立一个能够解释房价驱动因素的统计模型，并给出可操作的业务建议。</p>
-
-        <div class="highlight">
-            <strong>选择 Ames Housing 的原因：</strong>这个数据集兼具趣味性和教学价值。它不是"干净"的——有缺失值、有偏态分布、有强共线性的特征，还有明显的异常值。所有这些"不完美"恰恰是真实数据分析的常态，也是最好的学习材料。
-        </div>
-
-        <h3>24.1 第一步：数据加载与初步探索</h3>
-
-        <p>任何分析项目的开端都应该是理解数据本身。我们先加载数据，看看它长什么样：</p>
-
-        <pre><code>import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-import scipy.stats as stats
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="以 Ames Housing 公开数据集为例，走完真实数据分析全流程：数据理解、缺失与异常处理、EDA、对数变换、回归建模与诊断、系数解释与业务建议，并区分可核对事实与教学示意数值。"><title>24 真实数据分析实战：从脏数据到结论 | Statistics Lab</title><link rel="stylesheet" href="../assets/css/article.css"></head><body><a class="skip-link" href="#content">跳转到正文</a><nav class="topbar" aria-label="章节导航"><a href="../index.html">← Statistics Lab / 课程目录</a><span class="trail">24 / 28 · 实战与拓展</span></nav><div class="article-layout"><nav class="toc" aria-label="本文目录"><h2>本篇路径</h2><a href="#data">01 · 数据集与分析目标</a><a href="#clean">02 · 数据清洗：缺失与异常</a><a href="#eda">03 · EDA：先看分布与关系</a><a href="#transform">04 · 对数变换与系数解释</a><a href="#model">05 · 建模与模型诊断</a><a href="#interpret">06 · 结果解释与业务建议</a><a href="#practice">07 · 自我检查与可复现计算</a><a href="#refs">参考资料与延伸阅读</a></nav><main id="content"><article><header class="article-header"><div class="kicker">Chapter 24 · End-to-end analysis</div><h1>真实数据分析实战：从脏数据到结论</h1><p class="dek">真实数据不会先收拾干净再交到你手里。缺值、右偏、共线、异常点交织在一起，每一步处理都会改变后面能得出的结论。本章用公开数据集把整条链路走一遍。</p><div class="question"><strong>贯穿案例：</strong>你想用一套房价数据回答“什么在推动房价”。删掉缺失记录、直接对原始房价做线性回归，看起来最省事——但这两步已经悄悄改变了结论。</div></header>
+<section class="section" id="data"><h2>01 · 数据集与分析目标</h2>
+<p class="lede">本章使用公开的 <strong>Ames Housing</strong> 数据集：它记录了美国爱荷华州埃姆斯市 2006–2010 年约 2930 笔住宅交易，包含大量描述房屋面积、质量、地段、年份的解释变量。它常被用作波士顿房价数据的现代替代，优势是特征更丰富、字段含义有公开说明（De Cock, 2011）。</p>
+<p>广泛使用的版本常把它划分成约 1460 行的训练集和相应测试集，总列数约 80。不同的分发方式会影响行数列数，报告时应先说清楚用的是哪一版、多少行。</p>
+<div class="callout"><h3>关于本章数值的重要说明</h3><p>Ames Housing 是真实公开数据集，上述规模与字段信息可对照 De Cock (2011) 核对。但下文出现的<strong>偏度、R²、系数百分比等具体数值均为教学示意</strong>：它们是为了演示“怎么读一个结果”，并非本文在本地重算后的结论。你用自己的数据与代码重跑，数值可能不同；不要把本章的教学数字当作对该数据集的已知事实引用。</p></div>
+<p>分析目标是“解释房价的主要驱动因素并给出可操作建议”。这条目标决定了后面的每一步：我们需要可解释的回归模型，而不是纯预测模型；需要对共线性、异常值与分布形态保持敏感。</p></section>
+<section class="section" id="clean"><h2>02 · 数据清洗：缺失与异常</h2>
+<p>清洗是最不“性感”却最关键的一步。直接删除含缺失的记录看起来干净，但可能引入选择偏差：如果缺失集中在某个子群体（例如信息尚未填完的新客户），删除等于把这个群体整体移除。先弄清缺失机制再动手：</p>
+<ol class="process"><li><strong>MCAR（完全随机缺失）：</strong>缺失与任何变量无关，删删的影响较小，但仍损失样本。</li><li><strong>MAR（随机缺失）：</strong>缺失可由其他已观测变量解释，可用多重插补或条件填充。</li><li><strong>MNAR（非随机缺失）：</strong>缺失值本身携带着信息，必须建模缺失机制，不能简单填充。</li></ol>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="380" viewBox="0 0 900 380" role="img" aria-labelledby="miss-t miss-d"><title id="miss-t">按特征类型与缺失率选择缺失值处理策略</title><desc id="miss-d">两行两列表：数值特征缺失率低于 5% 时用中位数填充，高于 5% 时考虑无类别或删除；类别特征缺失率低于 5% 时用众数填充，高于 5% 时把缺失作为单独类别。</desc><rect width="900" height="380" rx="15" fill="#fff"/><g font-family="system-ui,-apple-system,'PingFang SC',sans-serif"><text x="36" y="42" font-size="20" font-weight="750" fill="#294b50">先分类型，再分缺失率</text><text x="455" y="90" text-anchor="middle" font-size="15" font-weight="700" fill="#20353a">缺失率 &lt; 5%</text><text x="715" y="90" text-anchor="middle" font-size="15" font-weight="700" fill="#20353a">缺失率 &gt; 5%</text><text x="150" y="160" text-anchor="middle" font-size="15" font-weight="700" fill="#147f80">数值特征</text><text x="150" y="260" text-anchor="middle" font-size="15" font-weight="700" fill="#147f80">类别特征</text><rect x="330" y="110" width="250" height="70" rx="10" fill="#e7f4f0" stroke="#147f80"/><text x="455" y="151" text-anchor="middle" font-size="14" fill="#147f80">中位数填充</text><rect x="590" y="110" width="250" height="70" rx="10" fill="#fff" stroke="#92acaa"/><text x="715" y="145" text-anchor="middle" font-size="14" fill="#31555a">“无”类别替代</text><text x="715" y="166" text-anchor="middle" font-size="12" fill="#597477">或整体删除</text><rect x="330" y="210" width="250" height="70" rx="10" fill="#fff" stroke="#92acaa"/><text x="455" y="251" text-anchor="middle" font-size="14" fill="#31555a">众数填充</text><rect x="590" y="210" width="250" height="70" rx="10" fill="#e7f4f0" stroke="#147f80"/><text x="715" y="251" text-anchor="middle" font-size="14" fill="#147f80">缺失作为一个单独类别</text><path d="M320 100V300M580 100V300M40 200H850" stroke="#dce5e1" stroke-width="1.5"/><text x="36" y="356" font-size="12" fill="#597477">策略为常见做法，非硬规则；如 Alley 的“缺失”本身就表示“无巷道”。</text></g></svg><figcaption><strong>图 1 · 缺失处理先看两件事。</strong>特征类型决定“填什么”，缺失率与缺失机制决定“能不能填”。像 Alley 这类字段，“缺失”本身就是有效类别（没有巷道），当成普通缺失填充反而丢信息。</figcaption></figure>
+<p>异常值同理：先判断它是录入错误、量纲错误，还是真实的极端值。真实的极端值不应随意删除，可考虑截尾（winsorize）、稳健方法或在模型中用更合适的分布。删掉它们会让模型对极端情况失去预测力。</p>
+<div class="callout warning"><h3>失败模式：清洗阶段就引入偏差</h3><p>某团队分析客户流失时直接删掉含缺失的记录，样本从 5 万降到不足 2 万，而缺失恰好集中在价值最高的活跃客户。删除等于直接把最重要的群体剔除，模型对高价值客户完全失准。先做缺失模式分析，再决定策略。</p></div>
+<p class="subtle">上述 5 万/2 万为客户流失场景的教学示意数字，不是真实项目数据。</p></section>
+<section class="section" id="eda"><h2>03 · EDA：先看分布与关系</h2>
+<p>建模前先把数据“看”一遍：单变量分布、目标变量形态、缺失模式、数值特征相关矩阵、类别特征与目标的分组比较。每一步都可能有意外，而意外正是建模前必须处理的。</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360" role="img" aria-labelledby="skew-t skew-d"><title id="skew-t">房价原始分布右偏，取对数后接近对称</title><desc id="skew-d">左面板：原始房价直方图右侧拖出长尾，典型右偏；右面板：对数房价直方图接近对称的钟形，更适合线性模型的正态误差假设。</desc><rect width="900" height="360" rx="15" fill="#fff"/><g font-family="system-ui,-apple-system,'PingFang SC',sans-serif"><text x="36" y="42" font-size="20" font-weight="750" fill="#294b50">价格右偏，取对数后变对称</text><rect x="40" y="80" width="380" height="220" rx="10" fill="#f7fbfa" stroke="#dce5e1"/><rect x="480" y="80" width="380" height="220" rx="10" fill="#f7fbfa" stroke="#dce5e1"/><g fill="#c06d4c"><rect x="60" y="260" width="24" height="30"/><rect x="88" y="220" width="24" height="70"/><rect x="116" y="180" width="24" height="110"/><rect x="144" y="140" width="24" height="150"/><rect x="172" y="130" width="24" height="160"/><rect x="200" y="160" width="24" height="130"/><rect x="228" y="200" width="24" height="90"/><rect x="256" y="230" width="24" height="60"/><rect x="284" y="250" width="24" height="40"/><rect x="312" y="265" width="24" height="25"/><rect x="340" y="275" width="24" height="15"/><rect x="368" y="282" width="24" height="8"/></g><path d="M40 290H420" stroke="#20353a" stroke-width="2"/><text x="230" y="322" text-anchor="middle" font-size="13" fill="#31555a">原始房价：长右尾</text><g fill="#147f80"><rect x="500" y="240" width="24" height="50"/><rect x="528" y="200" width="24" height="90"/><rect x="556" y="150" width="24" height="140"/><rect x="584" y="120" width="24" height="170"/><rect x="612" y="110" width="24" height="180"/><rect x="640" y="135" width="24" height="155"/><rect x="668" y="175" width="24" height="115"/><rect x="696" y="210" width="24" height="80"/><rect x="724" y="240" width="24" height="50"/><rect x="752" y="262" width="24" height="28"/><rect x="780" y="274" width="24" height="16"/></g><path d="M480 290H860" stroke="#20353a" stroke-width="2"/><text x="670" y="322" text-anchor="middle" font-size="13" fill="#31555a">对数房价：接近对称</text><text x="36" y="350" font-size="12" fill="#597477">柱高与形状为教学示意，不代表 Ames 数据的精确分布。</text></g></svg><figcaption><strong>图 2 · 先看形状，再决定变换。</strong>右偏的目标变量会让普通最小二乘的残差假设难看；取对数往往能把它变近对称。这一步应先用直方图与 Q-Q 图判断，而不是“惯例上取对数”。</figcaption></figure>
+<p>关系检查也有常规套路：相关矩阵（第 13 章）看数值特征之间的关联；分组箱线图/方差分析（第 21 章）看类别特征的解释力；VIF（第 19 章）查共线性。比如“总面积”可能同时包含地上与地下面积，与“整体质量”高度相关，直接一起入模会抬高 VIF。</p>
+<div class="callout"><h3>EDA 不是画图凑数</h3><p>每个图都应回答一个具体问题：分布是否偏向？缺失是否成块？哪些特征共线？哪些类别与目标关系明显？没有问题的图就不要画。</p></div></section>
+<section class="section" id="transform"><h2>04 · 对数变换与系数解释</h2>
+<p>很多价格、收入、金额都是右偏的，取对数后更接近对称。代价是系数不能再读成“加多少个单位”，而要反变换回百分比：对对数目标，x 增加一个单位，y 大约变为原来的 <span class="math-inline"><math aria-label="e 的 β 次方倍"><msup><mi>e</mi><mi>β</mi></msup></math></span> 倍，即变化：</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="百分比变化等于 e 的 β 次方减一，再乘一百，可横向滚动"><math display="block" aria-label="百分比变化等于 e 的 β 次方减一，再乘一百"><mrow><mrow><mo>(</mo><msup><mi>e</mi><mi>β</mi></msup><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mo>×</mo><mn>100</mn><mo>%</mo></mrow></math></div><div class="eq-caption">式 1</div></div>
+<div class="demo"><h3>对数模型系数换算</h3><label for="beta">回归系数 β：<output id="beta-out" for="beta">0.16</output></label><input id="beta" type="range" min="-0.3" max="0.3" step="0.01" value="0.16"><p class="demo-output" id="pct-out" aria-live="polite"></p><p class="subtle">演示只计算公式 (e^β − 1)×100%，不含随机数；它适用于“对数目标、系数不取对数”的模型。</p></div>
+<div class="callout warning"><h3>反变换不等于“对系数取反对数就没事了”</h3><p>在均值尺度上直接从对数预测反变换会得到中位数而非均值，严格预测均值需要额外的偏差修正。但对<strong>系数解释</strong>而言，式 1 的百分比近似通常够用，只要记住它是近似。</p></div></section>
+<section class="section" id="model"><h2>05 · 建模与模型诊断</h2>
+<p>建模不是“跑一个 OLS 就完”。至少要做：残差 vs 拟合值（检验线性与等方差）、Q-Q 图（残差正态性）、Cook 距离（强影响点），并在保留集上评估。两个常用的评估量是：</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="均方根误差等于平均平方残差的开方；调整 R 方等于一减一减 R 方乘 n 减一，除以 n 减 p 减一，可横向滚动"><math display="block" aria-label="均方根误差等于平均平方残差的开方；调整 R 方等于一减一减 R 方乘 n 减一，除以 n 减 p 减一"><mrow><mi>RMSE</mi><mo>=</mo><msqrt><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><msup><mrow><mo>(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>−</mo><msub><mover><mi>y</mi><mo>^</mo></mover><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></msqrt><mo>,</mo><mspace width="0.8em"></mspace><msubsup><mi>R</mi><mi>adj</mi><mn>2</mn></msubsup><mo>=</mo><mn>1</mn><mo>−</mo><mfrac><mrow><mo>(</mo><mn>1</mn><mo>−</mo><msup><mi>R</mi><mn>2</mn></msup><mo>)</mo><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>n</mi><mo>−</mo><mi>p</mi><mo>−</mo><mn>1</mn></mrow></mfrac></mrow></math></div><div class="eq-caption">式 2</div></div>
+<p>调整 R² 对参数个数做了惩罚，比 R² 更适合比较不同特征数的模型。若在保留集上 R² 骤降或 RMSE 远大于训练集，说明过拟合；若残差图呈喇叭形，说明等方差假设不成立。</p>
+<div class="callout warning"><h3>失败模式：把逐步回归当结论生成器</h3><p>对大量候选特征做逐步回归，再直接报告系数与 p 值，会系统性地夸大显著性（第 19 章）。先用领域知识定下候选变量，再做有限比较，最后用保留集验证。</p></div></section>
+<section class="section" id="interpret"><h2>06 · 结果解释与业务建议</h2>
+<p>模型跑完之后，真正困难的是把系数翻译成业务语言。以对数房价模型为例，以下系数均为<strong>教学示意</strong>（不是对 Ames 数据的实际估计），只用于演示怎么读：</p>
+<table class="data-table"><caption>对数房价模型的系数解释（教学示意）</caption><thead><tr><th>特征</th><th>示意系数 β</th><th>解释</th></tr></thead><tbody><tr><td>整体质量评分 +1</td><td>0.157</td><td>价格中位数约 +17%（(e^0.157−1)×100）</td></tr><tr><td>总面积 +100 平方英尺</td><td>0.002</td><td>价格中位数约 +0.2%（需按实际量纲换算）</td></tr><tr><td>厨房质量 一般→良好</td><td>0.09</td><td>价格中位数约 +9.4%</td></tr><tr><td>建筑年份 +10 年</td><td>0.04</td><td>价格中位数约 +4.1%</td></tr></tbody></table>
+<p>读这类结果时有三个固定提醒：</p>
+<ol class="process"><li><strong>单位要对：</strong>系数是“每增加一个单位”的效果，上表的面积项必须乘 100 才能对上“100 平方英尺”。</li><li><strong>是条件关联，不是因果：</strong>“控制其他变量后”不等于“改变这一个变量就会涨价”，除非有随机化或可信的识别策略（第 27 章）。</li><li><strong>是示意，不是事实：</strong>表中数值为教学构造，不能作为任何市场的真实溢价。</li></ol>
+<div class="callout"><h3>业务建议要带上不确定性</h3><p>“提升整体质量能提价”这句话必须配上区间与代价：提升到什么程度、需要多少成本、置信区间多宽。只报“系数显著为正”而不报区间与成本，不是可执行的建议。</p></section>
+<section class="section" id="practice"><h2>07 · 自我检查与可复现计算</h2>
+<p>把“对数目标 + 系数反变换”手算一遍：β = 0.16 时，<span class="math-inline"><math aria-label="e 的零点一六次方减一"><mrow><msup><mi>e</mi><mn>0.16</mn></msup><mo>−</mo><mn>1</mn></mrow></math></span> ≈ 0.1735，即约 +17.4%。下面的代码在一个合成数据上重现这个过程。</p>
+<pre><code>import numpy as np
 import statsmodels.api as sm
-import statsmodels.formula.api as smf
-from statsmodels.stats.outliers_influence import variance_inflation_factor
 
-# 设置中文显示
-plt.rcParams['font.sans-serif'] = ['PingFang SC', 'SimHei', 'DejaVu Sans']
-plt.rcParams['axes.unicode_minus'] = False
+rng = np.random.default_rng(0)
+n = 300
+x = rng.normal(size=n)
+log_y = 1.0 + 0.16 * x + rng.normal(scale=0.3, size=n)
 
-# 加载数据
-df = pd.read_csv('AmesHousing.csv')
-print(f"数据集形状: {df.shape}")
-print(f"列名: {df.columns.tolist()[:15]}...")  # 只看前15列
-
-# 基本信息概览
-print("\n=== 数据基本信息 ===")
-print(df.info())
-
-# 检查缺失值
-missing = df.isnull().sum()
-missing_pct = (missing / len(df) * 100).round(2)
-missing_df = pd.DataFrame({'缺失数': missing, '缺失百分比': missing_pct})
-missing_df = missing_df[missing_df['缺失数'] > 0].sort_values('缺失数', ascending=False)
-print("\n=== 存在缺失值的特征 ===")
-print(missing_df.head(20))
-
-# 目标变量的分布
-print("\n=== SalePrice 描述统计 ===")
-print(df['SalePrice'].describe())
-
-# 偏度和峰度
-skew = stats.skew(df['SalePrice'].dropna())
-kurt = stats.kurtosis(df['SalePrice'].dropna(), fisher=True)
-print(f"SalePrice 偏度: {skew:.3f}, 峰度: {kurt:.3f}")
-
-# 正态性检验
-_, norm_p = stats.normaltest(df['SalePrice'].dropna())
-print(f"SalePrice 正态性检验 p值: {norm_p:.6f}")
-
-# 对数变换后的房价分布
-df['LogSalePrice'] = np.log(df['SalePrice'])
-log_skew = stats.skew(df['LogSalePrice'].dropna())
-log_norm_p = stats.normaltest(df['LogSalePrice'].dropna()).pvalue
-print(f"对数变换后: 偏度={log_skew:.3f}, 正态性p值={log_norm_p:.4f}")</code></pre>
-
-        <div class="tip">
-            <strong>关键发现：</strong>房价（SalePrice）的偏度达到1.88，呈现明显的右偏分布，且正态性检验的 p 值接近于0。经过对数变换后，偏度降到-0.06，分布接近正态。这提示我们在建模时应该使用对数房价作为目标变量——这是房价建模的行业惯例。
-        </div>
-
-        <h3>24.2 第二步：数据清洗与特征工程</h3>
-
-        <p>数据清洗是最不性感但最重要的步骤。真实数据中缺失值、异常值和编码错误无处不在。以下是我们的清洗策略：</p>
-
-        <table>
-            <tr><th>数据类型</th><th>处理方式</th><th>特征举例</th></tr>
-            <tr><td>数值特征、缺失率 &lt; 5%</td><td>用中位数填充</td><td>LotFrontage, MasVnrArea</td></tr>
-            <tr><td>数值特征、缺失率 &gt; 5%</td><td>用"无"类别替代或删除</td><td>PoolArea（缺失=无泳池）</td></tr>
-            <tr><td>类别特征、缺失率 &lt; 5%</td><td>用众数填充</td><td>KitchenQual, BsmtQual</td></tr>
-            <tr><td>类别特征、缺失率 &gt; 5%</td><td>将缺失作为单独类别</td><td>Alley, Fence</td></tr>
-            <tr><td>异常值（Z-score > 3 或 IQR 法）</td><td>截尾处理（winsorize）</td><td>面积异常大/小的房屋</td></tr>
-            <tr><td>高度偏态特征</td><td>对数变换或 Box-Cox 变换</td><td>LotArea, MiscVal</td></tr>
-        </table>
-
-        <pre><code># === 数据清洗流程（核心步骤） ===
-
-# 1. 处理缺失值——按策略分组填充
-# 数值特征：用中位数填充
-fill_median = ['LotFrontage', 'MasVnrArea', 'GarageYrBlt']
-for col in fill_median:
-    df[col] = df[col].fillna(df[col].median())
-
-# 类别特征：将缺失标记为 'None'
-fill_none = ['Alley', 'BsmtQual', 'BsmtCond', 'BsmtFinType1',
-             'BsmtFinType2', 'FireplaceQu', 'GarageType', 'GarageFinish',
-             'GarageQual', 'GarageCond', 'PoolQC', 'Fence', 'MiscFeature']
-for col in fill_none:
-    df[col] = df[col].fillna('None')
-
-# 2. 异常值处理——对极端面积做截尾
-from scipy.stats.mstats import winsorize
-df['LotArea_winsorized'] = winsorize(df['LotArea'], limits=[0, 0.02])
-
-# 3. 特征编码——对有序类别做数值映射
-qual_map = {'Ex': 5, 'Gd': 4, 'TA': 3, 'Fa': 2, 'Po': 1, 'None': 0}
-df['OverallQual_score'] = df['OverallQual']  # 已经是数值
-df['KitchenQual_score'] = df['KitchenQual'].map(qual_map)
-df['ExterQual_score'] = df['ExterQual'].map(qual_map)
-
-# 4. 创建有意义的组合特征
-df['TotalSF'] = df['TotalBsmtSF'] + df['1stFlrSF'] + df['2ndFlrSF']
-df['YearSinceRemodel'] = df['YrSold'] - df['YearRemodAdd']
-df['TotalBath'] = (df['FullBath'] + 0.5 * df['HalfBath'] +
-                   df['BsmtFullBath'] + 0.5 * df['BsmtHalfBath'])
-
-# 5. 删除无关或冗余特征
-drop_cols = ['Order', 'PID', 'GarageYrBlt', 'LotArea']
-df = df.drop(columns=drop_cols)
-
-print(f"清洗后数据集: {df.shape}")
-print(f"剩余缺失值: {df.isnull().sum().sum()}")</code></pre>
-
-        <div class="warning">
-            <strong>踩坑故事：数据清洗阶段就引入了偏差</strong>
-            <p>我曾见过一个团队在做客户流失分析时，直接删除了所有包含缺失值的记录。清洗后的数据从5万条变成了不到2万条。他们没意识到，大量缺失集中在"高价值长期客户"这个群体中——因为这些客户刚注册不久，很多合同信息还没来得及填写。删除这些记录相当于直接剔除了最有价值的客户群体，导致模型对高价值客户的预测完全失准。更稳妥的做法是先分析缺失模式（Missing Data Pattern），判断缺失是 MCAR、MAR 还是 MNAR，再选择合适的处理方案。</p>
-            <p>在 Ames Housing 数据中，Alley（巷道类型）的缺失并不是随机的——缺失代表"没有巷道"。如果不加思考地填充或删除，就会丢失这个业务信息。</p>
-        </div>
-
-        <h3>24.3 第三步：探索性数据分析（EDA）</h3>
-
-        <p>EDA 是统计分析的灵魂。在跑任何模型之前，你必须先"感受"数据。以下是一份 EDA 清单，每次分析都应该逐一检查：</p>
-
-        <table>
-            <tr><th>检查项</th><th>方法</th><th>目的</th></tr>
-            <tr><td>单变量分布</td><td>直方图 + 箱线图</td><td>了解每个特征的分布形态、异常值、偏态</td></tr>
-            <tr><td>目标变量分布</td><td>直方图 + Q-Q 图</td><td>检查是否需要对目标变量做变换</td></tr>
-            <tr><td>缺失值模式</td><td>缺失矩阵热力图</td><td>判断缺失是否随机，决定填充策略</td></tr>
-            <tr><td>数值特征相关性</td><td>相关系数矩阵热力图</td><td>发现强共线性，指导特征选择</td></tr>
-            <tr><td>类别特征与目标的关系</td><td>箱线图 / 分组均值</td><td>评估每个类别特征的解释力</td></tr>
-            <tr><td>特征-目标散点图</td><td>散点图 + 回归拟合线</td><td>检查线性关系假设是否合理</td></tr>
-            <tr><td>多重共线性</td><td>VIF（方差膨胀因子）</td><td>检测共线性严重的特征</td></tr>
-            <tr><td>分组比较</td><td>t检验 / ANOVA</td><td>检验组间差异是否显著</td></tr>
-        </table>
-
-        <pre><code># === EDA 核心代码 ===
-
-# 1. 相关性矩阵（选取关键数值特征）
-num_cols = ['SalePrice', 'LogSalePrice', 'OverallQual', 'TotalSF',
-            'GarageCars', 'YearBuilt', 'KitchenQual_score', 'TotalBath']
-corr_matrix = df[num_cols].corr()
-
-plt.figure(figsize=(10, 8))
-sns.heatmap(corr_matrix, annot=True, fmt='.2f', cmap='RdBu_r',
-            center=0, square=True, linewidths=0.5)
-plt.title('关键数值特征相关系数矩阵', fontsize=14)
-plt.tight_layout()
-plt.savefig('output/figures/corr_matrix.png', dpi=150, bbox_inches='tight')
-plt.show()
-
-# 2. 类别特征分组比较（One-way ANOVA）
-cat_features = ['Neighborhood', 'MSZoning', 'SaleCondition']
-for feat in cat_features:
-    groups = [df[df[feat] == val]['LogSalePrice'].values
-              for val in df[feat].unique()]
-    f_stat, p_val = stats.f_oneway(*groups)
-    print(f"{feat}: F={f_stat:.3f}, p={p_val:.6f}")
-
-# 3. 偏相关系数（控制其他变量后）
-# 使用 statsmodels 计算偏相关系数
-from statsmodels.stats.correlation_tools import partial_corr
-
-# 控制 OverallQual 后，TotalSF 与 LogSalePrice 的偏相关
-pc = partial_corr(df[['LogSalePrice', 'TotalSF', 'OverallQual']])
-print(f"\n控制 OverallQual 后的偏相关系数:")
-print(pc)
-
-# 4. 多重共线性诊断（VIF）
-X_vif = df[['OverallQual', 'TotalSF', 'GarageCars', 'YearBuilt', 'KitchenQual_score']]
-X_vif = sm.add_constant(X_vif)
-vif_data = pd.DataFrame()
-vif_data['特征'] = X_vif.columns
-vif_data['VIF'] = [variance_inflation_factor(X_vif.values, i)
-                   for i in range(X_vif.shape[1])]
-print("\n方差膨胀因子 (VIF):")
-print(vif_data)</code></pre>
-
-        <h3>24.4 第四步：统计建模与模型诊断</h3>
-
-        <p>基于 EDA 的发现，我们选择对数房价作为目标变量，使用多元线性回归建模。特征选择采用逐步回归策略，兼顾模型的解释力和预测精度。</p>
-
-        <pre><code># === 多元线性回归建模 ===
-
-# 选取最终进入模型的特征
-features = ['OverallQual', 'TotalSF', 'KitchenQual_score',
-            'GarageCars', 'YearBuilt', 'YearSinceRemodel',
-            'TotalBath', 'Neighborhood', 'MSZoning']
-target = 'LogSalePrice'
-
-# 对类别特征做独热编码
-df_model = pd.get_dummies(df[features + [target]],
-                          columns=['Neighborhood', 'MSZoning'],
-                          drop_first=True)
-
-# 拆分训练集和测试集
-from sklearn.model_selection import train_test_split
-X = df_model.drop(columns=[target])
-y = df_model[target]
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42)
-
-print(f"训练集: {X_train.shape}, 测试集: {X_test.shape}")
-
-# 使用 statsmodels 建模
-X_train_sm = sm.add_constant(X_train)
-model = sm.OLS(y_train, X_train_sm).fit()
-print(model.summary())
-
-# 模型诊断
-# 1. 残差 vs 拟合值图（检查线性性和等方差性）
-fitted = model.fittedvalues
-residuals = model.resid
-
-plt.figure(figsize=(12, 4))
-plt.subplot(1, 3, 1)
-plt.scatter(fitted, residuals, alpha=0.5)
-plt.axhline(y=0, color='r', linestyle='--')
-plt.xlabel('拟合值')
-plt.ylabel('残差')
-plt.title('残差 vs 拟合值')
-
-# 2. Q-Q 图（检查正态性）
-plt.subplot(1, 3, 2)
-stats.probplot(residuals, dist="norm", plot=plt)
-plt.title('残差 Q-Q 图')
-
-# 3. Cook's Distance（检查强影响点）
-from statsmodels.stats.outliers_influence import OLSInfluence
-influence = OLSInfluence(model)
-cooks = influence.cooks_distance[0]
-plt.subplot(1, 3, 3)
-plt.stem(range(len(cooks)), cooks, markerfmt=",")
-plt.axhline(y=4/len(cooks), color='r', linestyle='--',
-            label='Cook距离阈值')
-plt.xlabel('观测序号')
-plt.ylabel("Cook's Distance")
-plt.title('强影响点诊断')
-plt.tight_layout()
-plt.savefig('output/figures/model_diagnostics.png', dpi=150)
-
-# 测试集评估
-X_test_sm = sm.add_constant(X_test)
-y_pred = model.predict(X_test_sm)
-test_r2 = np.corrcoef(y_test, y_pred)[0, 1] ** 2
-rmse = np.sqrt(np.mean((y_test - y_pred) ** 2))
-mae = np.mean(np.abs(y_test - y_pred))
-print(f"\n测试集 R² = {test_r2:.4f}")
-print(f"RMSE = {rmse:.4f} (在log尺度上)")
-print(f"MAE  = {mae:.4f} (在log尺度上)")</code></pre>
-
-        <h3>24.5 第五步：结果解释与业务建议</h3>
-
-        <p>模型的 R² 达到 0.89，说明特征解释了房价对数变异的89%。但更重要的是系数的实际含义：</p>
-
-        <ul>
-            <li><strong>OverallQual（整体质量）：</strong>评分每提高1分，房价中位数增加约17%（因为我们对数变换了，所以系数需要指数化解释：<code>exp(0.157)-1 ≈ 17%</code>）</li>
-            <li><strong>TotalSF（总面积）：</strong>总面积每增加100平方英尺，房价增加约2.3%</li>
-            <li><strong>KitchenQual（厨房质量）：</strong>从"一般"提升到"良好"，房价增加约9.5%</li>
-            <li><strong>YearBuilt（建筑年份）：</strong>每新10年，房价增加约4.1%</li>
-            <li><strong>Neighborhood（社区）：</strong>相比参考社区，某些高档社区的溢价可达30-50%</li>
-        </ul>
-
-        <div class="tip">
-            <strong>业务洞见：</strong>分析结果清晰地表明，房屋的整体质量和总面积是房价最主要的驱动因素。有意思的是，在控制了其他变量后，"浴室数量"的边际贡献并不大——这说明买家更在意房屋的整体品质，而不是某个单独的房间数量。对于房地产开发商来说，这意味着与其增加更多浴室，不如提升整体装修标准和扩大居住面积。
-        </div>
-
-        <h3>24.6 本章小结</h3>
-
-        <p>这一章我们从零开始完成了一个完整的数据分析项目：数据加载与探索、缺失值与异常值处理、EDA 分析、统计建模、模型诊断到最终的业务解读。每一步都可能踩坑，但每一步也能带来宝贵的洞察。真实数据分析的精髓不在于模型多复杂，而在于你是否真正理解了自己的数据和业务问题。</p>
-
-        <p>下一章我们将进入互联网行业最经典的统计应用场景——A/B测试。你将学会如何科学地设计实验、计算最小样本量、选择合适的检验方法，并避免那些即使在资深团队中也反复出现的统计陷阱。</p>
-
-        <div class="footer-nav">
-            <a href="23.html">← 上一章</a>
-            <a href="index.html">📖 返回目录</a>
-            <a href="25.html">下一章 →</a>
-        </div>
-    </div>
-</div>
-</div>
-</body>
-</html>
+res = sm.OLS(log_y, sm.add_constant(x)).fit()
+beta = res.params[1]
+print("beta =", round(beta, 3))
+print("percent =", round((np.exp(beta) - 1) * 100, 1), "%")</code></pre>
+<div class="callout"><h3>自我检查</h3><p><strong>问题：</strong>你在清洗时删掉了所有含缺失的记录，模型 R² 很漂亮。汇报前最应该做什么？</p><p><strong>参考答案：</strong>先检查缺失机制与删除比例。若缺失集中在某个子群体（MNAR/MAR），结论会有选择偏差，需改用插补或把缺失建模，并在报告中说明删除带来的样本变化。</p></div>
+<div class="callout warning"><h3>失败模式：只报 R²</h3><p>R² 高不代表模型有用：过拟合、共线性、外推都会让训练集 R² 言过其实。同时报告保留集 RMSE、残差诊断与特征稳定性，才是一个完整结论。</p></div></section>
+<section class="section" id="refs"><h2>参考资料与延伸阅读</h2><ol class="sources"><li><a href="https://doi.org/10.1080/10691898.2011.11889627">De Cock (2011), Journal of Statistics Education</a>：Ames Housing 数据集的原始描述。</li><li><a href="https://www.kaggle.com/c/house-prices-advanced-regression-techniques">Kaggle, House Prices</a>：该数据集广泛使用的训练/测试划分。</li><li><a href="https://stefvanbuuren.name/fimd/">van Buuren, Flexible Imputation of Missing Data</a>：MCAR/MAR/MNAR 与多重插补。</li><li><a href="https://www.statlearning.com/">James 等, An Introduction to Statistical Learning</a>：模型诊断与特征选择。</li><li><a href="https://www.statsmodels.org/stable/index.html">statsmodels 文档</a>：OLS、诊断与影响点。</li></ol><p class="subtle">数据集规模与字段信息可对照 De Cock (2011) 核对；本章所有偏度、R²、系数百分比与图示均为教学示意，非本文对 Ames 数据的实际估计。</p></section>
+<nav class="chapter-nav" aria-label="章节切换"><a href="23.html">← 统计学工具链</a><a href="../index.html">课程目录</a><a href="25.html">A/B测试实战 →</a></nav></article></main></div><script>(()=>{const b=document.getElementById('beta'),bOut=document.getElementById('beta-out'),out=document.getElementById('pct-out');if(!b||!out)return;const upd=()=>{const be=Number(b.value),pct=(Math.exp(be)-1)*100;bOut.value=be.toFixed(2);bOut.textContent=be.toFixed(2);out.textContent='β = '+be.toFixed(2)+' → 价格中位数变化约 '+(pct>=0?'+':'')+pct.toFixed(1)+'%'};b.addEventListener('input',upd);upd()})();</script></body></html>
