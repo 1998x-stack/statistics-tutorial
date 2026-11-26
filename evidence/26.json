@@ -1,0 +1,79 @@
+{
+  "chapter": "26",
+  "version": "2026-11-26",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "bias-variance",
+      "claim": "Expected squared prediction error decomposes into squared bias, variance and irreducible noise, giving the bias-variance tradeoff over model complexity",
+      "kind": "reference",
+      "source_url": "https://hastie.su.domains/ElemStatLearn/",
+      "locator": "Hastie, Tibshirani & Friedman, The Elements of Statistical Learning, Chapter 7",
+      "status": "verified",
+      "notes": "Basis of equation 1 and figure 1"
+    },
+    {
+      "id": "regularization-priors",
+      "claim": "L2 (ridge) regularization corresponds to a Gaussian prior on the weights and L1 (lasso) to a Laplace prior, linking penalised regression to Bayesian posteriors",
+      "kind": "reference",
+      "source_url": "https://www.statlearning.com/",
+      "locator": "James et al., An Introduction to Statistical Learning, ridge and lasso",
+      "status": "verified",
+      "notes": "Basis of the regularization section"
+    },
+    {
+      "id": "cross-validation",
+      "claim": "K-fold cross-validation partitions the data into K folds and uses each in turn as validation data, so every observation is validated exactly once",
+      "kind": "reference",
+      "source_url": "https://scikit-learn.org/stable/modules/cross_validation.html",
+      "locator": "scikit-learn user guide, cross-validation",
+      "status": "verified",
+      "notes": "Supports figure 2 and the CV section"
+    },
+    {
+      "id": "dropout-bayes",
+      "claim": "Dropout at test time can be interpreted as approximate Bayesian model averaging",
+      "kind": "reference",
+      "source_url": "https://arxiv.org/abs/1506.02142",
+      "locator": "Gal & Ghahramani (2016), ICML",
+      "status": "verified",
+      "notes": "Supports the 'black magic has statistical roots' callout"
+    },
+    {
+      "id": "batch-norm",
+      "claim": "Batch Normalization was motivated in part by reducing internal covariate shift",
+      "kind": "reference",
+      "source_url": "https://arxiv.org/abs/1502.03167",
+      "locator": "Ioffe & Szegedy (2015)",
+      "status": "verified",
+      "notes": "Claim stated as the authors' motivation"
+    },
+    {
+      "id": "xgboost-regularization",
+      "claim": "XGBoost adds an explicit regularisation term for the number of leaves and the L2 norm of leaf weights to the boosting objective",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1145/2939672.2939785",
+      "locator": "Chen & Guestrin (2016), Proceedings of KDD",
+      "status": "verified",
+      "notes": "Supports the gradient boosting section"
+    },
+    {
+      "id": "teaching-functions",
+      "claim": "The bias-variance demo functions, the R-squared values of 0.998 and 0.87, and the error curves are constructed teaching illustrations",
+      "kind": "model",
+      "source_url": null,
+      "locator": "sections 02, 06 and 07",
+      "status": "illustrative",
+      "notes": "Not results from any real modelling project"
+    },
+    {
+      "id": "figures",
+      "claim": "The bias-variance U-curve and the K-fold partition figures are teaching diagrams prepared for this lesson",
+      "kind": "figure",
+      "source_url": null,
+      "locator": "figures 1-2",
+      "status": "illustrative",
+      "notes": "Schematic"
+    }
+  ]
+}
