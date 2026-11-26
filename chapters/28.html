@@ -34,7 +34,7 @@
 </section>
 <section class="section" id="demo"><h2>06 · 动手：调整前后差在哪</h2>
 <p>下面的计算器用公式 2 演示未观测的混杂会把真实效应扭曲多少。这里固定真实运动效应为 −0.5（每周多运动一天、BMI 降低 0.5），只让你改变混杂强度。它只做乘法与加法，不含随机模拟。</p>
-<div class="demo"><h3>混杂偏倚计算器</h3><label for="gamma">年龄对 BMI 的效应 &#947;：<output id="gamma-out" for="gamma">1.0</output></label><input id="gamma" type="range" min="0" max="3" step="0.1" value="1"><label for="delta">年龄与运动的关联 &#948;：<output id="delta-out" for="delta">0.6</output></label><input id="delta" type="range" min="0" max="1" step="0.05" value="0.6"><p class="demo-output" id="bias-out" aria-live="polite"></p><p class="subtle">即使 &#947;、&#948; 都为负，只要两者同号，偏倚项 &#947;&#8901;&#948; 也可能为正；偏倚的方向由两个关联的符号乘积决定。</p></div>
+<div class="demo"><h3>混杂偏倚计算器</h3><label for="gamma">年龄对 BMI 的效应 &#947;：<output id="gamma-out" for="gamma">1.0</output></label><input id="gamma" type="range" min="0" max="3" step="0.1" value="1"><label for="delta">年龄与运动的关联 &#948;：<output id="delta-out" for="delta">-0.6</output></label><input id="delta" type="range" min="-1" max="1" step="0.05" value="-0.6"><p class="demo-output" id="bias-out" aria-live="polite"></p><p class="subtle">即使 &#947;、&#948; 都为负，只要两者同号，偏倚项 &#947;&#8901;&#948; 也可能为正；偏倚的符号由 &#947; 与 &#948; 的乘积决定：两者同号时偏倚为正，异号时为负。把 &#948; 拉到负值（年龄越大运动越少），未控制估计会比真实值更负，与第 4 节的 BMI 例子一致。</p></div>
 </section>
 <section class="section" id="practice"><h2>07 · 自我检查与可复现计算</h2>
 <p>下面这段代码只用标准库，完全确定性，可以手算核对。它构造一份无随机噪声的合成数据（数据生成时真实运动系数固定为 −0.5），分别算“只看运动”与“控制年龄后”的斜率：</p>
