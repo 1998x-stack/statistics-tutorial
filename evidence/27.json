@@ -1,0 +1,79 @@
+{
+  "chapter": "27",
+  "version": "2026-11-26",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "potential-outcomes",
+      "claim": "The average treatment effect is the expectation of the difference between the treated and untreated potential outcomes; the observed difference equals ATT plus selection bias when treatment is not randomised",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1515/9781400829828",
+      "locator": "Angrist & Pischke, Mostly Harmless Econometrics, Chapter 3 (potential outcomes)",
+      "status": "verified",
+      "notes": "Basis of equations 1-2"
+    },
+    {
+      "id": "propensity-score",
+      "claim": "The propensity score e(X)=P(T=1|X) balances the distribution of X across treatment groups, so conditioning on e(X) suffices when treatment assignment is conditionally ignorable",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1093/biomet/70.1.41",
+      "locator": "Rosenbaum & Rubin (1983), Biometrika 70(1), 41-55",
+      "status": "verified",
+      "notes": "Basis of the propensity score definition and figure 2"
+    },
+    {
+      "id": "difference-in-differences",
+      "claim": "The difference-in-differences estimator computes (treated pre-post change) minus (control pre-post change) and identifies the effect under the parallel trends assumption",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.2307/2118030",
+      "locator": "Card & Krueger (1994), American Economic Review, minimum wage natural experiment",
+      "status": "verified",
+      "notes": "Basis of equation 4 and figure 3"
+    },
+    {
+      "id": "regression-discontinuity",
+      "claim": "Regression discontinuity identifies a local effect as the jump in the outcome at the cutoff, assuming units cannot precisely manipulate the running variable",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1257/jel.48.2.281",
+      "locator": "Lee & Lemieux (2010), Journal of Economic Literature 48(2), 281-355",
+      "status": "verified",
+      "notes": "Basis of equation 5 and the RDD section"
+    },
+    {
+      "id": "instrumental-variables",
+      "claim": "An instrumental variable identifies a local average treatment effect for compliers when it is relevant (correlated with treatment) and exogenous (affects the outcome only through treatment)",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1515/9781400829828",
+      "locator": "Angrist & Pischke, Mostly Harmless Econometrics, Chapter 4 (instrumental variables)",
+      "status": "verified",
+      "notes": "Supports the IV portion of section 05"
+    },
+    {
+      "id": "nobel-2021",
+      "claim": "David Card, Joshua Angrist and Guido Imbens received the 2021 Sveriges Riksbank Prize in Economic Sciences for their contributions to the methodology of causal inference and natural experiments",
+      "kind": "reference",
+      "source_url": "https://www.nobelprize.org/prizes/economic-sciences/2021/summary/",
+      "locator": "The Nobel Prize, economic sciences 2021 summary",
+      "status": "verified",
+      "notes": "Motivation in section 01"
+    },
+    {
+      "id": "teaching-numbers",
+      "claim": "The four-method map, the overlap panels, and the DID example with values 100/115 and 95/100 are constructed teaching illustrations",
+      "kind": "illustrative",
+      "source_url": null,
+      "locator": "figures 1-3 and sections 04, 06, 07",
+      "status": "illustrative",
+      "notes": "Not results from any real study"
+    },
+    {
+      "id": "figures",
+      "claim": "The method-comparison map, the propensity-score overlap diagram and the parallel-trends diagram are schematic figures prepared for this lesson",
+      "kind": "figure",
+      "source_url": null,
+      "locator": "figures 1-3",
+      "status": "illustrative",
+      "notes": "Schematic; shapes and values illustrative only"
+    }
+  ]
+}
