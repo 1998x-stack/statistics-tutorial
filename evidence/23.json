@@ -1,0 +1,79 @@
+{
+  "chapter": "23",
+  "version": "2026-11-26",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "scipy-stats",
+      "claim": "scipy.stats provides probability distributions and hypothesis tests such as ttest_ind, shapiro, levene and mannwhitneyu",
+      "kind": "reference",
+      "source_url": "https://docs.scipy.org/doc/scipy/reference/stats.html",
+      "locator": "SciPy statistics reference",
+      "status": "verified",
+      "notes": "Basis of the section 03 code"
+    },
+    {
+      "id": "welch-t",
+      "claim": "When variances cannot be assumed equal, the Welch t statistic divides the mean difference by the square root of s1^2/n1 + s2^2/n2",
+      "kind": "reference",
+      "source_url": "https://openstax.org/books/introductory-statistics/pages/10-1-two-population-means-with-unknown-standard-deviations",
+      "locator": "OpenStax, Introductory Statistics, two population means",
+      "status": "verified",
+      "notes": "Standard two-sample statistic"
+    },
+    {
+      "id": "statsmodels",
+      "claim": "statsmodels offers an R-style formula interface and reports coefficients, standard errors, t values, confidence intervals and R^2, plus ANOVA and residual diagnostics",
+      "kind": "reference",
+      "source_url": "https://www.statsmodels.org/stable/index.html",
+      "locator": "statsmodels documentation",
+      "status": "verified",
+      "notes": "Basis of the section 04 code"
+    },
+    {
+      "id": "cohens-d",
+      "claim": "Cohen's d standardises a mean difference by the pooled standard deviation; conventional rough benchmarks are about 0.2 small, 0.5 medium and 0.8 large",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.4324/9780203771587",
+      "locator": "Cohen (1988), Statistical Power Analysis for the Behavioral Sciences",
+      "status": "verified",
+      "notes": "Effect-size benchmarks, explicitly domain-dependent"
+    },
+    {
+      "id": "reproducibility",
+      "claim": "Reproducible computational research requires scripting every step, recording software versions and fixing random seeds",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1371/journal.pcbi.1003285",
+      "locator": "Sandve et al. (2013), PLoS Computational Biology",
+      "status": "verified",
+      "notes": "Motivates sections 01 and 06"
+    },
+    {
+      "id": "worked-d",
+      "claim": "For n1=200, n2=180, means 5.2 and 6.8 and standard deviations 1.5 and 1.7, the pooled variance is about 2.5526 and Cohen's d is about -1.00",
+      "kind": "derived",
+      "source_url": null,
+      "locator": "section 07 hand calculation",
+      "status": "derived",
+      "notes": "Direct arithmetic from the pooled-variance formula"
+    },
+    {
+      "id": "teaching-numbers",
+      "claim": "The click-rate group data, the regression example and the pipeline figure are constructed teaching material",
+      "kind": "model",
+      "source_url": null,
+      "locator": "sections 01, 03, 04 and 06",
+      "status": "illustrative",
+      "notes": "Not from a real project; the version-drift story is explicitly synthetic"
+    },
+    {
+      "id": "figures",
+      "claim": "The analysis pipeline figure is a teaching diagram prepared for this lesson",
+      "kind": "figure",
+      "source_url": null,
+      "locator": "figure 1",
+      "status": "illustrative",
+      "notes": "Schematic workflow"
+    }
+  ]
+}
