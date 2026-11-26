@@ -2,7 +2,7 @@
 
 [**打开在线课程**](https://1998x-stack.github.io/statistics-tutorial/) · [仓库](https://github.com/1998x-stack/statistics-tutorial) · [内容维护规范](AGENTS.md)
 
-这是一套 28 篇独立可读的中文统计学课程。重点不只是统计计算，而是数据怎样产生、结论依据什么假设、估计存在怎样的不确定性。第 01–26 篇已经按独立图解长文规范逐篇重构；第 27–28 篇保留原正文，后续继续审校。
+这是一套 28 篇独立可读的中文统计学课程。重点不只是统计计算，而是数据怎样产生、结论依据什么假设、估计存在怎样的不确定性。第 01–28 篇均已按独立图解长文规范逐篇重构。
 
 ## 学习路线
 
@@ -42,14 +42,14 @@
 | 24 | [真实数据分析实战](chapters/24.html) | 新版深度图解 |
 | 25 | [A/B测试实战](chapters/25.html) | 新版深度图解 |
 | 26 | [机器学习中的统计学](chapters/26.html) | 新版深度图解 |
-| 27 | [现代因果推断](chapters/27.html) | 原正文待精修 |
-| 28 | [综合项目：从问题到结论](chapters/28.html) | 原正文待精修 |
+| 27 | [现代因果推断](chapters/27.html) | 新版深度图解 |
+| 28 | [综合项目：从问题到结论](chapters/28.html) | 新版深度图解 |
 
 ## 目录结构
 
 ```text
 index.html                 # 根路径 GitHub Pages 首页，可离线打开
-chapters/01.html … 28.html # 28 篇独立 HTML；theme.css 用于未重构章节
+chapters/01.html … 28.html # 28 篇独立 HTML（均已按深度图解规范重构）
 assets/css/               # 新版首页 / 文章样式
 assets/svg/               # 自主绘制、可独立查看的 SVG
 assets/js/catalog.js      # 可选搜索与筛选交互
