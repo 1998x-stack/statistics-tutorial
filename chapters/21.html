@@ -1,195 +1,52 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>第21章 方差分析（ANOVA） | 统计学教程</title>
-<link rel="stylesheet" href="theme.css">
-<style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { background: linear-gradient(135deg, #f5f3ff 0%, #e8f5f0 100%); font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', Roboto, 'Helvetica Neue', sans-serif; padding: 20px; }
-.double-border { max-width: 1400px; margin: 0 auto; background: #ffffff; border: 2px solid #8b5cf6; border-radius: 24px; box-shadow: 0 20px 30px -15px rgba(0,0,0,0.2), inset 0 1px 0 0 #f5f3ff; overflow: hidden; }
-.container { display: grid; grid-template-columns: 260px 1fr; gap: 0; }
-.sidebar { background: #faf8ff; border-right: 2px solid #c4b5fd; padding: 24px 16px; }
-.sidebar h3 { font-size: 1.4rem; color: #6d28d9; border-left: 5px solid #8b5cf6; padding-left: 15px; margin-bottom: 25px; }
-.chapter-list { list-style: none; }
-.chapter-list li { margin-bottom: 6px; }
-.chapter-list a { display: block; padding: 8px 12px; text-decoration: none; color: #334155; border-radius: 12px; transition: all 0.2s; font-weight: 500; font-size: 0.92rem; }
-.chapter-list a:hover { background: #ede9fe; transform: translateX(3px); }
-.chapter-list .active { background: #7c3aed; color: white; box-shadow: 0 2px 5px rgba(124,58,237,0.3); }
-.main-content { padding: 30px 35px; background: white; }
-.footer-nav { margin-top: 45px; padding-top: 20px; border-top: 2px solid #c4b5fd; display: flex; justify-content: space-between; }
-.footer-nav a { padding: 8px 24px; background: #f1f5f9; text-decoration: none; color: #5b21b6; border-radius: 40px; font-weight: 500; transition: 0.2s; }
-.footer-nav a:hover { background: #ede9fe; transform: translateY(-2px); }
-footer { text-align: center; margin-top: 30px; padding: 15px; color: #64748b; border-top: 1px dashed #c4b5fd; font-size: 0.9rem; }
-h2 { color: #4c1d95; border-left: 6px solid #8b5cf6; padding-left: 15px; margin: 20px 0 15px; font-size: 1.5rem; }
-h3 { color: #5b21b6; margin: 20px 0 10px; font-size: 1.2rem; }
-h4 { color: #6d28d9; margin: 15px 0 8px; font-size: 1.05rem; }
-p { line-height: 1.85; margin: 10px 0; color: #1e293b; }
-ul, ol { margin: 10px 0 10px 20px; line-height: 1.8; }
-li { color: #1e293b; margin-bottom: 4px; }
-pre { background: #1e1035; color: #e8e8f0; padding: 15px; border-radius: 12px; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', monospace; margin: 15px 0; font-size: 0.9rem; line-height: 1.5; }
-code { background: #f5f3ff; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
-pre code { background: none; padding: 0; }
-table { width: 100%; border-collapse: collapse; margin: 15px 0; background: #fafafe; }
-th, td { border: 1px solid #c4b5fd; padding: 10px; text-align: left; }
-th { background: #f5f3ff; color: #5b21b6; font-weight: 600; }
-.tip, .warning, .highlight { padding: 12px 18px; border-radius: 16px; margin: 15px 0; line-height: 1.7; }
-.tip { background: #e0f2fe; border-left: 6px solid #0ea5e9; }
-.warning { background: #fee2e2; border-left: 6px solid #ef4444; }
-.highlight { background: #fef9c3; border: 1px solid #facc15; }
-strong { color: #1e1b4b; }
-@media (max-width: 768px) { .container { grid-template-columns: 1fr; } .sidebar { border-right: none; border-bottom: 2px solid #c4b5fd; } body { padding: 10px; } .main-content { padding: 20px; } }
-</style></head>
-<body>
-<div class="double-border">
-<div class="container">
-<div class="sidebar">
-<h3>统计学教程</h3>
-<ul class="chapter-list">
-<li><a href="01.html">第1章 什么是统计学</a></li>
-<li><a href="02.html">第2章 数据的类型与来源</a></li>
-<li><a href="03.html">第3章 描述统计（一）</a></li>
-<li><a href="04.html">第4章 描述统计（二）</a></li>
-<li><a href="05.html">第5章 数据可视化基础</a></li>
-<li><a href="06.html">第6章 概率基础</a></li>
-<li><a href="07.html">第7章 常见概率分布</a></li>
-<li><a href="08.html">第8章 抽样与抽样分布</a></li>
-<li><a href="09.html">第9章 点估计与区间估计</a></li>
-<li><a href="10.html">第10章 假设检验入门</a></li>
-<li><a href="11.html">第11章 常见假设检验</a></li>
-<li><a href="12.html">第12章 统计功效与样本量</a></li>
-<li><a href="13.html">第13章 相关分析</a></li>
-<li><a href="14.html">第14章 简单线性回归</a></li>
-<li><a href="15.html">第15章 p值与统计显著性危机</a></li>
-<li><a href="16.html">第16章 多重比较与谬误</a></li>
-<li><a href="17.html">第17章 因果推断基础</a></li>
-<li><a href="18.html">第18章 统计伦理与最佳实践</a></li>
-<li><a href="19.html">第19章 多元线性回归</a></li>
-<li><a href="20.html">第20章 逻辑回归</a></li>
-<li><a href="21.html" class="active">第21章 方差分析（ANOVA）</a></li>
-<li><a href="22.html">第22章 贝叶斯统计入门</a></li>
-<li><a href="23.html">第23章 统计学工具链</a></li>
-<li><a href="24.html">第24章 真实数据分析实战</a></li>
-<li><a href="25.html">第25章 A/B测试实战</a></li>
-<li><a href="26.html">第26章 机器学习中的统计学</a></li>
-<li><a href="27.html">第27章 现代因果推断</a></li>
-<li><a href="28.html">第28章 综合项目：从问题到结论</a></li>
-</ul>
-</div>
-<div class="main-content">
-
-<h2>第21章 方差分析（ANOVA）</h2>
-<p>大家好，我是你们的讲师。前面两章我们都在处理"因变量是什么"的问题——连续值用线性回归，二分类用逻辑回归。现在换一个角度：假设我们想比较<strong>三个或更多组的均值</strong>是否有显著差异，该怎么办？比如三种减肥方法的效果、四种教学方式的成绩、五个工厂的次品率。你可能会想：简单，两两做 t 检验不就完了？答案令人遗憾：不行。这一章的 ANOVA（Analysis of Variance，方差分析）就是专门解决这个问题的。</p>
-
-<h3>21.1 ANOVA 的直觉：比较多个组的均值</h3>
-<p>ANOVA 这个名字可能会误导你——它叫"方差分析"，但目的是比较均值。为什么比较均值却要从方差入手？原因在于：如果各组均值差异很大，那么组间方差就会远大于组内方差。换句话说，ANOVA 的核心思路是<strong>分解总方差</strong>：</p>
-<ul>
-<li><strong>组间方差（Between-group variance）：</strong> 各组均值与总均值之间的差异，体现了"处理效应"。</li>
-<li><strong>组内方差（Within-group variance）：</strong> 每组内部个体之间的差异，体现了"随机误差"。</li>
-</ul>
-<p>如果组间方差显著大于组内方差，我们就说至少有一组的均值与其他组不同。</p>
-
-<div class="tip">
-<strong>直觉类比：</strong>想象你在听三个乐队演奏同一首歌。如果三个乐队水平差异很大（组间差异大），你很容易区分；如果每个乐队内部节奏都不稳（组内差异大），那就很难说哪个更好。ANOVA 做的就是"比较信号和噪音的大小"。
-</div>
-
-<h3>21.2 单因素 ANOVA：F 统计量与组间/组内方差</h3>
-<p>单因素 ANOVA（One-way ANOVA）只有一个分类自变量（因素）。F 统计量的计算公式为：</p>
-<pre><code>F = (组间均方 MSB) / (组内均方 MSW)
-  = (SSB / df_between) / (SSW / df_within)</code></pre>
-<p>F 值越大，组间差异越显著。对应的 p 值告诉我们这个 F 值在零假设（所有组均值相等）下出现的概率。</p>
-<p>使用 ANOVA 有三个关键前提：</p>
-<ol>
-<li><strong>正态性：</strong>每组数据近似服从正态分布。</li>
-<li><strong>方差齐性（Homogeneity of variance）：</strong>各组的方差大致相等。可以用 Levene 检验来验证。</li>
-<li><strong>独立性：</strong>观测值之间相互独立。</li>
-</ol>
-
-<h3>21.3 双因素 ANOVA 与交互效应</h3>
-<p>双因素 ANOVA（Two-way ANOVA）有两个分类自变量，可以分析：</p>
-<ul>
-<li><strong>主效应（Main Effect）：</strong>每个自变量的独立效果。</li>
-<li><strong>交互效应（Interaction Effect）：</strong>两个自变量是否"联手"产生了单独行动没有的效果。</li>
-</ul>
-<p>例如，研究"教学方法"和"学生性别"对考试成绩的影响。可能的结果：</p>
-
-<table>
-<thead><tr><th>教学方法</th><th>男生平均分</th><th>女生平均分</th><th>行平均</th></tr></thead>
-<tbody>
-<tr><td>传统讲授</td><td>72</td><td>75</td><td>73.5</td></tr>
-<tr><td>互动式教学</td><td>85</td><td>78</td><td>81.5</td></tr>
-<tr><td>线上自学</td><td>68</td><td>80</td><td>74.0</td></tr>
-<tr><td>列平均</td><td>75.0</td><td>77.7</td><td>—</td></tr>
-</tbody>
-</table>
-
-<p>这里教学方法有主效应（行平均有差异），性别的主效应不显著，但交互效应可能存在——因为互动式教学对男生效果更好，而线上自学对女生效果更好。这就是交互效应：一个因素的效应依赖于另一个因素的取值。</p>
-
-<h3>21.4 事后检验（Post-hoc）：Tukey HSD</h3>
-<p>如果 ANOVA 结果显示至少有一组不同，但我们不知道是哪几组不同。这就需要进行<strong>事后检验</strong>（Post-hoc Test）。最常用的是 <strong>Tukey's HSD</strong>（Honestly Significant Difference）检验，它对所有可能的组对进行两两比较，同时校正多重比较带来的假阳性膨胀。</p>
-
-<div class="warning">
-<strong>我的踩坑故事：</strong>学生时代第一次做实验数据分析，我比较四种肥料的农作物产量效果。为了"全面"地看各组差异，我做了 C(4,2)=6 次独立的 t 检验，结果发现有两个组"显著差异"（p &lt; 0.05），兴高采烈地去向导师汇报。导师冷静地说："你做 6 次 t 检验，每次假阳性率 5%，至少出现一次假阳性的概率是 1 - 0.95⁶ ≈ 26.5%。你的'发现'很可能是假阳性。"那次被训让我明白：<strong>多个 t 检验代替 ANOVA 会导致假阳性率暴增</strong>——这就是多重比较问题的典型例子，也是我们第 16 章讲过的内容的具体体现。
-</div>
-
-<h3>21.5 ANOVA 与线性回归的关系</h3>
-<p>ANOVA 和线性回归实际上是<strong>同一个广义线性模型框架下的特例</strong>。事实上，ANOVA 可以看作是以分类变量为自变量的线性回归：</p>
-<ul>
-<li>把 k 个组用 k-1 个虚拟变量（dummy variables）表示。</li>
-<li>回归的 F 检验和 ANOVA 的 F 检验完全等价。</li>
-<li>回归的 R² 等于 ANOVA 中的 η²（eta-squared），反映"组间方差占总方差的比例"。</li>
-</ul>
-<p>在 statsmodels 中，你可以用 ols + anova_lm 来同时获得回归结果和 ANOVA 表：</p>
-
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="用方差分解理解 ANOVA：为什么不直接做多个 t 检验、单因素 F 统计量、方差齐性与正态性假设、双因素与交互效应、Tukey HSD 事后检验，以及 ANOVA 与线性回归的关系。"><title>21 方差分析（ANOVA）：比较多组均值 | Statistics Lab</title><link rel="stylesheet" href="../assets/css/article.css"></head><body><a class="skip-link" href="#content">跳转到正文</a><nav class="topbar" aria-label="章节导航"><a href="../index.html">← Statistics Lab / 课程目录</a><span class="trail">21 / 28 · 统计模型</span></nav><div class="article-layout"><nav class="toc" aria-label="本文目录"><h2>本篇路径</h2><a href="#why">01 · 为什么不直接做多个 t 检验</a><a href="#decompose">02 · 方差分解：组间与组内</a><a href="#f">03 · F 统计量与三条前提</a><a href="#twoway">04 · 双因素 ANOVA 与交互效应</a><a href="#posthoc">05 · 事后检验：Tukey HSD</a><a href="#demo">06 · 动手：信号与噪声之比</a><a href="#practice">07 · 自我检查与可复现计算</a><a href="#refs">参考资料与延伸阅读</a></nav><main id="content"><article><header class="article-header"><div class="kicker">Chapter 21 · Analysis of variance</div><h1>方差分析（ANOVA）：比较多组均值</h1><p class="dek">要比较三组或更多组均值，两两做 t 检验看似省事，却会让“至少报错一次”的概率迅速膨胀。ANOVA 换了个角度：不直接比均值，而是比较“组间差异”和“组内噪声”谁更大。</p><div class="question"><strong>贯穿案例：</strong>三种教学方法的考试成绩分别是 72、80、75 左右，每组 30 人。这个差距是方法真的不同，还是只靠随机波动就足够了？</div></header>
+<section class="section" id="why"><h2>01 · 为什么不直接做多个 t 检验</h2>
+<p class="lede">四组数据两两比较有 6 对，五组有 10 对。若每一对都做一次显著性水平 α = 0.05 的检验，则“至少出现一次假阳性”的概率不再是 5%，而是：</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="族错误率等于一减一减 α 的 m 次方，其中 m 是比较次数，可横向滚动"><math display="block" aria-label="族错误率等于一减一减 α 的 m 次方，其中 m 是比较次数"><mrow><mi>FWER</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo>)</mo></mrow><mi>m</mi></msup></mrow></math></div><div class="eq-caption">式 1</div></div>
+<p>当 m = 6、α = 0.05 时，FWER ≈ 26.5%；m = 10 时已接近 40%。这就是多重比较问题：不校正地做多组两两检验，会把“碰巧显著”当成发现（第 16 章）。ANOVA 先用一个整体检验回答“有没有任何一组不同”，把 α 花在一次检验上。</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360" role="img" aria-labelledby="fwer-t fwer-d"><title id="fwer-t">多次独立检验下，至少出现一次假阳性的概率随比较次数上升</title><desc id="fwer-d">横轴为独立比较次数，纵轴为族错误率。每次检验显著性水平为 0.05，曲线从 5% 开始迅速上升，到 6 次时约为 26.5%，到 10 次时约 40%，逐渐趋近 100%。</desc><rect width="900" height="360" rx="15" fill="#fff"/><g font-family="system-ui,-apple-system,'PingFang SC',sans-serif"><text x="36" y="40" font-size="20" font-weight="750" fill="#294b50">比较次数一多，“巧合显著”几乎必然出现</text><path d="M130 300H820" stroke="#20353a" stroke-width="2"/><path d="M820 300l-12-6v12z" fill="#20353a"/><path d="M130 300V80" stroke="#20353a" stroke-width="2"/><path d="M130 80l-6 12h12z" fill="#20353a"/><path d="M130 90H820" stroke="#92acaa" stroke-width="1.4" stroke-dasharray="6 5"/><path d="M130 195H820" stroke="#dce5e1" stroke-width="1.2"/><text x="96" y="95" font-size="12" fill="#597477">100%</text><text x="100" y="200" font-size="12" fill="#597477">50%</text><text x="110" y="305" font-size="12" fill="#597477">0%</text><path d="M163.5 289.5L197 279.5L230.5 270L264 261L297.5 252.5L331 244.4L398 229.3L465 215.7L532 203.5L632.5 187.3L800 165.3" fill="none" stroke="#c06d4c" stroke-width="3"/><circle cx="331" cy="244.4" r="5" fill="#c06d4c"/><text x="340" y="240" font-size="13" font-weight="700" fill="#c06d4c">6 次：≈ 26.5%</text><text x="465" y="205" font-size="12" fill="#597477">10 次：≈ 40%</text><text x="420" y="336" font-size="13" font-weight="700" fill="#20353a">独立比较次数 m</text><text x="36" y="352" font-size="12" fill="#597477">曲线由式 1 计算（α = 0.05）；教科书数字，非实验结果。</text></g></svg><figcaption><strong>图 1 · 多一次比较，就多一次“碰巧”。</strong>曲线按式 1 精确计算。它说明的是：在没有真实差异时，比较次数越多，至少报错一次的可能性越大；ANOVA 的意义就是用一次整体检验控制这个概率。</figcaption></figure>
+<p>要注意：ANOVA 的整体检验不直接告诉你“哪两组不同”。它只回答“所有组均值是否可能相等”；如果拒绝零假设，再用事后检验定位具体差异，并在这个过程中校正多重比较。</p></section>
+<section class="section" id="decompose"><h2>02 · 方差分解：组间与组内</h2>
+<p>ANOVA 虽名“方差分析”，要回答的却是均值的差异。关键在于它把每个观测与总均值的偏差拆成两部分：观测所在组的均值与总均值之差（组间），以及观测与该组均值之差（组内）。平方后加总，得到：</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="总平方和等于组间平方和加组内平方和，可横向滚动"><math display="block" aria-label="总平方和等于组间平方和加组内平方和"><mrow><msub><mi>SS</mi><mi>T</mi></msub><mo>=</mo><msub><mi>SS</mi><mi>B</mi></msub><mo>+</mo><msub><mi>SS</mi><mi>W</mi></msub></mrow></math></div><div class="eq-caption">式 2</div></div>
+<p>组间平方和 <span class="math-inline"><math aria-label="SSB"><msub><mi>SS</mi><mi>B</mi></msub></math></span> 度量各组均值远离总均值的程度，携带“处理/分组效应”；组内平方和 <span class="math-inline"><math aria-label="SSW"><msub><mi>SS</mi><mi>W</mi></msub></math></span> 度量组内个体分散程度，代表随机噪声。</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="900" height="380" viewBox="0 0 900 380" role="img" aria-labelledby="ss-t ss-d"><title id="ss-t">三个组的观测点、组内均值与总均值的示意</title><desc id="ss-d">三列圆点代表三个组的观测。每组的青色短横线是组均值，紫色虚线是总均值。组均值到总均值的距离贡献组间平方和，组内各点到组均值的距离贡献组内平方和。</desc><rect width="900" height="380" rx="15" fill="#fff"/><g font-family="system-ui,-apple-system,'PingFang SC',sans-serif"><text x="36" y="40" font-size="20" font-weight="750" fill="#294b50">信号（组间）与噪声（组内）谁更大</text><path d="M120 200H800" stroke="#7665aa" stroke-width="2" stroke-dasharray="7 6"/><text x="806" y="196" font-size="13" font-weight="700" fill="#7665aa">总均值</text><path d="M170 150H270" stroke="#147f80" stroke-width="4"/><path d="M400 215H500" stroke="#147f80" stroke-width="4"/><path d="M630 250H730" stroke="#147f80" stroke-width="4"/><g fill="#20353a"><circle cx="185" cy="140" r="5"/><circle cx="205" cy="161" r="5"/><circle cx="220" cy="146" r="5"/><circle cx="240" cy="166" r="5"/><circle cx="255" cy="150" r="5"/><circle cx="415" cy="205" r="5"/><circle cx="435" cy="226" r="5"/><circle cx="450" cy="211" r="5"/><circle cx="470" cy="231" r="5"/><circle cx="485" cy="215" r="5"/><circle cx="645" cy="240" r="5"/><circle cx="665" cy="261" r="5"/><circle cx="680" cy="246" r="5"/><circle cx="700" cy="266" r="5"/><circle cx="715" cy="250" r="5"/></g><g stroke="#c06d4c" stroke-width="2" stroke-dasharray="4 4"><path d="M220 150V200"/><path d="M450 215V200"/><path d="M680 250V200"/></g><text x="300" y="186" font-size="13" font-weight="700" fill="#c06d4c">组间差异</text><path d="M600 285H760" stroke="#147f80" stroke-width="1.6"/><path d="M600 285l0 8M760 285l0 8" stroke="#147f80" stroke-width="1.6"/><text x="680" y="304" text-anchor="middle" font-size="13" font-weight="700" fill="#147f80">组内噪声</text><text x="220" y="352" text-anchor="middle" font-size="14" font-weight="700" fill="#20353a">组 A</text><text x="450" y="352" text-anchor="middle" font-size="14" font-weight="700" fill="#20353a">组 B</text><text x="680" y="352" text-anchor="middle" font-size="14" font-weight="700" fill="#20353a">组 C</text><text x="36" y="372" font-size="12" fill="#597477">点为教学构造；青线为组均值，紫线为总均值。</text></g></svg><figcaption><strong>图 2 · 同一个总偏差，两种来源。</strong>组均值离总均值越远，组间平方和越大（可能是真实效应）；组内点越散，组内平方和越大（噪声）。F 检验就是拿这两者做比值。</figcaption></figure>
+<div class="grid-two"><div class="panel"><h3>组间（信号）</h3><p>组均值与总均值的差异。组数越多、组间越分开，它越大。自由度 k − 1（k 为组数）。</p></div><div class="panel"><h3>组内（噪声）</h3><p>组内个体与各自组均值的差异。样本越多、个体越捉摸不定，它越大。自由度 N − k（N 为总样本量）。</p></div></div>
+<p>关键不是比平方和的大小，而是比“每单位自由度的平方和”（均方）。组间均方与组内均方之比就是 F。这修正了“组数多、样本少”时组间平方和天然偏大的问题。</p></section>
+<section class="section" id="f"><h2>03 · F 统计量与三条前提</h2>
+<p>把两个平方和各除以自己的自由度，得到组间均方与组内均方，二者之比就是 <strong>F 统计量</strong>：</p>
+<div class="math-equation"><div class="math-scroll" tabindex="0" role="region" aria-label="F 等于组间平方和除以k减一，再除以组内平方和除以N减k，可横向滚动"><math display="block" aria-label="F 等于组间平方和除以k减一，再除以组内平方和除以N减k"><mrow><mi>F</mi><mo>=</mo><mfrac><mrow><msub><mi>SS</mi><mi>B</mi></msub><mo>/</mo><mo>(</mo><mi>k</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mrow><msub><mi>SS</mi><mi>W</mi></msub><mo>/</mo><mo>(</mo><mi>N</mi><mo>−</mo><mi>k</mi><mo>)</mo></mrow></mfrac></mrow></math></div><div class="eq-caption">式 3</div></div>
+<p>零假设“所有组总体均值相等”下，F 的期望接近 1；若组均值真的分开，分母不变而分子变大，F 就会明显大于 1。把观察到的 F 与相应自由度下的 F 分布比较，得到 p 值。</p>
+<ol class="process"><li><strong>独立性：</strong>观测之间相互独立。违反它是最严重的，事后校正也救不回来。</li><li><strong>近似正态：</strong>各<em>残差</em>近似正态，而非原始数据必须正态。样本较大时比较稳健，但重尾或强偏态仍会干扰。</li><li><strong>方差齐性：</strong>各组方差大致相等。可用 Levene 或 Brown–Forsythe 检验；严重不齐且组大小相差悬殊时，改用 Welch 的 ANOVA。</li></ol>
+<div class="callout warning"><h3>下单前先看“不齐”</h3><p>方差严重不齐、样本量相差很大时，普通 F 检验的 I 类错误会偏离名义水平；此时 Welch ANOVA 更稳。数据高度偏态、或只有秩信息时，非参数的 Kruskal–Wallis 检验是常见替代。选了哪个检验，必须和前提检查一起报告。</p></div></section>
+<section class="section" id="twoway"><h2>04 · 双因素 ANOVA 与交互效应</h2>
+<p>当有两个分类自变量（因素）时，双因素 ANOVA 可以同时评估每个因素的<strong>主效应</strong>（其他因素各水平平均后的效应）以及两者的<strong>交互效应</strong>（一个因素的效应是否随另一个因素变化）。</p>
+<table class="data-table"><caption>教学方法 × 性别的平均分（教学示意，非真实数据）</caption><thead><tr><th>教学方法</th><th>男生</th><th>女生</th><th>行平均</th></tr></thead><tbody><tr><td>传统讲授</td><td>72</td><td>75</td><td>73.5</td></tr><tr><td>互动式</td><td>85</td><td>78</td><td>81.5</td></tr><tr><td>线上自学</td><td>68</td><td>80</td><td>74.0</td></tr><tr><td>列平均</td><td>75.0</td><td>77.7</td><td>—</td></tr></tbody></table>
+<p>行平均差异较大（互动式最高），提示教学方法有主效应；列平均差异不大，提示性别主效应很小。但看单元格：互动式对男生更好，线上自学对女生更好——两者方向相反，这就是交互效应（参见第 19 章的交互项图示）。</p>
+<div class="callout warning"><h3>有交互时，主效应会被“平均掉”</h3><p>若交互显著，单独解读“教学方法的主效应”会把方向相反的效应混在一起，得出令人迷惑的结论。此时应在每个水平的组合内分别比较（简单效应），而不是只看边际均值。</p></div></section>
+<section class="section" id="posthoc"><h2>05 · 事后检验：Tukey HSD</h2>
+<p>ANOVA 拒绝零假设，只说明“至少一组不同”。要找出具体哪几对，需要事后检验，并再次面对多重比较。Tukey 的 HSD（诚实显著差异）构建的是所有组对的校正后置信区间，使整个集合的族错误率控制在设定的 α。</p>
+<ol class="process"><li><strong>与 ANOVA 共用假设：</strong>Tukey HSD 默认方差齐性与独立性成立，否则需用 Games–Howell 等不假设方差齐的事后方法。</li><li><strong>看区间而非只看 p：</strong>报告每对均值差的置信区间，比只报“显著/不显著”更能传达不确定性大小。</li><li><strong>不要把结果当作因果：</strong>事后检验仍然是比较观测到的组；若不是随机分配，依旧只是关联。</li></ol></section>
+<section class="section" id="demo"><h2>06 · 动手：信号与噪声之比</h2>
+<p>下面三组各有 5 个观测，组内的离散程度固定，你能改变的只有“组均值分开多少”。拖动滑块，看 F 如何随组间差距增大而上升。</p>
+<div class="demo"><h3>组间间距与 F</h3><label for="gap">组均值间距 d：<output id="gap-out" for="gap">1.5</output></label><input id="gap" type="range" min="0" max="3" step="0.1" value="1.5"><p class="demo-output" id="anova-out" aria-live="polite"></p><p class="subtle">三组固定为均值 −d、0、d，组内偏差均为 −2,−1,0,1,2。结果由公式直接计算，不含随机数。</p></div>
+<p>把 d 拖到 0，三组均值完全相同，F = 0；d 越大，组间均方越大，F 随之上升。但 F 大不等于差异“重要”——它同时受样本量影响，还应用效应量（如 η²）和置信区间一起描述差异大小。</p></section>
+<section class="section" id="practice"><h2>07 · 自我检查与可复现计算</h2>
+<p>下面用固定数组重现上面的 ANOVA（组内偏差相同、组均值间距 1.5），并顺便算一下多组 t 检验带来的族错误率。</p>
 <pre><code>import numpy as np
-import pandas as pd
-import scipy.stats as stats
-import statsmodels.api as sm
-from statsmodels.formula.api import ols
-from statsmodels.stats.anova import anova_lm
-from statsmodels.stats.multicomp import pairwise_tukeyhsd
+from scipy import stats
 
-# 模拟数据：三种教学方法对成绩的影响
-np.random.seed(42)
-n_per_group = 30
-data = pd.DataFrame({
-    '成绩': np.concatenate([
-        np.random.normal(72, 8, n_per_group),   # 传统
-        np.random.normal(80, 8, n_per_group),   # 互动
-        np.random.normal(75, 8, n_per_group),   # 线上
-    ]),
-    '方法': ['传统'] * n_per_group + ['互动'] * n_per_group + ['线上'] * n_per_group
-})
+a = np.array([-2, -1, 0, 1, 2]) + 0.0
+b = np.array([-2, -1, 0, 1, 2]) + 1.5
+c = np.array([-2, -1, 0, 1, 2]) + 3.0
 
-# 方法一：scipy 单因素 ANOVA
-f_stat, p_val = stats.f_oneway(
-    data[data['方法']=='传统']['成绩'],
-    data[data['方法']=='互动']['成绩'],
-    data[data['方法']=='线上']['成绩']
-)
-print(f"F = {f_stat:.3f}, p = {p_val:.5f}")
+F, p = stats.f_oneway(a, b, c)
+print("F =", round(F, 3), " p =", round(p, 4))   # F ≈ 4.5，p ≈ 0.035
 
-# 方法二：statsmodels 回归视角下的 ANOVA
-model = ols('成绩 ~ C(方法)', data=data).fit()
-anova_table = anova_lm(model)
-print(anova_table)
-
-# 事后检验：Tukey HSD
-tukey = pairwise_tukeyhsd(data['成绩'], data['方法'], alpha=0.05)
-print(tukey)</code></pre>
-
-<div class="highlight">
-<strong>ANOVA 的变体：</strong>当方差不齐时，可以使用 Welch's ANOVA 作为替代；当数据不是正态分布时，可以用 Kruskal-Wallis 检验（非参数版本）。重复测量 ANOVA（Repeated Measures ANOVA）用于同一组对象在不同时间点的测量数据。ANOVA 家族庞大，但核心思想始终如一：用方差分解来检验均值差异。
-</div>
-
-<p>这一章我们学习了方差分析——从直觉理解到 F 统计量、单因素和双因素 ANOVA、事后检验 Tukey HSD、以及 ANOVA 和线性回归的内在联系。下一章我们将进行一次世界观的转换，从频率学派走向<strong>贝叶斯统计</strong>——一种把概率解释为"信念程度"的思维方式。</p>
-
-<div class="footer-nav">
-<a href="20.html">← 上一章</a>
-<a href="index.html">📖 返回目录</a>
-<a href="22.html">下一章 →</a>
-</div>
-</div>
-</div>
-<footer>统计学教程 · 第21章 方差分析（ANOVA） · 用数据理解世界</footer>
-</div>
-</body>
-</html>
+# 式 1：独立 t 检验的族错误率
+for m in [1, 3, 6, 10]:
+    print(m, round(1 - 0.95 ** m, 3))</code></pre>
+<p>预期输出：F ≈ 4.5、p ≈ 0.035（F(2, 12) 分布）。同一组数据若改用 6 次两两 t 检验，族错误率会升到 ≈ 0.265。</p>
+<div class="callout"><h3>自我检查</h3><p><strong>问题：</strong>对 4 种肥料做 6 次独立 t 检验，其中两对 p &lt; 0.05。能直接宣布“发现显著差异”吗？</p><p><strong>参考答案：</strong>不能。6 次独立检验的族错误率约 26.5%，这两对“显著”很可能是假阳性。应先做 ANOVA（或 Kruskal–Wallis），再用 Tukey HSD 等校正方法定位差异。</p></div>
+<div class="callout warning"><h3>失败模式：先看事后检验再看整体检验</h3><p>跳过 ANOVA 直接跑事后比较，或只挑显著的那一对报告，都会各禹性地抬高假阳性。正确顺序是：先检查前提 → 整体检验 → 若拒绝再做事后检验并校正，且报告全部预定的对比。</p></div></section>
+<section class="section" id="refs"><h2>参考资料与延伸阅读</h2><ol class="sources"><li><a href="https://openstax.org/books/introductory-statistics/pages/13-introduction">OpenStax, Introductory Statistics</a>：单因素 ANOVA 与 F 分布。</li><li><a href="https://www.itl.nist.gov/div898/handbook/prc/section4/prc431.htm">NIST/SEMATECH e-Handbook, One-Way ANOVA</a>：方差分解与说明表。</li><li><a href="https://doi.org/10.2307/3001913">Tukey (1949), Biometrics</a>：HSD 多重比较方法原件。</li><li><a href="https://doi.org/10.1093/biomet/38.3-4.330">Welch (1951), Biometrika</a>：方差不齐时的替代 ANOVA。</li><li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.f_oneway.html">SciPy：f_oneway</a> 与 <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.levene.html">levene 检验</a>。</li><li><a href="https://www.statsmodels.org/stable/anova.html">statsmodels：ANOVA</a>：ols + anova_lm 与 Tukey HSD。</li></ol><p class="subtle">本章表格、图形与代码数据均为合成教学例子；F 值与族错误率由公式计算，非实验结果。</p></section>
+<nav class="chapter-nav" aria-label="章节切换"><a href="20.html">← 逻辑回归</a><a href="../index.html">课程目录</a><a href="22.html">贝叶斯统计入门 →</a></nav></article></main></div><script>(()=>{const g=document.getElementById('gap'),go=document.getElementById('gap-out'),out=document.getElementById('anova-out');if(!g||!out)return;const R=[-2,-1,0,1,2];const upd=()=>{const d=Number(g.value);const groups=[R.map(x=>x-d),R.slice(),R.map(x=>x+d)];const all=[].concat(...groups);const N=all.length,k=3;const gm=all.reduce((a,b)=>a+b,0)/N;let ssb=0,ssw=0;for(const grp of groups){const m=grp.reduce((a,b)=>a+b,0)/grp.length;ssb+=grp.length*(m-gm)*(m-gm);for(const x of grp)ssw+=(x-m)*(x-m)}const F=(ssb/(k-1))/(ssw/(N-k));go.value=d.toFixed(1);go.textContent=d.toFixed(1);out.textContent='d = '+d.toFixed(1)+' → SSB = '+ssb.toFixed(1)+'，SSW = '+ssw.toFixed(1)+'，F = '+F.toFixed(2)};g.addEventListener('input',upd);upd()})();</script></body></html>

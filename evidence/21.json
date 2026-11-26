@@ -1,0 +1,70 @@
+{
+  "chapter": "21",
+  "version": "2026-11-26",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "ss-decomposition",
+      "claim": "One-way ANOVA partitions the total sum of squares into between-group and within-group components, SST = SSB + SSW",
+      "kind": "reference",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/prc/section4/prc431.htm",
+      "locator": "NIST/SEMATECH e-Handbook, One-Way ANOVA",
+      "status": "verified",
+      "notes": "Standard ANOVA sum-of-squares decomposition"
+    },
+    {
+      "id": "f-statistic",
+      "claim": "The F statistic is the ratio of the between-group mean square to the within-group mean square, with k-1 and N-k degrees of freedom",
+      "kind": "reference",
+      "source_url": "https://openstax.org/books/introductory-statistics/pages/13-introduction",
+      "locator": "OpenStax, Introductory Statistics, Chapter 13",
+      "status": "verified",
+      "notes": "Definition and F distribution reference"
+    },
+    {
+      "id": "tukey-hsd",
+      "claim": "Tukey's HSD procedure compares all pairs of group means while controlling the family-wise error rate",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.2307/3001913",
+      "locator": "Tukey (1949), Biometrics",
+      "status": "verified",
+      "notes": "Original honestly-significant-difference method"
+    },
+    {
+      "id": "welch-anova",
+      "claim": "Welch's ANOVA provides a test that does not assume equal variances, useful when group variances and sizes differ markedly",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1093/biomet/38.3-4.330",
+      "locator": "Welch (1951), Biometrika",
+      "status": "verified",
+      "notes": "Motivates the robustness caveat in section 03"
+    },
+    {
+      "id": "fwer",
+      "claim": "With m independent tests at level alpha, the family-wise error rate is 1-(1-alpha)^m, so six tests at 0.05 give about 26.5 percent",
+      "kind": "derived",
+      "source_url": null,
+      "locator": "section 01 equation and section 07 code",
+      "status": "derived",
+      "notes": "Elementary probability under independence"
+    },
+    {
+      "id": "teaching-numbers",
+      "claim": "The exam means 72/80/75, the method-by-gender table, and the demo arrays with means -d, 0 and d are constructed teaching numbers",
+      "kind": "model",
+      "source_url": null,
+      "locator": "header example, sections 04 and 06",
+      "status": "illustrative",
+      "notes": "Not taken from any real experiment"
+    },
+    {
+      "id": "figures",
+      "claim": "The family-wise error curve and the variance-decomposition sketch are teaching diagrams prepared for this lesson",
+      "kind": "figure",
+      "source_url": null,
+      "locator": "figures 1-2",
+      "status": "illustrative",
+      "notes": "Figure 1 is computed from the formula, figure 2 is schematic"
+    }
+  ]
+}
