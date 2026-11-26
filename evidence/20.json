@@ -1,0 +1,70 @@
+{
+  "chapter": "20",
+  "version": "2026-11-26",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "logit-model",
+      "claim": "Logistic regression models the log-odds as a linear function of the predictors, so ln(p/(1-p)) = beta0 + beta1 x1 + ... + betap xp and p = 1/(1+e^{-z})",
+      "kind": "reference",
+      "source_url": "https://www.statlearning.com/",
+      "locator": "James et al., An Introduction to Statistical Learning, Chapter 4",
+      "status": "verified",
+      "notes": "Definition of the logistic model and the sigmoid link"
+    },
+    {
+      "id": "odds-ratio",
+      "claim": "Exponentiating a logistic coefficient gives the odds ratio, so the coefficient is the change in log-odds per unit increase in the predictor",
+      "kind": "reference",
+      "source_url": "https://www.statsmodels.org/stable/discretemod.html",
+      "locator": "statsmodels Discrete models, Logit",
+      "status": "verified",
+      "notes": "Standard coefficient interpretation for logistic regression"
+    },
+    {
+      "id": "roc-auc",
+      "claim": "The ROC curve plots true positive rate against false positive rate across thresholds, and the area under it equals the probability that a random positive is scored above a random negative",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1016/j.patrec.2005.10.010",
+      "locator": "Fawcett (2006), Pattern Recognition Letters",
+      "status": "verified",
+      "notes": "Standard ROC/AUC reference"
+    },
+    {
+      "id": "rare-events",
+      "claim": "Logistic regression can be biased in rare-events data, motivating attention to class imbalance and better metrics than accuracy",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1093/pan/9.2.137",
+      "locator": "King & Zeng (2001), Political Analysis",
+      "status": "verified",
+      "notes": "Motivates the imbalance discussion in section 05"
+    },
+    {
+      "id": "mle",
+      "claim": "Logistic regression parameters are estimated by maximum likelihood, not by ordinary least squares",
+      "kind": "reference",
+      "source_url": "https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression",
+      "locator": "scikit-learn user guide, Logistic regression",
+      "status": "verified",
+      "notes": "Framing of the estimation procedure"
+    },
+    {
+      "id": "teaching-numbers",
+      "claim": "The 0.73 probability, the coefficient/odds-ratio table, the AUC value of about 0.82, the 0.1 percent fraud rate and the 20-score demo data are constructed teaching numbers",
+      "kind": "model",
+      "source_url": null,
+      "locator": "header example, sections 03-06",
+      "status": "illustrative",
+      "notes": "Not taken from any real dataset"
+    },
+    {
+      "id": "figures",
+      "claim": "The linear-versus-sigmoid figure, the ROC sketch and the threshold trade-off figure are teaching diagrams prepared for this lesson",
+      "kind": "figure",
+      "source_url": null,
+      "locator": "figures 1-3",
+      "status": "illustrative",
+      "notes": "Schematic, not empirical output"
+    }
+  ]
+}
