@@ -1,0 +1,70 @@
+{
+  "chapter": "25",
+  "version": "2026-11-26",
+  "status": "deep-rewrite",
+  "entries": [
+    {
+      "id": "online-experiments",
+      "claim": "Trustworthy online controlled experiments require predefined metrics, minimum detectable effect, sample size, randomisation checks and a decision rule before launch",
+      "kind": "reference",
+      "source_url": "https://experimentguide.com/",
+      "locator": "Kohavi, Tang & Xu, Trustworthy Online Controlled Experiments",
+      "status": "verified",
+      "notes": "Basis of the eight-step framework"
+    },
+    {
+      "id": "peeking",
+      "claim": "Repeatedly checking results and stopping at the first significant p-value (peeking or optional stopping) inflates the actual type I error rate well above the nominal level, and requires sequential or always-valid methods",
+      "kind": "reference",
+      "source_url": "https://doi.org/10.1145/3097983.3097992",
+      "locator": "Johari et al. (2017), Proceedings of KDD",
+      "status": "verified",
+      "notes": "Supports the peeking section and figure"
+    },
+    {
+      "id": "two-proportion-z",
+      "claim": "Two independent proportions are compared with a z statistic using the pooled proportion and the standard error sqrt(pbar(1-pbar)(1/n1+1/n2))",
+      "kind": "reference",
+      "source_url": "https://openstax.org/books/introductory-statistics/pages/10-3-comparing-two-independent-population-proportions",
+      "locator": "OpenStax, Introductory Statistics, comparing two proportions",
+      "status": "verified",
+      "notes": "Equation 2 in the chapter"
+    },
+    {
+      "id": "sample-size-formula",
+      "claim": "The per-group sample size for comparing two proportions is approximately (z_{1-alpha/2} sqrt(2 pbar(1-pbar)) + z_{1-beta} sqrt(p1(1-p1)+p2(1-p2)))^2 / (p2-p1)^2",
+      "kind": "reference",
+      "source_url": "https://www.statsmodels.org/stable/stats.html#power-and-sample-size-calculations",
+      "locator": "statsmodels power and sample size reference",
+      "status": "verified",
+      "notes": "Equation 1; the tabulated numbers are computed from it"
+    },
+    {
+      "id": "computed-example",
+      "claim": "For 850/10000 versus 920/10000 the pooled proportion is 0.0885, z is about 1.74 and the two-sided p is about 0.081; for a base rate of 0.085 with alpha 0.05 and power 0.80 the per-group sample sizes are about 50134, 12856, 5856, 3373 and 1569 for MDEs of 0.5, 1.0, 1.5, 2.0 and 3.0 percentage points",
+      "kind": "derived",
+      "source_url": null,
+      "locator": "section 03 table and section 08 code",
+      "status": "derived",
+      "notes": "Computed from equations 1 and 2"
+    },
+    {
+      "id": "teaching-scenarios",
+      "claim": "The recommendation-revamp proxy-metric scenario and the peeking trajectory are constructed teaching examples",
+      "kind": "model",
+      "source_url": null,
+      "locator": "sections 02 and 06",
+      "status": "illustrative",
+      "notes": "Not any specific product experiment"
+    },
+    {
+      "id": "figures",
+      "claim": "The decision matrix and the peeking p-value figure are teaching diagrams prepared for this lesson",
+      "kind": "figure",
+      "source_url": null,
+      "locator": "figures 1-2",
+      "status": "illustrative",
+      "notes": "Schematic"
+    }
+  ]
+}
