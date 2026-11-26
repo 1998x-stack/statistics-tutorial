@@ -20,7 +20,7 @@
 <div class="callout warning"><h3>置信区间不能说成“真值有 95% 概率在其中”</h3><p>频率学派的 95% 置信区间指的是：若把抽样重复很多次，约 95% 的区间会盖住固定的真值。只在这一次抽样得到的区间里，真值能否被盖住是不确定的。贝叶斯可信区间则可以直接说：“给定先验和模型，参数有 95% 的后验概率落在其中。”两者数值相近但含义不同，报告时必须说清楚用的是哪一种。</p></div></section>
 <section class="section" id="mcmc"><h2>04 · MCMC：后验没有解析解时</h2>
 <p>共轭只是特例。大多数现实模型（如层次模型、逻辑回归的贝叶斯版）后验分布没有闭式解，归一化常数 P(D) 也往往算不出来。 MCMC（马尔可夫链蒙特卡洛）换了个思路：不求出后验的公式，而是构造一条马尔可夫链，使其平稳分布恰好是目标后验，再从链中采样。</p>
-<ol class="process"><li><strong>构造链：</strong>Metropolis–Hastings、Gibbs 采样、NUTS 等都是具体规则，决定下一步去哪里。</li><li><strong>退火：</strong>丢掉初期尚未收敛的样本（warm-up/burn-in）。</li><li><strong>诊断：</strong>用多条链、迹图与 R-hat 等指标判断是否收敛；不收敛的后验均值毫无意义。</li></ol>
+<ol class="process"><li><strong>构造链：</strong>Metropolis–Hastings、Gibbs 采样、NUTS 等都是具体规则，决定下一步去哪里。</li><li><strong>预热：</strong>丢掉初期尚未收敛的样本（warm-up/burn-in）。</li><li><strong>诊断：</strong>用多条链、迹图与 R-hat 等指标判断是否收敛；不收敛的后验均值毫无意义。</li></ol>
 <p>有了样本，后验均值、分位数、可信区间都可以直接由样本计算。MCMC 不保证“算得准”，它只是把积分问题换成采样问题；若链没收敛或把强相关样本当成独立样本，结果依然会出错。</p></section>
 <section class="section" id="prior"><h2>05 · 先验选择与敏感性分析</h2>
 <p>先验是贝叶斯方法最受争议之处。它既可以把既有知识合理地注入模型（小样本场景尤其有用），也可能被人为操纵成想要的结论。</p>
