@@ -51,7 +51,7 @@ for _ in range(1000):
     if stats.ttest_ind(a, b).pvalue < 0.05:
         false_positives += 1
 
-print("假阳性比例:", false_positives / 1000)          # 约 0.05
+print("假阳性比例:", false_positives / 1000)          # 0.065（单次模拟，长期理论值 0.05）
 print("20 次独立分析至少一次假阳性:", round(1 - 0.95 ** 20, 3))  # 0.642</code></pre>
 <div class="callout"><h3>自我检查</h3><p><strong>问题：</strong>某团队试了 20 个指标，只报告 p = 0.03 的那个，能否按字面说“这个结果只有 3% 的可能来自偶然”？</p><p><strong>参考答案：</strong>不能。单个 p 值的前提是检验未受选择影响。当 20 个指标都试过而只报告最显著的一个，实际犯假阳性的概率接近 1 − 0.95²⁰ ≈ 64%。要恢复可解释性，需要在报告时校正多重比较（如 Bonferroni 或 FDR），或说明这是探索性发现。</p></div>
 <div class="callout warning"><h3>失败模式</h3><p>“先看结果，再定假设”与“看了很多次，只报道最好那次”是最常见的两种。两者都会让 p 值不再具有“单一预先设定检验”的含义。诊断方法很简单：完整记录分析次数与事前计划，而不是只写最后那一次。</p></div></section>
