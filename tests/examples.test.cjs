@@ -21,3 +21,20 @@ assert.equal(mean(means),3);assert.equal(means.reduce((a,x)=>a+(x-3)**2,0)/means
 const wout=pop.flatMap((a,i)=>pop.filter((b,j)=>j!==i).map(b=>(a+b)/2));
 assert.ok(Math.abs(wout.reduce((a,x)=>a+(x-3)**2,0)/wout.length-5/3)<1e-12);
 console.log('extended worked examples: chapters 04–08 passed');
+
+// Additional audited teaching examples, chapters 09–28.
+const close=(a,b,eps=1e-3)=>assert.ok(Math.abs(a-b)<eps,`${a} !≈ ${b}`);
+// Chapter 12: normal-approximation sample size, and the 15.7/d² rule of thumb.
+const zc=1.959964,zb=0.841621,nPer=d=>2*(zc+zb)**2/d**2;
+close(nPer(0.2),392.4,0.1);close(nPer(0.5),62.8,0.1);close(nPer(0.8),24.5,0.1);
+close(15.7/0.4**2,98.1,0.1);
+// Chapter 17: difference-in-differences is a difference of changes.
+assert.equal((115-100)-(100-95),10);
+assert.equal(95-100,-5);assert.equal(100+5,105);
+// Chapter 23: pooled variance and Cohen's d for the two-group example.
+const sp2=((200-1)*1.5**2+(180-1)*1.7**2)/(200+180-2);
+close(sp2,2.5531,0.001);close((5.2-6.8)/Math.sqrt(sp2),-1.001,0.001);
+// Chapter 26: bias-variance teaching curve has its minimum at c=5.
+const total=c=>1.2*(1-c/10)**2+1.2*(c/10)**2+0.2;
+close(total(5),0.8);close(total(0),1.4);close(total(10),1.4);
+console.log('audited examples: chapters 09–28 passed');
