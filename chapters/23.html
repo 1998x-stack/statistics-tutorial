@@ -84,9 +84,9 @@ s1, s2 = 1.5, 1.7
 sp2 = ((n1-1)*s1**2 + (n2-1)*s2**2) / (n1+n2-2)
 sp = math.sqrt(sp2)
 d = (mean1 - mean2) / sp
-print("合并方差 sp2 =", round(sp2, 4))   # 约 2.5526
-print("合并标准差 sp =", round(sp, 4))  # 约 1.5977
-print("Cohen's d     =", round(d, 3))   # 约 -1.001（绝对值约 1.0）</code></pre>
+print("合并方差 sp2 =", round(sp2, 4))   # 2.5531
+print("合并标准差 sp =", round(sp, 4))  # 1.5978
+print("Cohen's d     =", round(d, 3))   # -1.001（绝对值约 1.0）</code></pre>
 <div class="callout"><h3>自我检查</h3><p><strong>问题：</strong>一个 t 检验给出 p = 0.0001，能否直接说“效应很大”？</p><p><strong>参考答案：</strong>不能。p 同时受效应量与样本量影响。应报告效应量（如 Cohen's d）及其置信区间；大样本下很小的效应也能得到极小的 p。</p></div>
 <div class="callout warning"><h3>自我检查二：工具链的两条底线</h3><p><strong>问题：</strong>如果只能保留两条关于工具链的习惯，哪两条最重要？</p><p><strong>参考答案：</strong>一、所有分析用脚本重跑，中间产物落盘；二、固定随机种子并锁定依赖版本。做不到这两条，再高级的库也无法保证结果可重现。</p></div></section>
 <section class="section" id="refs"><h2>参考资料与延伸阅读</h2><ol class="sources"><li><a href="https://docs.scipy.org/doc/scipy/reference/stats.html">SciPy statistics reference</a>：分布与假设检验函数。</li><li><a href="https://www.statsmodels.org/stable/index.html">statsmodels 文档</a>：公式接口、诊断与 ANOVA。</li><li><a href="https://doi.org/10.4324/9780203771587">Cohen (1988), Statistical Power Analysis for the Behavioral Sciences</a>：效应量与 d 的经典参照。</li><li><a href="https://www.pymc.io/">PyMC</a> 与 <a href="https://mc-stan.org/">Stan</a>：贝叶斯分析的现代工具链。</li><li><a href="https://quarto.org/">Quarto</a>：可重复报告与可执行文档。</li></ol><p class="subtle">本章代码数据与效应量数值均为教学构造；效应量基准来自上述公开资料。</p></section>
