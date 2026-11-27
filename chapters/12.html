@@ -58,7 +58,7 @@ def power(d, n, alpha=0.05):        # 两样本 t 检验的正态近似
     return Phi(lam - zc) + Phi(-lam - zc)
 
 print(round(power(0.5, 64), 3))     # 0.807  ≈ 80%
-print(round(power(0.4, 30), 3))     # 0.336  ≈ 34%
+print(round(power(0.4, 30), 3))     # 0.341  ≈ 34%
 print(round(15.7/0.4**2, 1))        # 98.1   达 80% 功效所需每组人数</code></pre>
 <div class="callout"><h3>自我检查</h3><p><strong>问题：</strong>一个实验每组 n = 30，若真实效应是 Cohen's d = 0.4，这个实验的统计功效约为多少？</p><p><strong>参考答案：</strong>约 0.34。非中心参数 λ = 0.4×√(30/2) ≈ 1.55，双侧功效 ≈ Φ(1.55−1.96) ≈ Φ(−0.41) ≈ 0.34。也就是说即使方法真的有效，这个实验也只有约三分之一的机会检出它——这时“p &gt; 0.05”几乎不能说明任何问题。</p></div>
 <div class="callout warning"><h3>失败模式</h3><p>事后（post-hoc）功效是无用的：它仅由已得 p 值和样本量决定，不能告诉你研究实际有多可信。正确做法是在设计阶段做先验功效分析，并在报告中同时给出效应量的置信区间。</p></div></section>
