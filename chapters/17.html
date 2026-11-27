@@ -39,12 +39,12 @@ rng = np.random.default_rng(0)
 n = 2000
 Z = rng.normal(0, 1, n)
 X = Z + rng.normal(0, 1, n)                      # 混杂 Z 影响 X
-Y = 3000 * X + 1000 * Z + rng.normal(0, 8000, n)  # 真实 X 效应 = 3000
+Y = 3000 * X + 1000 * Z + rng.normal(0, 2000, n)  # 真实 X 效应 = 3000
 
-print("朴素斜率:", round(np.polyfit(X, Y, 1)[0]))     # 约 3500
+print("朴素斜率:", round(np.polyfit(X, Y, 1)[0]))     # 3476，被混杂 Z 抬高
 A = np.column_stack([np.ones(n), X, Z])
 coef = np.linalg.lstsq(A, Y, rcond=None)[0]
-print("控制 Z 后的 X 系数:", round(coef[1]))          # 约 3000</code></pre>
+print("控制 Z 后的 X 系数:", round(coef[1]))          # 2962，接近真实效应 3000</code></pre>
 <div class="callout"><h3>自我检查</h3><p><strong>问题：</strong>某公司发现“使用新功能的用户付费更高”，于是认为新功能提了收入。为什么不能直接下这个结论？</p><p><strong>参考答案：</strong>“使用新功能”是用户自己选择的（非随机），可能存在混杂变量（如活跃度、付费意愿）同时影响“使用新功能”与“付费”。更可靠的做法是做随机化的 A/B 测试，或至少控制住可能的混杂变量，并对比控制前后的估计。</p></div>
 <div class="callout warning"><h3>失败模式</h3><p>两个常见错：一是把<strong>观察到的关联</strong>直接当作因果（越级）；二是<strong>控制了不该控制的变量</strong>——如果某个变量是“处理→结果”路径上的中间变量，控制它反而会引入新的偏倒。是否控制，要看变量在因果图中的角色，而不是看它是否“相关”。</p></div></section>
 <section class="section" id="refs"><h2>参考资料与延伸阅读</h2><ol class="sources"><li><a href="https://doi.org/10.1001/jama.288.3.321">Writing Group (2002), Risks and Benefits of Estrogen Plus Progestin in Healthy Postmenopausal Women (WHI)</a>：HRT 随机试验的关键结果。</li><li><a href="https://doi.org/10.1145/3241036">Pearl (2019), The Seven Tools of Causal Inference</a>：因果阶梯与 do-算子的阐述。</li><li><a href="https://miguelhernan.org/whatifbook">Hernán &amp; Robins, Causal Inference: What If</a>：可免费阅读的因果推断教材。</li><li><a href="https://tylervigen.com/spurious-correlations">Tyler Vigen, Spurious Correlations</a>：虚假相关实例。</li><li><a href="https://www.openintro.org/book/os/">OpenIntro Statistics</a>：相关、回归与混杂的入门处理。</li></ol><p class="subtle">本章图 1–图 3 与交互模型均为教学构造；HRT/WHI 与因果阶梯的结论来自上述文献。</p></section>
